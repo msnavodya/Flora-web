@@ -1,0 +1,191 @@
+/* APP BACKGROUND */
+.app {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #1f1f1f;
+  font-family: "Poppins", sans-serif;
+}
+
+/* CART PAGE (FIXED MOBILE FRAME) */
+.cart-page {
+  width: 350px;
+  height: 700px;
+  background: linear-gradient(180deg, #d0a9db, #3c3442);
+  border-radius: 30px;
+  padding: 18px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: black;
+  overflow: hidden; /* hide scroll for full page */
+}
+
+/* SCROLLABLE CONTENT INSIDE CART */
+.cart-content {
+  flex: 1; /* takes all available height */
+  overflow-y: auto;
+  margin-top: 10px;
+  padding-right: 5px; /* for scrollbar spacing */
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  background: #ac25eb; /* lavender */
+  border: none;
+  color: white;
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.back-btn:hover {
+  background: #b845ec; /* slightly lighter on hover */
+}
+
+/* CART ITEMS */
+.cart-box {
+  margin: 15px 0;
+}
+
+.item {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* EMPTY CART */
+.empty {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 16px;
+  color: #333;
+}
+
+/* CHECKOUT BUTTON FIXED AT BOTTOM */
+.checkout-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 20px;
+  border: none;
+  background: #ac25eb; /* lavender */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  flex-shrink: 0; /* prevents shrinking */
+  transition: background 0.2s ease;
+}
+
+.checkout-btn:hover {
+  background: #b845ec; /* hover effect */
+}
+
+/* OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.overlay-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+/* PAYMENT DRAWER */
+.payment-drawer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  max-width: 350px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 25px 25px 0 0;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* PAYMENT METHOD */
+.method {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #f3f4f6;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.method.active {
+  background: #dbeafe;
+}
+
+/* PHONE INPUT */
+.phone {
+  margin-top: 10px;
+}
+
+.phone label {
+  font-size: 14px;
+  color: #666;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.phone input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* PAY BUTTON */
+.pay-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 20px;
+  border: none;
+  background: #ac25eb; /* lavender */
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.pay-btn:hover {
+  background: #b845ec; /* hover effect */
+}

@@ -1,0 +1,82 @@
+/* ===== MAIN APP WRAPPER (MOBILE FRAME) ===== */
+.App {
+  width: 350px;            /* Fixed mobile width */
+  height: 700px;           /* Fixed mobile height */
+  margin: 0 auto;          /* Center horizontally */
+  background-color: #282c34;
+  overflow: hidden;        /* Prevent scroll outside */
+  border-radius: 18px;     /* Mobile look */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  text-align: center;
+  padding: 12px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ===== LOGO ===== */
+.App-logo {
+  height: 100px;           /* smaller for mobile */
+  margin-bottom: 16px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+/* ===== HEADER ===== */
+.App-header {
+  background-color: #282c34;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;         /* smaller font for mobile */
+  color: white;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* ===== LINKS ===== */
+.App-link {
+  color: #61dafb;
+  font-size: 12px;
+  word-break: break-word;
+  text-decoration: none;
+}
+
+/* ===== LOGO SPIN ANIMATION ===== */
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ===== RESPONSIVE SAFETY FOR SMALL SCREENS ===== */
+@media (max-width: 350px) {
+  .App {
+    width: 350px;
+    height: 700px;
+    border-radius: 18px;
+    padding: 12px;
+  }
+
+  .App-logo {
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .App-header {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .App-link {
+    font-size: 11px;
+  }
+}

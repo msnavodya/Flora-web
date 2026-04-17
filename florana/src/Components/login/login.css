@@ -1,0 +1,165 @@
+/* =========================================
+   RESET
+========================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================================
+   FULL SCREEN BACKGROUND
+========================================= */
+.welcome-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #965bb5;
+}
+
+/* =========================================
+   MOBILE CARD
+========================================= */
+.welcome-card {
+  width: 350px;
+  max-width: 95%;
+  min-height: 90vh;
+  max-height: 700px;
+  background: #965bb5;
+  border-radius: 30px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   LOGO
+========================================= */
+.logo-img {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+/* =========================================
+   FLOWER FRAME
+========================================= */
+.flower-frame {
+  width: 100%;
+  height: 60%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #965bb5; /* FIX BLACK EDGE */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================================
+   FLOWER IMAGE
+========================================= */
+.flower-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* FIX CROPPING */
+}
+
+/* =========================================
+   BOTTOM SECTION
+========================================= */
+.bottom-section {
+  width: 100%;
+  margin-top: auto;
+  background: #331a47;
+  padding: 25px 20px;
+  border-radius: 40px 40px 25px 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+.start-btn {
+  width: 100%;
+  padding: 14px 0;
+  background: #ffffff;
+  border-radius: 30px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  color: #5a0f6b;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.start-btn:hover {
+  background: #e6d3f3;
+  transform: scale(1.03);
+}
+
+/* =========================================
+   SWIPE BAR
+========================================= */
+.swipe-bar {
+  width: 120px;
+  height: 5px;
+  background: #dcdcdc;
+  border-radius: 10px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 350px) {
+  .welcome-card {
+    width: 350px;
+    max-width: 100%;
+    min-height: 90vh;
+    max-height: 700px;
+    padding: 18px;
+  }
+
+  .flower-frame {
+    height: 55%;
+  }
+
+  .logo-img {
+    width: 110px;
+    margin-bottom: 12px;
+  }
+
+  .start-btn {
+    padding: 12px 0;
+    margin-bottom: 12px;
+    font-size: 14px;
+  }
+
+  .swipe-bar {
+    width: 100px;
+    height: 4px;
+  }
+}
+
+@media (max-width: 400px) {
+  .welcome-card {
+    width: 95%;
+    height: 90vh;
+  }
+
+  .flower-frame {
+    height: 55%;
+  }
+
+  .logo-img {
+    width: 100px;
+  }
+}

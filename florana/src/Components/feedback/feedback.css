@@ -1,0 +1,126 @@
+/* ===== PAGE WRAPPER ===== */
+.feedback-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #1f1f1f;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: hidden; /* prevent scroll */
+}
+
+/* ===== PHONE FRAME ===== */
+.feedback-container {
+  width: 350px;        /* exact mobile frame width */
+  height: 700px;       /* exact mobile frame height */
+  background: #9d7ed0;
+  padding: 15px;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;           /* reduced gap for mobile */
+  box-sizing: border-box;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+/* ===== LOGO ===== */
+.feedback-logo {
+  width: 60px;         /* smaller to fit frame */
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: 15px;
+}
+
+/* ===== TITLE ===== */
+.feedback-title {
+  font-size: 20px;     /* smaller for mobile */
+  font-weight: bold;
+  color: #ffffff;
+  margin: 10px 0;
+  text-align: center;
+}
+
+/* ===== CARDS ===== */
+.card {
+  width: 95%;
+  background: #ffffff;
+  padding: 12px;       /* smaller padding */
+  border-radius: 14px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+/* ===== SUPPORT ITEMS ===== */
+.support-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;            /* slightly smaller gap */
+  font-size: 14px;     /* smaller font */
+  padding: 8px 0;      /* smaller padding */
+  border-bottom: 1px solid #eee;
+}
+
+.support-item:last-child {
+  border-bottom: none;
+}
+
+/* ===== RATING STARS ===== */
+.stars {
+  display: flex;
+  gap: 4px;            /* smaller gap */
+  margin-bottom: 10px;
+}
+
+.star {
+  font-size: 18px;     /* smaller */
+  cursor: pointer;
+  color: #bbb;
+}
+
+.star.filled {
+  color: #7444a8;
+}
+
+/* ===== BUTTONS ===== */
+.review-btn,
+.submit-btn {
+  width: 100%;
+  padding: 10px;       /* smaller height */
+  background: #7444a8;
+  color: white;
+  border: none;
+  border-radius: 25px; /* consistent with app theme */
+  font-size: 14px;     /* smaller */
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.3s;
+}
+
+.review-btn:hover,
+.submit-btn:hover {
+  background: #6b4c89;
+}
+
+.submit-btn {
+  margin-bottom: 0;
+}
+
+/* ===== FEEDBACK INPUT ===== */
+.feedback-input {
+  width: 100%;
+  min-height: 60px;     /* smaller to fit frame */
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  resize: none;
+  outline: none;
+  font-size: 13px;      /* smaller font */
+  background: #f7f7f7;
+  box-sizing: border-box;
+}

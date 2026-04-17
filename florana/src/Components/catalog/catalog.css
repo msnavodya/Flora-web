@@ -1,0 +1,348 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== WRAPPER ===== */
+.catalog-wrapper {
+  min-height: 100vh;
+  background: #1f1f1f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+/* ===== MOBILE FRAME ===== */ 
+.catalog-container { 
+  width: 350px; 
+  height: 700px; 
+  background: linear-gradient(180deg, #d0a9db, #3c3442); 
+  border-radius: 30px;
+  padding: 18px;
+  box-sizing: border-box; 
+  overflow-y: auto; 
+  font-family: "Poppins", sans-serif;
+  position: relative; }
+
+/* Hide scrollbar */
+.catalog-container::-webkit-scrollbar {
+  display: none;
+}
+.catalog-container {
+  scrollbar-width: none;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+
+  background: white;
+  border: none;
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* ===== TOP NAV ===== */
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.floating-cart {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  background: #7d64aa;
+  color: white;
+
+  padding: 10px 14px;
+  border-radius: 30px;
+
+  font-size: 14px;
+  cursor: pointer;
+
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.nav-back,
+.nav-cart {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  font-size: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+
+.nav-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: white;
+}
+
+/* ===== 🔥 MINI CURRENCY SELECT ===== */
+.currency-mini {
+  width: 55px;
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.15);
+  color: rgb(0, 0, 0);
+  font-size: 11px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  backdrop-filter: blur(10px);
+  transition: 0.2s;
+}
+
+/* ===== HEADER ===== */
+.catalog-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 36px;
+}
+
+.logo {
+  font-size: 22px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 20px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* ===== TITLE ===== */
+.catalog-title {
+  margin: 14px 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+/* ===== SEASON NAVBAR ===== */
+.season-navbar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  margin-bottom: 10px;
+}
+
+.season-navbar::-webkit-scrollbar {
+  display: none;
+}
+
+.season-btn {
+  flex: 0 0 auto;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: none;
+
+  background: #eae6f8;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.season-btn:hover {
+  background: #dcd6f5;
+}
+
+.active-btn {
+  background: white;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ===== TOGGLE BAR ===== */
+.toggle-bar {
+  display: flex;
+  background: #eae6f8;
+  border-radius: 20px;
+  padding: 4px;
+  margin-bottom: 12px;
+}
+
+.toggle-bar button {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 7px;
+  border-radius: 16px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.toggle-bar .active {
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+/* ===== GRID COMMON ===== */
+.season-grid,
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+/* ===== SEASON CARD ===== */
+.season-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+.season-card:active {
+  transform: scale(0.96);
+}
+
+.season-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+.season-name {
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ===== PRODUCT CARD ===== */
+.product-card {
+  background: white;
+  border-radius: 16px;
+  padding: 8px;
+  text-align: center;
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+  transition: 0.2s;
+}
+
+.product-card:active {
+  transform: translateY(-2px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.product-card h4 {
+  font-size: 13px;
+  margin: 5px 0;
+}
+
+.product-card p {
+  font-size: 11px;
+  color: #555;
+}
+
+.product-card button {
+  margin-top: 5px;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 10px;
+  background: #7d64aa;
+  color: white;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* ===== SELL FORM ===== */
+.sell-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sell-form input,
+.sell-form select {
+  padding: 9px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+}
+
+.sell-form button {
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  background: #7d64aa;
+  color: white;
+  cursor: pointer;
+}
+
+/* ===== NO DATA ===== */
+.no-data {
+  text-align: center;
+  color: white;
+  margin-top: 12px;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Small phones */
+@media (max-width: 350px) {
+  .catalog-container {
+    padding: 12px;
+  }
+
+  .product-card img {
+    height: 95px;
+  }
+
+  .season-card img {
+    height: 90px;
+  }
+}
+
+/* Tablets */
+@media (min-width: 500px) {
+  .catalog-container {
+    max-width: 420px;
+  }
+
+  .product-card img {
+    height: 130px;
+  }
+}

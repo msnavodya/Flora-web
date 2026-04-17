@@ -1,0 +1,155 @@
+/* Main container */
+.signin-container {
+  width: 100%;
+  height: 100vh;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Card UI */
+.signin-card {
+  background: #d6b4ff;
+  width: 350px;
+  max-width: 95%;
+  min-height: 90vh;
+  max-height: 700px;
+  padding: 30px 25px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+/* Back button */
+.back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Logo */
+.signin-logo {
+  width: 150px;
+  margin: 30px auto;
+  display: block;
+}
+
+/* Input fields */
+.input-field {
+  width: 80%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  margin-top: 12px;
+  font-size: 14px;
+  outline: none;
+}
+
+/* Login button */
+.login-btn {
+  width: 100%;
+  padding: 14px;
+  background: #542975;
+  border: none;
+  margin-top: 18px;
+  color: white;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+
+.login-btn:hover {
+  background-color: #a779cb;
+}
+
+/* OR text */
+.or-text {
+  margin: 15px 0;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Google sign-in */
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: 2px solid #fff;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.google-icon {
+  width: 100px;
+}
+
+/* Signup */
+.signup-text {
+  font-size: 13px;
+  margin-top: 15px;
+  color: #333;
+}
+
+.signup-link {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* Mobile optimization for 350x700 frame */
+@media (max-width: 350px) {
+  .signin-container {
+    padding: 10px;
+  }
+  
+  .signin-card {
+    width: 350px;
+    max-width: 100%;
+    padding: 20px 18px;
+  }
+  
+  .signin-logo {
+    width: 130px;
+    margin: 20px auto;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 13px;
+  }
+  
+  .login-btn {
+    padding: 12px;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+  
+  .google-btn {
+    padding: 11px;
+    font-size: 13px;
+  }
+  
+  .signup-text {
+    font-size: 12px;
+    margin-top: 12px;
+  }
+}

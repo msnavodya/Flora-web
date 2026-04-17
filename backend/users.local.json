@@ -1,0 +1,12 @@
+[
+  {
+    "_id": "55527d95-cf4a-4fb4-9ea6-52d8bb6ce86f",
+    "full_name": "saz",
+    "email": "saz@gmail.com",
+    "hashed_password": "$pbkdf2-sha256$29000$lhJirJVyjtG613qPkdI6Bw$XZK0NC1vO1AsnSRn5anINXgpChKhqXdmpUKSwa3uHZk",
+    "contact": "0773560080",
+    "location": "Matara",
+    "created_at": "2026-04-15T00:45:56.876033",
+    "is_active": true
+  }
+]

@@ -1,0 +1,255 @@
+/* ===== RESET SCROLLING GLOBALLY ===== */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* 🔥 removes browser scroll */
+  font-family: "Poppins", sans-serif;
+}
+
+/* ===== GLOBAL WRAPPER ===== */
+.plants-wrapper {
+  height: 100vh;
+  width: 100vw;
+  background: #1f1f1f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== MOBILE FRAME ===== */
+.plants-container {
+  width: 350px;
+  height: 700px;
+  background: linear-gradient(180deg, #ece9f4, #AC8DF2);
+  border-radius: 30px;
+  padding: 18px;
+  box-sizing: border-box;
+
+  /* ✅ Allow internal scrolling ONLY if needed */
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  position: relative;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-btn {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* ===== HEADER ===== */
+.plants-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 40px;
+}
+
+.user-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #d9cfff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.hello-text {
+  margin: 0;
+  font-size: 13px;
+  color: #555;
+}
+
+.plants-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ===== SUMMARY ===== */
+.summary-pill {
+  margin: 15px 0;
+  background: white;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== GRID ===== */
+.plants-grid {
+  margin-top: 10px;
+}
+
+/* ===== PLANT CARD ===== */
+.plant-card {
+  position: relative; /* ✅ REQUIRED for delete button */
+
+  background: white;
+  border-radius: 20px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.plant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.16);
+}
+
+/* ===== DELETE BUTTON ===== */
+.delete-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(255, 0, 0, 0.85);
+  border: none;
+  color: white;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-btn:hover {
+  background: red;
+}
+
+/* ===== IMAGE ===== */
+.plant-card img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ===== INFO ===== */
+.plant-info {
+  flex: 1;
+}
+
+.plant-info h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.plant-info p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.alert {
+  color: #ff9800;
+}
+
+.danger-text {
+  color: #e74c3c;
+  font-weight: 500;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 12px;
+  margin-top: 6px;
+}
+
+.badge.green {
+  background: #e6f6ea;
+  color: #2e7d32;
+}
+
+.badge.red {
+  background: #fdecea;
+  color: #c62828;
+}
+
+.badge-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ===== ARROW ===== */
+.arrow {
+  font-size: 22px;
+  color: #bbb;
+  margin-left: auto;
+}
+
+/* ===== EMPTY / LOADING ===== */
+.no-plants,
+.loading-text {
+  text-align: center;
+  margin: 40px 0;
+  color: #3f1d6e;
+  font-weight: 600;
+}
+
+/* ===== MOBILE 350x700 FRAME ===== */
+@media (max-width: 350px) {
+  .plants-container {
+    width: 350px;
+    height: 700px;
+    border-radius: 18px;
+    padding: 12px;
+    overflow-y: auto;
+  }
+
+  .plants-header h2 {
+    font-size: 18px;
+  }
+
+  .summary-pill {
+    font-size: 13px;
+  }
+
+  .plant-card {
+    padding: 10px;
+  }
+
+  .plant-card img {
+    width: 46px;
+    height: 46px;
+  }
+
+  .plant-info h4 {
+    font-size: 15px;
+  }
+
+  .plant-info p {
+    font-size: 12px;
+  }
+}
