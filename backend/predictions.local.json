@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "7e37785e-e95a-41e4-9d4f-41220478eda5",
+    "image_name": "20260422090542_20210603_073022_jpg.rf.2099a44f22bf9b0eb0b1e7204060c548.jpg",
+    "prediction": "Botrytis",
+    "confidence": 0.9999046325683594,
+    "date": "2026-04-22T03:35:42.082412"
+  },
+  {
+    "_id": "2fcd6c68-930b-434c-a058-a9594cb3a3af",
+    "image_name": "20260422110606_welcome.jpg",
+    "prediction": "Botrytis",
+    "confidence": 0.9999991655349731,
+    "date": "2026-04-22T05:36:06.361883"
+  }
+]

@@ -1,11 +1,11 @@
 /* ===== MAIN APP WRAPPER (MOBILE FRAME) ===== */
 .App {
-  width: 350px;            /* Fixed mobile width */
-  height: 700px;           /* Fixed mobile height */
-  margin: 0 auto;          /* Center horizontally */
+  width: min(350px, calc(100vw - 24px));
+  height: min(700px, calc(100vh - 24px));
+  margin: 0 auto;
   background-color: #282c34;
-  overflow: hidden;        /* Prevent scroll outside */
-  border-radius: 18px;     /* Mobile look */
+  overflow: hidden;
+  border-radius: 24px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.2);
   text-align: center;
   padding: 12px;
@@ -37,7 +37,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 14px;         /* smaller font for mobile */
+  font-size: 0.92rem;
+  line-height: 1.5;
   color: white;
   padding: 16px;
   box-sizing: border-box;
@@ -60,8 +61,8 @@
 /* ===== RESPONSIVE SAFETY FOR SMALL SCREENS ===== */
 @media (max-width: 350px) {
   .App {
-    width: 350px;
-    height: 700px;
+    width: min(350px, calc(100vw - 20px));
+    height: min(700px, calc(100vh - 20px));
     border-radius: 18px;
     padding: 12px;
   }
@@ -72,7 +73,7 @@
   }
 
   .App-header {
-    font-size: 13px;
+    font-size: 0.88rem;
     padding: 12px;
   }
 

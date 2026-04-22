@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 import { loginUser } from "../../api";
-import "./signinform.css";
-
 import logo from "../Assets/florana.jpg";
 import googleLogo from "../Assets/google.jpg";
+import "./signinform.css";
+
 
 export default function SignInForm() {
   const navigate = useNavigate();
@@ -15,7 +16,6 @@ export default function SignInForm() {
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // ================= SAVE SESSION =================
   const saveSession = (data) => {
     if (data.access_token) {
       localStorage.setItem("token", data.access_token);
@@ -30,14 +30,14 @@ export default function SignInForm() {
     }
   };
 
-  // ================= HANDLE LOGIN =================
   const handleLogin = async (event) => {
     event.preventDefault();
-
     setErrorMessage("");
     setSuccessMessage("");
+    const normalizedEmail = email.trim();
+    const normalizedPassword = password.trim();
 
-    if (!email || !password) {
+    if (!normalizedEmail || !normalizedPassword) {
       setErrorMessage("Please enter both email and password.");
       return;
     }
@@ -45,138 +45,91 @@ export default function SignInForm() {
     setLoading(true);
 
     try {
-      const response = await loginUser(email, password);
-      console.log("Login response:", response);
+      const response = await loginUser(normalizedEmail, normalizedPassword);
 
       if (response?.status === 200 && response.data?.access_token) {
         saveSession(response.data);
-
         setSuccessMessage("Login successful! Redirecting...");
-        setErrorMessage("");
-
         navigate("/home", { replace: true });
-
-        // fallback safety redirect
-        setTimeout(() => {
-          if (window.location.pathname !== "/home") {
-            window.location.href = "/home";
-          }
-        }, 300);
-
         return;
       }
 
       const data = response?.data || {};
       const detail = data.detail || data.message || "Login failed.";
-
-      setErrorMessage(
-        Array.isArray(detail)
-          ? detail.map((err) => err.msg || JSON.stringify(err)).join(", ")
-          : detail
-      );
+      setErrorMessage(Array.isArray(detail) ? detail.map((err) => err.msg || JSON.stringify(err)).join(", ") : detail);
     } catch (error) {
       console.error("Login Error:", error);
-
-      if (error.response) {
-        const errData = error.response.data;
-        setErrorMessage(
-          errData?.detail ||
-            errData?.message ||
-            "Login failed. Please check your email and password."
-        );
-      } else {
-        setErrorMessage(
-          "Unable to connect to the backend. Please ensure the API server is running."
-        );
-      }
+      const errData = error.response?.data;
+      const fallbackMessage =
+        error.response?.status === 401
+          ? "Invalid email or password. If this is a new account, sign up first."
+          : "Unable to connect to the backend. Please ensure the API server is running.";
+      setErrorMessage(
+        errData?.detail || errData?.message || fallbackMessage
+      );
     } finally {
       setLoading(false);
     }
   };
 
-  // ================= UI =================
   return (
     <div className="signin-container">
       <div className="signin-card">
-
-        {/* Back Button */}
-        <button
-          type="button"
-          className="back-btn"
-          onClick={() => navigate(-1)}
-        >
-          ←
+        <button type="button" className="back-btn" onClick={() => navigate(-1)}>
+          <ArrowLeft size={18} />
         </button>
 
-        {/* Logo */}
-        <img src={logo} alt="Florana Logo" className="signin-logo" />
+        <div className="auth-header">
+          <img src={logo} alt="Florana Logo" className="signin-logo" />
+          <p className="auth-kicker">Welcome Back</p>
+          <h1>Sign in to your garden.</h1>
+          <p className="auth-subtitle">Access real-time plant tracking, diagnoses, reminders, and shop updates.</p>
+        </div>
 
-        {/* Messages */}
-        {errorMessage && (
-          <p style={{ color: "red", fontSize: "14px" }}>
-            {errorMessage}
-          </p>
-        )}
+        {errorMessage ? <p className="auth-message auth-error">{errorMessage}</p> : null}
+        {successMessage ? <p className="auth-message auth-success">{successMessage}</p> : null}
 
-        {successMessage && (
-          <p style={{ color: "#0f5132", fontSize: "14px" }}>
-            {successMessage}
-          </p>
-        )}
-
-        {/* Form */}
         <form className="signin-form" onSubmit={handleLogin}>
-          <input
-            type="email"
-            className="input-field"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <label className="auth-field">
+            <span>Email</span>
+            <input
+              type="email"
+              className="input-field"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
 
-          <input
-            type="password"
-            className="input-field"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <label className="auth-field">
+            <span>Password</span>
+            <input
+              type="password"
+              className="input-field"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
 
-          <button
-            type="submit"
-            className="login-btn"
-            disabled={loading}
-          >
+          <button type="submit" className="login-btn" disabled={loading}>
             {loading ? "Logging in..." : "LOG IN"}
           </button>
         </form>
 
-        {/* OR Divider */}
-        <div className="or-text">OR</div>
+        <div className="or-text">OR CONTINUE WITH</div>
 
-        {/* Google Login */}
-        <button
-          className="google-btn"
-          onClick={() =>
-            window.open("https://accounts.google.com/signin", "_blank")
-          }
-        >
+        <button type="button" className="google-btn" onClick={() => window.open("https://accounts.google.com/signin", "_blank")}>
           <img src={googleLogo} alt="Google logo" className="google-icon" />
-          CONTINUE WITH GOOGLE
+          Google
         </button>
 
-        {/* SIGN-UP (NOW REDIRECTS TO HOME) */}
         <p className="signup-text">
-          Create a new account{" "}
-          <span
-            className="signup-link"
-            onClick={() => navigate("/home")}
-            style={{ cursor: "pointer", fontWeight: "bold" }}
-          >
+          New to Florana?{" "}
+          <span className="signup-link" onClick={() => navigate("/signup")}>
             SIGN-UP
           </span>
         </p>
-
       </div>
     </div>
   );

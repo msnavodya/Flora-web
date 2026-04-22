@@ -8,5 +8,15 @@
     "location": "Matara",
     "created_at": "2026-04-15T00:45:56.876033",
     "is_active": true
+  },
+  {
+    "_id": "b24bb147-75a5-42ea-ae25-86473981289f",
+    "full_name": "chathu",
+    "email": "chathu@gmail.com",
+    "hashed_password": "$pbkdf2-sha256$29000$fc8551yr9d67V.p9b.39Pw$impLn5pCv9YlWcPiTJNL0QoUkmpRIkY8eBR.45XG4Hw",
+    "contact": "0773560080",
+    "location": "Negombo",
+    "created_at": "2026-04-22T03:35:12.470759",
+    "is_active": true
   }
 ]

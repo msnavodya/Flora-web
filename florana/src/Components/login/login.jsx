@@ -11,27 +11,33 @@ export default function Welcome() {
   return (
     <div className="welcome-wrapper">
       <div className="welcome-card">
-
-        {/* Logo */}
-        <img src={floranaLogo} alt="Florana Logo" className="logo-img" />
-
-        {/* Flower Image */}
-        <div className="flower-frame">
-          <img src={welcomeImg} alt="Welcome" className="flower-img" />
+        <div className="welcome-top">
+          <img src={floranaLogo} alt="Florana Logo" className="logo-img" />
+          <div className="welcome-copy">
+           
+            <h1>Grow smarter with Florana.</h1>
+          
+          </div>
         </div>
+        <img src={welcomeImg} alt="Flower" className="welcome-image" />
 
-        {/* Bottom Section */}
         <div className="bottom-section">
-          <button
-            className="start-btn"
-            onClick={() => navigate("/signin")}
-          >
+          <div className="welcome-stats">
+            <div>
+              <strong>24/7</strong>
+              <span>Plant insights</span>
+            </div>
+            <div>
+              <strong>Live</strong>
+              <span>Health tracking</span>
+            </div>
+          </div>
+
+          <button className="start-btn" onClick={() => navigate("/signin")}>
             GET STARTED
           </button>
-
           <div className="swipe-bar"></div>
         </div>
-
       </div>
     </div>
   );

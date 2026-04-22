@@ -7,29 +7,54 @@ from fastapi.staticfiles import StaticFiles
 import os
 import io
 import json
+import logging
 import numpy as np
 from PIL import Image
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
 from datetime import datetime
 from bson import ObjectId
 
-# ----------------- Import Routers -----------------
-from routes.auth import router as auth_router
-from routes.plant import router as plant_router
-from routes.growth import router as growth_router
-from routes.shop import router as shop_router
+try:
+    from tensorflow.keras.models import load_model
+    from tensorflow.keras.preprocessing import image
+except Exception as e:
+    load_model = None
+    image = None
+    print("TensorFlow unavailable:", e)
 
-from database import prediction_collection, plants_collection
+# ----------------- Import Routers -----------------
+try:
+    from .routes.auth import router as auth_router
+    from .routes.plant import router as plant_router
+    from .routes.growth import router as growth_router
+    from .routes.shop import router as shop_router
+    from .routes.payment import router as payment_router
+    from . import database
+    from .utils import local_store
+    from .utils.paypal_client import get_paypal_status, log_paypal_status, load_paypal_environment
+except ImportError:
+    from routes.auth import router as auth_router
+    from routes.plant import router as plant_router
+    from routes.growth import router as growth_router
+    from routes.shop import router as shop_router
+    from routes.payment import router as payment_router
+    import database
+    from utils import local_store
+    from utils.paypal_client import get_paypal_status, log_paypal_status, load_paypal_environment
 
 # ----------------- Firebase Push Notifications -----------------
 from apscheduler.schedulers.background import BackgroundScheduler
-import firebase_admin
-from firebase_admin import credentials, messaging
+
+try:
+    import firebase_admin
+    from firebase_admin import credentials, messaging
+except Exception:
+    firebase_admin = None
+    credentials = None
+    messaging = None
 
 FIREBASE_KEY_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "firebase-key.json")
 
-if os.path.exists(FIREBASE_KEY_PATH):
+if firebase_admin and os.path.exists(FIREBASE_KEY_PATH):
     try:
         cred = credentials.Certificate(FIREBASE_KEY_PATH)
         firebase_admin.initialize_app(cred)
@@ -40,6 +65,9 @@ else:
     print("Firebase disabled: firebase-key.json not found")
 
 # ----------------- FastAPI App Setup -----------------
+logging.basicConfig(level=logging.INFO)
+load_paypal_environment()
+
 app = FastAPI(title="Florana Backend")
 
 # Static files for uploaded images
@@ -61,23 +89,31 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
     """Print startup information."""
-    from database import connection_status
-
     print("\n" + "=" * 60)
     print("FLORANA BACKEND STARTUP")
     print("=" * 60)
     print("Server: http://127.0.0.1:8000")
     print("Docs: http://127.0.0.1:8000/docs")
     print("Health: http://127.0.0.1:8000/health")
-    print(f"Database: {connection_status}")
+    print(f"Database: {database.connection_status}")
+    paypal_status = log_paypal_status()
 
-    if connection_status == "disconnected":
+    if not paypal_status["configured"]:
+        print("\nWARNING: PayPal is not configured correctly.")
+        for issue in paypal_status["issues"]:
+            print(f"   - {issue}")
+        print(f"   Expected env file: {paypal_status['env_file']}")
+    else:
+        print(f"PayPal: configured via {paypal_status['base_url']} ({paypal_status['mode']})")
+
+    if database.connection_status == "disconnected":
         print("\nWARNING: MongoDB is not connected!")
         print("To start MongoDB:")
         print("   Windows: net start MongoDB or mongod")
         print("   macOS: brew services start mongodb-community")
         print("   Linux: sudo systemctl start mongod")
-        print("\nAuth endpoints will return 503 until MongoDB is running.")
+        print("\nThe app will fall back to local JSON storage for auth and some data.")
+        print("MongoDB is still recommended for persistent multi-user data.")
 
     print("=" * 60 + "\n")
 
@@ -87,20 +123,20 @@ app.include_router(auth_router)
 app.include_router(plant_router)
 app.include_router(growth_router)
 app.include_router(shop_router)
+app.include_router(payment_router)
 
 
 # ================= HEALTH CHECK ENDPOINT =================
 @app.get("/health")
 def health_check():
     """Check backend and database health status."""
-    from database import check_db_connection
-
-    db_status = check_db_connection()
+    db_status = database.check_db_connection()
 
     return {
         "status": "ok" if db_status["status"] == "success" else "degraded",
         "server": "Florana Backend",
         "database": db_status,
+        "paypal": get_paypal_status(),
         "timestamp": datetime.now().isoformat(),
     }
 
@@ -108,14 +144,12 @@ def health_check():
 @app.get("/")
 def read_root():
     """Root endpoint."""
-    from database import connection_status
-
     return {
         "message": "Welcome to Florana Backend",
         "version": "1.0.0",
         "docs": "/docs",
         "health": "/health",
-        "database_status": connection_status,
+        "database_status": database.connection_status,
     }
 
 
@@ -125,6 +159,8 @@ MODEL_PATH = os.path.join(BASE_DIR, "ai", "plant_disease_model.keras")
 CLASS_PATH = os.path.join(BASE_DIR, "ai", "class_names.json")
 
 try:
+    if load_model is None:
+        raise RuntimeError("TensorFlow is not installed")
     model = load_model(MODEL_PATH)
     print("AI model loaded successfully")
 except Exception as e:
@@ -146,31 +182,39 @@ except Exception as e:
 
 # ----------------- Helpers -----------------
 def save_prediction(filename: str, prediction: str, confidence: float):
-    prediction_collection.insert_one(
-        {
-            "image_name": filename,
-            "prediction": prediction,
-            "confidence": confidence,
-            "date": datetime.now(),
-        }
-    )
+    record = {
+        "image_name": filename,
+        "prediction": prediction,
+        "confidence": confidence,
+        "date": local_store.now_iso(),
+    }
+    prediction_collection = database.get_prediction_collection()
+    if prediction_collection is None:
+        local_store.create_item(local_store.PREDICTIONS_FILE, record)
+        return
+    prediction_collection.insert_one(record)
 
 
 def save_plant(name: str, disease: str, confidence: float):
-    plants_collection.insert_one(
-        {
-            "plant_name": name,
-            "disease": disease,
-            "confidence": confidence,
-            "date": datetime.now(),
-            "tracking": True,
-        }
-    )
+    record = {
+        "plant_name": name,
+        "disease": disease,
+        "confidence": confidence,
+        "date": local_store.now_iso(),
+        "tracking": True,
+    }
+    plants_collection = database.get_plants_collection()
+    if plants_collection is None:
+        local_store.create_item(local_store.PLANTS_FILE, record)
+        return
+    plants_collection.insert_one(record)
 
 
 def predict_image(file_bytes: bytes):
     if model is None:
         raise HTTPException(status_code=500, detail="AI model not loaded")
+    if image is None:
+        raise HTTPException(status_code=500, detail="Image preprocessing is unavailable")
     img = Image.open(io.BytesIO(file_bytes)).convert("RGB")
     img = img.resize((224, 224))
     img_array = image.img_to_array(img)
@@ -206,23 +250,33 @@ async def predict(file: UploadFile = File(...)):
 # ----------------- HISTORY -----------------
 @app.get("/history")
 def get_history():
-    records = list(prediction_collection.find({}, {"_id": 0}))
+    prediction_collection = database.get_prediction_collection()
+    if prediction_collection is None:
+        records = local_store.list_items(local_store.PREDICTIONS_FILE)
+    else:
+        records = list(prediction_collection.find({}, {"_id": 0}))
     return {"status": "success", "data": records}
 
 
 # ----------------- PLANTS -----------------
 @app.get("/plants")
 def get_all_plants():
+    plants_collection = database.get_plants_collection()
+    records = (
+        local_store.list_items(local_store.PLANTS_FILE)
+        if plants_collection is None
+        else list(plants_collection.find())
+    )
     plants = []
-    for p in plants_collection.find():
+    for p in records:
         plants.append(
             {
-                "id": str(p["_id"]),
-                "name": p.get("plant_name", "Unknown"),
+                "id": str(p.get("_id", "")),
+                "name": p.get("name") or p.get("plant_name", "Unknown"),
                 "info": p.get("disease", ""),
                 "badges": [p.get("disease")] if p.get("disease") else [],
                 "warning": True if p.get("confidence", 0) < 0.8 else False,
-                "image_path": f"uploads/{p.get('plant_name')}" if p.get("plant_name") else None,
+                "image_path": p.get("image_path") or (f"uploads/{p.get('plant_name')}" if p.get("plant_name") else None),
                 "tracking": p.get("tracking", True),
             }
         )
@@ -232,8 +286,17 @@ def get_all_plants():
 @app.delete("/plants/{plant_id}")
 def delete_plant(plant_id: str):
     try:
-        result = plants_collection.delete_one({"_id": ObjectId(plant_id)})
-        if result.deleted_count == 0:
+        plants_collection = database.get_plants_collection()
+        if plants_collection is None:
+            deleted_count = local_store.delete_item(
+                local_store.PLANTS_FILE,
+                lambda item: item.get("_id") == plant_id,
+            )
+        else:
+            result = plants_collection.delete_one({"_id": ObjectId(plant_id)})
+            deleted_count = result.deleted_count
+
+        if deleted_count == 0:
             raise HTTPException(status_code=404, detail="Plant not found")
         return {"message": "Plant deleted successfully"}
     except Exception as e:
@@ -247,6 +310,9 @@ care_reminders = []
 
 
 def send_care_notification(token: str, task: str):
+    if messaging is None:
+        print("Notification skipped: Firebase messaging is unavailable")
+        return
     try:
         message = messaging.Message(
             notification=messaging.Notification(
@@ -286,9 +352,3 @@ async def set_care_reminder(data: dict):
     care_reminders.append(reminder)
     schedule_care(reminder)
     return {"message": "Care reminder set successfully"}
-
-
-# ----------------- ROOT -----------------
-@app.get("/")
-def root():
-    return {"message": "Florana API running"}

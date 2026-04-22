@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "fe5511bf-841d-4ed7-ba63-cfd67b42ccef",
+    "plant_name": "20260422090542_20210603_073022_jpg.rf.2099a44f22bf9b0eb0b1e7204060c548.jpg",
+    "disease": "Botrytis",
+    "confidence": 0.9999046325683594,
+    "date": "2026-04-22T03:35:47.227736",
+    "tracking": true
+  },
+  {
+    "_id": "45b472e7-8a4c-4000-aad1-ea80640aedee",
+    "plant_name": "20260422110606_welcome.jpg",
+    "disease": "Botrytis",
+    "confidence": 0.9999991655349731,
+    "date": "2026-04-22T05:36:11.492794",
+    "tracking": true
+  },
+  {
+    "_id": "d9a5cc62-1ac4-48ae-a7d9-aa783cece431",
+    "name": "rose",
+    "species": "rose",
+    "flowerId": "1",
+    "flowerCatalog": "Spring",
+    "location": "colombo",
+    "specificLocation": "Indoor",
+    "climate": "Tropical",
+    "sunlight": "Partial Sun",
+    "soilType": "Sandy",
+    "wateringFrequency": null,
+    "fertilizerSchedule": null,
+    "lastWatered": null,
+    "initialSize": null,
+    "tracking": true,
+    "image_path": "uploads/20260422122325_images.jfif",
+    "created_at": "2026-04-22T06:53:25.989348"
+  }
+]

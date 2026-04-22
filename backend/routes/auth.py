@@ -4,10 +4,16 @@ from datetime import datetime, timedelta
 from fastapi import APIRouter, HTTPException, Request
 from pymongo.errors import AutoReconnect, ServerSelectionTimeoutError
 
-import database
-from schemas.user import UserCreate, UserLogin
-import utils.auth_store as auth_store
-from utils.security import create_token, hash_password, verify_password
+try:
+    from .. import database
+    from ..schemas.user import UserCreate, UserLogin
+    from ..utils import auth_store
+    from ..utils.security import create_token, hash_password, verify_password
+except ImportError:
+    import database
+    from schemas.user import UserCreate, UserLogin
+    import utils.auth_store as auth_store
+    from utils.security import create_token, hash_password, verify_password
 
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -45,10 +51,14 @@ def signup(user: UserCreate):
         users_collection = database.get_users_collection()
         use_local_store = users_collection is None
 
-        if len(user.password) < 6:
-            raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
+        normalized_email = user.email.strip().lower()
+        normalized_password = user.password.strip()
+        normalized_full_name = user.full_name.strip()
+        normalized_contact = user.contact.strip() if isinstance(user.contact, str) else user.contact
+        normalized_location = user.location.strip() if isinstance(user.location, str) else user.location
 
-        normalized_email = user.email.lower()
+        if len(normalized_password) < 6:
+            raise HTTPException(status_code=400, detail="Password must be at least 6 characters")
 
         if use_local_store:
             existing_user = auth_store.find_user_by_email(normalized_email)
@@ -58,16 +68,16 @@ def signup(user: UserCreate):
         if existing_user:
             raise HTTPException(status_code=400, detail="Email already registered")
 
-        hashed_pw = hash_password(user.password)
+        hashed_pw = hash_password(normalized_password)
 
         if use_local_store:
             stored_user = auth_store.create_user(
                 {
-                    "full_name": user.full_name,
+                    "full_name": normalized_full_name,
                     "email": normalized_email,
                     "hashed_password": hashed_pw,
-                    "contact": user.contact,
-                    "location": user.location,
+                    "contact": normalized_contact,
+                    "location": normalized_location,
                 }
             )
             if stored_user is None:
@@ -76,7 +86,10 @@ def signup(user: UserCreate):
             response_user = _user_response(stored_user, user_id)
         else:
             user_dict = user.dict()
+            user_dict["full_name"] = normalized_full_name
             user_dict["email"] = normalized_email
+            user_dict["contact"] = normalized_contact
+            user_dict["location"] = normalized_location
             user_dict["hashed_password"] = hashed_pw
             user_dict.pop("password")
             user_dict["created_at"] = datetime.utcnow()
@@ -113,7 +126,8 @@ def login(user: UserLogin, request: Request):
         login_history_collection = database.get_login_history_collection()
         use_local_store = users_collection is None
 
-        normalized_email = user.email.lower()
+        normalized_email = user.email.strip().lower()
+        submitted_password = user.password.strip()
 
         if use_local_store:
             db_user = auth_store.find_user_by_email(normalized_email)
@@ -127,7 +141,7 @@ def login(user: UserLogin, request: Request):
             raise HTTPException(status_code=403, detail="Account is inactive")
 
         hashed_pw = db_user.get("hashed_password", "")
-        if not hashed_pw or not verify_password(user.password, hashed_pw):
+        if not hashed_pw or not verify_password(submitted_password, hashed_pw):
             raise HTTPException(status_code=401, detail="Invalid email or password")
 
         user_id = str(db_user["_id"])

@@ -1,11 +1,23 @@
 # database.py
+import os
+from pathlib import Path
+
 from pymongo import MongoClient
 from pymongo.errors import PyMongoError, ServerSelectionTimeoutError
-import os
+from sqlalchemy.orm import declarative_base
+
+try:
+    from dotenv import load_dotenv
+except ImportError:
+    load_dotenv = None
 
 # =============================
 # MongoDB Connection
 # =============================
+# Load backend/.env when available so local connection strings are picked up.
+if load_dotenv is not None:
+    load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=False)
+
 # Use environment variable if available, fallback to localhost
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 
@@ -19,12 +31,16 @@ products_collection = None
 prediction_collection = None
 growth_collection = None
 login_history_collection = None
+orders_collection = None
+payments_collection = None
+Base = declarative_base()
 
 
 def _set_collections(current_db):
     """Refresh exported collection handles after connection changes."""
     global users_collection, plants_collection, products_collection
-    global prediction_collection, growth_collection, login_history_collection
+    global prediction_collection, growth_collection, login_history_collection, orders_collection
+    global payments_collection
 
     if current_db is None:
         users_collection = None
@@ -33,6 +49,8 @@ def _set_collections(current_db):
         prediction_collection = None
         growth_collection = None
         login_history_collection = None
+        orders_collection = None
+        payments_collection = None
         return
 
     users_collection = current_db["users"]
@@ -41,6 +59,8 @@ def _set_collections(current_db):
     prediction_collection = current_db["prediction_history"]
     growth_collection = current_db["growth"]
     login_history_collection = current_db["login_history"]
+    orders_collection = current_db["orders"]
+    payments_collection = current_db["payments"]
 
 
 def connect_to_mongo():
@@ -100,9 +120,39 @@ def get_users_collection():
     return users_collection
 
 
+def get_plants_collection():
+    ensure_db_connection()
+    return plants_collection
+
+
+def get_products_collection():
+    ensure_db_connection()
+    return products_collection
+
+
+def get_prediction_collection():
+    ensure_db_connection()
+    return prediction_collection
+
+
+def get_growth_collection():
+    ensure_db_connection()
+    return growth_collection
+
+
 def get_login_history_collection():
     ensure_db_connection()
     return login_history_collection
+
+
+def get_orders_collection():
+    ensure_db_connection()
+    return orders_collection
+
+
+def get_payments_collection():
+    ensure_db_connection()
+    return payments_collection
 
 
 connect_to_mongo()

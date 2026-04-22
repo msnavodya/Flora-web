@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "4b7ab9bb-8f7d-4620-93f0-c331aa92f8a8",
+    "name": "rose",
+    "price": 1000.0,
+    "season": "Spring",
+    "image": "uploads/20260422094035_summerflower.jpg",
+    "stock": 10,
+    "created_at": "2026-04-22T04:10:35.149655"
+  },
+  {
+    "_id": "2f10466c-03dd-4151-a570-2b547b6f515d",
+    "name": "rose",
+    "price": 4000.0,
+    "season": "Spring",
+    "image": "uploads/20260422113718_peonyflower.jpg",
+    "stock": 10,
+    "created_at": "2026-04-22T06:07:18.109801"
+  }
+]

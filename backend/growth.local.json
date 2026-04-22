@@ -1,0 +1,29 @@
+[
+  {
+    "_id": "c50aa816-3fc1-465f-8e82-15245b8d871c",
+    "plant_id": "d9a5cc62-1ac4-48ae-a7d9-aa783cece431",
+    "height": "1",
+    "health": "good",
+    "notes": null,
+    "image_path": null,
+    "date": "2026-04-22T06:54:04.938496"
+  },
+  {
+    "_id": "438a92f5-0e3f-41bf-865e-97395de04b38",
+    "plant_id": "d9a5cc62-1ac4-48ae-a7d9-aa783cece431",
+    "height": "1",
+    "health": "good",
+    "notes": null,
+    "image_path": null,
+    "date": "2026-04-22T06:54:10.709500"
+  },
+  {
+    "_id": "0f76a54e-ec99-471f-be74-4c1f31a7cc6b",
+    "plant_id": "d9a5cc62-1ac4-48ae-a7d9-aa783cece431",
+    "height": "3",
+    "health": "good",
+    "notes": null,
+    "image_path": null,
+    "date": "2026-04-22T06:54:48.740052"
+  }
+]
