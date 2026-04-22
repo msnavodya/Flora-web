@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PhoneInput from "react-phone-input-2";
 import { ArrowLeft, LoaderCircle, Menu, ShoppingBag, WalletCards, X } from "lucide-react";
+import { useTranslation } from "../language/LanguageContext";
 import LanguageSelector from "../language/LanguageSelector";
 import MenuPanel from "../menu/menu";
 import PayPalButton from "../PayPalButton/PayPalButton";
@@ -17,9 +18,136 @@ import "./cartPage.css";
 
 const exchangeRates = { LKR: 1, USD: 0.0033, EUR: 0.003 };
 const currencySymbols = { LKR: "Rs.", USD: "$", EUR: "EUR" };
+const cartCopy = {
+  en: {
+    checkout: "Florana Checkout",
+    myCart: "My Cart",
+    itemsInCart: "Items in cart",
+    total: "Total",
+    empty: "Your cart is empty right now.",
+    continueShopping: "Continue Shopping",
+    preparing: "Preparing checkout...",
+    proceed: "Proceed to Payment",
+    paymentMethod: "Select Payment Method",
+    creditCard: "Credit Card",
+    creditCardDesc: "Fast checkout with secure card validation.",
+    paypalDesc: "Backend marks it processing and confirms in real time.",
+    cod: "Cash on Delivery",
+    codDesc: "Confirm now and pay when the order arrives.",
+    verifyMobile: "Verify Mobile Number",
+    phoneCopy: "We use phone verification before payment confirmation.",
+    phoneNumber: "Phone number",
+    sending: "Sending...",
+    sendOtp: "Send OTP",
+    enterOtp: "Enter OTP",
+    demoCode: "Demo code:",
+    sentToBackend: "sent to backend response",
+    verifying: "Verifying...",
+    verifyOtp: "Verify OTP",
+    cardDetails: "Card Details",
+    cardCopy: "Card data is validated by the backend before processing.",
+    cardNumber: "Card Number (16 digits)",
+    nameOnCard: "Name on Card",
+    expiry: "MM/YY",
+    submitting: "Submitting...",
+    pay: "Pay",
+    paypalCheckout: "PayPal Checkout",
+    paypalCopy: "Approve the order in PayPal Sandbox, then the backend captures it and stores the payment record.",
+    codCopy: "Confirm the order now and pay the courier on delivery.",
+    confirmCod: "Confirm COD",
+    processing: "Payment Processing",
+    processingCopy: "We are checking the latest order status from the backend.",
+    confirmed: "Order Confirmed",
+    completed: "Your payment flow completed successfully.",
+  },
+  si: {
+    checkout: "ෆ්ලෝරානා ගෙවීම්",
+    myCart: "මගේ කරත්තය",
+    itemsInCart: "කරත්තයේ අයිතම",
+    total: "මුළු එකතුව",
+    empty: "ඔබගේ කරත්තය දැන් හිස්ය.",
+    continueShopping: "සාප්පු යාම දිගටම කරගෙන යන්න",
+    preparing: "ගෙවීම සූදානම් කරමින්...",
+    proceed: "ගෙවීමට ඉදිරියට යන්න",
+    paymentMethod: "ගෙවීමේ ක්‍රමය තෝරන්න",
+    creditCard: "ක්‍රෙඩිට් කාඩ්",
+    creditCardDesc: "ආරක්ෂිත කාඩ් තහවුරු කිරීම සමඟ වේගවත් ගෙවීම.",
+    paypalDesc: "බැක්එන්ඩ් එය ක්‍රියාවලියේ බව ලෙස සලකුණු කර තත්‍ය කාලීනව තහවුරු කරයි.",
+    cod: "භාරදීමේදී මුදල්",
+    codDesc: "දැන් තහවුරු කර ඇණවුම පැමිණි විට ගෙවන්න.",
+    verifyMobile: "ජංගම දුරකථන අංකය තහවුරු කරන්න",
+    phoneCopy: "ගෙවීම තහවුරු කිරීමට පෙර අපි දුරකථන තහවුරු කිරීම භාවිතා කරමු.",
+    phoneNumber: "දුරකථන අංකය",
+    sending: "යවමින්...",
+    sendOtp: "OTP යවන්න",
+    enterOtp: "OTP ඇතුළත් කරන්න",
+    demoCode: "ඩෙමෝ කේතය:",
+    sentToBackend: "බැක්එන්ඩ් ප්‍රතිචාරයට යවන ලදී",
+    verifying: "තහවුරු කරමින්...",
+    verifyOtp: "OTP තහවුරු කරන්න",
+    cardDetails: "කාඩ් විස්තර",
+    cardCopy: "කාඩ් දත්ත ක්‍රියාවලියට පෙර බැක්එන්ඩ් මගින් තහවුරු කරයි.",
+    cardNumber: "කාඩ් අංකය (අංක 16)",
+    nameOnCard: "කාඩ්පතේ නම",
+    expiry: "MM/YY",
+    submitting: "ඉදිරිපත් කරමින්...",
+    pay: "ගෙවන්න",
+    paypalCheckout: "PayPal ගෙවීම",
+    paypalCopy: "PayPal Sandbox තුළ ඇණවුම අනුමත කරන්න, පසුව බැක්එන්ඩ් එය අල්ලා ගෙවීම් වාර්තාව සුරකියි.",
+    codCopy: "දැන් ඇණවුම තහවුරු කර භාරදීමේදී කුරියර්ට ගෙවන්න.",
+    confirmCod: "COD තහවුරු කරන්න",
+    processing: "ගෙවීම සැකසෙමින් පවතී",
+    processingCopy: "අපි බැක්එන්ඩ් වෙතින් නවතම ඇණවුම් තත්ත්වය පරීක්ෂා කරමින් සිටිමු.",
+    confirmed: "ඇණවුම තහවුරුයි",
+    completed: "ඔබගේ ගෙවීමේ ක්‍රියාවලිය සාර්ථකව අවසන් විය.",
+  },
+  ta: {
+    checkout: "ஃப்ளோரானா கட்டணம்",
+    myCart: "என் வண்டி",
+    itemsInCart: "வண்டியில் உள்ளவை",
+    total: "மொத்தம்",
+    empty: "உங்கள் வண்டி இப்போது காலியாக உள்ளது.",
+    continueShopping: "ஷாப்பிங்கை தொடருங்கள்",
+    preparing: "கட்டணம் தயார் செய்யப்படுகிறது...",
+    proceed: "கட்டணத்திற்கு செல்லுங்கள்",
+    paymentMethod: "கட்டண முறையை தேர்வுசெய்க",
+    creditCard: "கிரெடிட் கார்டு",
+    creditCardDesc: "பாதுகாப்பான அட்டை சரிபார்ப்புடன் விரைவான கட்டணம்.",
+    paypalDesc: "பின்புற அமைப்பு இதை செயலாக்கமாக குறித்து நேரடியாக உறுதிப்படுத்துகிறது.",
+    cod: "வழங்கும் போது பணம்",
+    codDesc: "இப்போது உறுதிப்படுத்து, ஆர்டர் வந்தபோது கட்டணம் செலுத்துங்கள்.",
+    verifyMobile: "மொபைல் எண்ணை உறுதிப்படுத்து",
+    phoneCopy: "கட்டண உறுதிப்பாட்டிற்கு முன் தொலைபேசி சரிபார்ப்பைப் பயன்படுத்துகிறோம்.",
+    phoneNumber: "தொலைபேசி எண்",
+    sending: "அனுப்புகிறது...",
+    sendOtp: "OTP அனுப்பு",
+    enterOtp: "OTP உள்ளிடுக",
+    demoCode: "டெமோ குறியீடு:",
+    sentToBackend: "பின்புற பதிலுக்கு அனுப்பப்பட்டது",
+    verifying: "சரிபார்க்கிறது...",
+    verifyOtp: "OTP சரிபார்",
+    cardDetails: "அட்டை விவரங்கள்",
+    cardCopy: "செயலாக்கத்திற்கு முன் அட்டை தகவல் பின்புறத்தில் சரிபார்க்கப்படுகிறது.",
+    cardNumber: "அட்டை எண் (16 இலக்கங்கள்)",
+    nameOnCard: "அட்டையில் உள்ள பெயர்",
+    expiry: "MM/YY",
+    submitting: "சமர்ப்பிக்கிறது...",
+    pay: "செலுத்து",
+    paypalCheckout: "PayPal கட்டணம்",
+    paypalCopy: "PayPal Sandbox இல் ஆர்டரை ஒப்புதல் அளிக்கவும், பின்னர் பின்புறம் அதை பதிவு செய்கிறது.",
+    codCopy: "இப்போது ஆர்டரை உறுதிப்படுத்து, வழங்கும் போது கூரியருக்கு கட்டணம் செலுத்துங்கள்.",
+    confirmCod: "COD உறுதிப்படுத்து",
+    processing: "கட்டணம் செயலாக்கப்படுகிறது",
+    processingCopy: "பின்புறத்திலிருந்து சமீபத்திய ஆர்டர் நிலையை சரிபார்க்கிறோம்.",
+    confirmed: "ஆர்டர் உறுதிப்படுத்தப்பட்டது",
+    completed: "உங்கள் கட்டண செயல்முறை வெற்றிகரமாக முடிந்தது.",
+  },
+};
 
 export default function CartPage() {
   const navigate = useNavigate();
+  const { languageCode } = useTranslation();
+  const copy = cartCopy[languageCode] || cartCopy.en;
   const pollingRef = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
@@ -267,18 +395,18 @@ export default function CartPage() {
 
   const renderMethodSelection = () => (
     <>
-      <h2>Select Payment Method</h2>
+      <h2>{copy.paymentMethod}</h2>
       <div className="method-item" onClick={() => selectPaymentMethod("card")}>
-        <h4>Credit Card</h4>
-        <p>Fast checkout with secure card validation.</p>
+        <h4>{copy.creditCard}</h4>
+        <p>{copy.creditCardDesc}</p>
       </div>
       <div className="method-item" onClick={() => selectPaymentMethod("paypal")}>
         <h4>PayPal</h4>
-        <p>Backend marks it processing and confirms in real time.</p>
+        <p>{copy.paypalDesc}</p>
       </div>
       <div className="method-item" onClick={() => selectPaymentMethod("cod")}>
-        <h4>Cash on Delivery</h4>
-        <p>Confirm now and pay when the order arrives.</p>
+        <h4>{copy.cod}</h4>
+        <p>{copy.codDesc}</p>
       </div>
     </>
   );
@@ -293,8 +421,8 @@ export default function CartPage() {
             </button>
 
             <div className="cart-title-wrap">
-              <p className="cart-eyebrow">Florana Checkout</p>
-              <h3 className="cart-heading">My Cart</h3>
+              <p className="cart-eyebrow">{copy.checkout}</p>
+              <h3 className="cart-heading">{copy.myCart}</h3>
             </div>
 
             <div className="cart-toolbar">
@@ -328,11 +456,11 @@ export default function CartPage() {
 
           <div className="cart-summary-card">
             <div>
-              <p>Items in cart</p>
+              <p>{copy.itemsInCart}</p>
               <strong>{cartItems.length}</strong>
             </div>
             <div>
-              <p>Total</p>
+              <p>{copy.total}</p>
               <strong className="currency-text">{formatPrice(total)}</strong>
             </div>
           </div>
@@ -360,9 +488,9 @@ export default function CartPage() {
             ) : (
               <div className="empty-state">
                 <ShoppingBag size={34} />
-                <p>Your cart is empty right now.</p>
+                <p>{copy.empty}</p>
                 <button className="checkout-btn" onClick={() => navigate("/catalog")}>
-                  Continue Shopping
+                  {copy.continueShopping}
                 </button>
               </div>
             )}
@@ -370,7 +498,7 @@ export default function CartPage() {
 
           {cartItems.length > 0 ? (
             <button className="checkout-btn" onClick={beginCheckout} disabled={busy}>
-              {busy ? "Preparing checkout..." : "Proceed to Payment"}
+              {busy ? copy.preparing : copy.proceed}
             </button>
           ) : null}
 
@@ -387,35 +515,35 @@ export default function CartPage() {
 
                 {step === 1 ? (
                   <>
-                    <h2>Verify Mobile Number</h2>
-                    <p className="drawer-copy">We use phone verification before payment confirmation.</p>
+                    <h2>{copy.verifyMobile}</h2>
+                    <p className="drawer-copy">{copy.phoneCopy}</p>
                     <PhoneInput
                       country="lk"
                       value={phone}
                       onChange={setPhone}
                       enableSearch
-                      placeholder="Phone number"
+                      placeholder={copy.phoneNumber}
                       inputStyle={{ width: "100%", height: "46px", borderRadius: "14px" }}
                       buttonStyle={{ borderRadius: "14px 0 0 14px" }}
                     />
                     <button className="pay-btn" onClick={sendOtp} disabled={busy}>
-                      {busy ? "Sending..." : "Send OTP"}
+                      {busy ? copy.sending : copy.sendOtp}
                     </button>
                   </>
                 ) : null}
 
                 {step === 2 ? (
                   <>
-                    <h2>Enter OTP</h2>
-                    <p className="drawer-copy">Demo code: {demoOtp || "sent to backend response"}</p>
+                    <h2>{copy.enterOtp}</h2>
+                    <p className="drawer-copy">{`${copy.demoCode} ${demoOtp || copy.sentToBackend}`}</p>
                     <input
                       className="input"
-                      placeholder="Enter OTP"
+                      placeholder={copy.enterOtp}
                       value={otp}
                       onChange={(event) => setOtp(event.target.value)}
                     />
                     <button className="pay-btn" onClick={verifyOtp} disabled={busy}>
-                      {busy ? "Verifying..." : "Verify OTP"}
+                      {busy ? copy.verifying : copy.verifyOtp}
                     </button>
                   </>
                 ) : null}
@@ -424,24 +552,24 @@ export default function CartPage() {
                   <>
                     {paymentMethod === "card" ? (
                       <>
-                        <h2>Card Details</h2>
-                        <p className="drawer-copy">Card data is validated by the backend before processing.</p>
+                        <h2>{copy.cardDetails}</h2>
+                        <p className="drawer-copy">{copy.cardCopy}</p>
                         <input
                           className="input"
-                          placeholder="Card Number (16 digits)"
+                          placeholder={copy.cardNumber}
                           value={card.number}
                           onChange={(event) => setCard({ ...card, number: event.target.value.replace(/\D/g, "") })}
                         />
                         <input
                           className="input"
-                          placeholder="Name on Card"
+                          placeholder={copy.nameOnCard}
                           value={card.name}
                           onChange={(event) => setCard({ ...card, name: event.target.value })}
                         />
                         <div className="card-grid">
                           <input
                             className="input"
-                            placeholder="MM/YY"
+                            placeholder={copy.expiry}
                             value={card.expiry}
                             onChange={(event) => setCard({ ...card, expiry: event.target.value })}
                           />
@@ -453,15 +581,15 @@ export default function CartPage() {
                           />
                         </div>
                         <button className="pay-btn" onClick={handlePayment} disabled={busy}>
-                          {busy ? "Submitting..." : `Pay ${formatPrice(total)}`}
+                          {busy ? copy.submitting : `${copy.pay} ${formatPrice(total)}`}
                         </button>
                       </>
                     ) : null}
 
                     {paymentMethod === "paypal" ? (
                       <>
-                        <h2>PayPal Checkout</h2>
-                        <p className="drawer-copy">Approve the order in PayPal Sandbox, then the backend captures it and stores the payment record.</p>
+                        <h2>{copy.paypalCheckout}</h2>
+                        <p className="drawer-copy">{copy.paypalCopy}</p>
                         <PayPalButton
                           items={paypalItems}
                           currency={paypalCurrency}
@@ -473,10 +601,10 @@ export default function CartPage() {
 
                     {paymentMethod === "cod" ? (
                       <>
-                        <h2>Cash on Delivery</h2>
-                        <p className="drawer-copy">Confirm the order now and pay the courier on delivery.</p>
+                        <h2>{copy.cod}</h2>
+                        <p className="drawer-copy">{copy.codCopy}</p>
                         <button className="pay-btn" onClick={handlePayment} disabled={busy}>
-                          {busy ? "Submitting..." : `Confirm COD ${formatPrice(total)}`}
+                          {busy ? copy.submitting : `${copy.confirmCod} ${formatPrice(total)}`}
                         </button>
                       </>
                     ) : null}
@@ -486,15 +614,15 @@ export default function CartPage() {
                 {step === 4 ? (
                   <div className="success">
                     <LoaderCircle className="spinner-icon" size={26} />
-                    <h2>Payment Processing</h2>
-                    <p>We are checking the latest order status from the backend.</p>
+                    <h2>{copy.processing}</h2>
+                    <p>{copy.processingCopy}</p>
                   </div>
                 ) : null}
 
                 {step === 5 ? (
                   <div className="success">
-                    <h2>Order Confirmed</h2>
-                    <p>Your payment flow completed successfully.</p>
+                    <h2>{copy.confirmed}</h2>
+                    <p>{copy.completed}</p>
                   </div>
                 ) : null}
               </div>

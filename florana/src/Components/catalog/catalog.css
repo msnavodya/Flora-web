@@ -90,17 +90,19 @@
 
 .catalog-currency-btn,
 .cart-currency-pill {
-  min-width: 82px;
+  width: 30px;
+  min-width: 30px;
+  height: 30px;
   min-height: 30px;
-  padding: 3px 6px 3px 3px;
+  padding: 3px;
   border: 1px solid rgba(112, 93, 148, 0.16);
-  border-radius: 999px;
+  border-radius: 50%;
   background: rgba(255, 255, 255, 0.92);
   color: #000000;
   display: inline-flex;
   align-items: center;
-  justify-content: flex-start;
-  gap: 4px;
+  justify-content: center;
+  gap: 0;
   box-shadow: 0 10px 22px rgba(31, 22, 51, 0.12);
   backdrop-filter: blur(10px);
   font-weight: 700;
@@ -110,8 +112,8 @@
 }
 
 .currency-icon {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
   display: inline-flex;
   align-items: center;
@@ -226,23 +228,24 @@
 }
 
 .currency-mini {
-  min-width: 0;
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 22px;
-  padding: 0 14px 0 5px;
+  height: 100%;
+  padding: 0;
   border: none;
-  border-radius: 999px;
-  background: #924ea1;
-  color: #ffffff;
+  border-radius: 50%;
+  background: transparent;
+  color: transparent;
   font-weight: 800;
   font-family: "Poppins", sans-serif;
   font-size: 0.52rem;
-  line-height: 1;
+  line-height: 0;
   outline: none;
-  white-space: nowrap;
   cursor: pointer;
   appearance: auto;
   transition: background-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  opacity: 0;
 }
 
 .currency-mini:hover {
@@ -420,15 +423,16 @@
 
   .catalog-currency-btn,
   .cart-currency-pill {
-    min-width: 74px;
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
     min-height: 28px;
-    padding: 2px 5px 2px 2px;
-    gap: 3px;
+    padding: 2px;
   }
 
   .currency-icon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
   }
 
   .currency-icon svg {
@@ -437,10 +441,7 @@
   }
 
   .currency-mini {
-    height: 20px;
-    min-height: 20px;
-    padding: 0 12px 0 4px;
-    font-size: 0.46rem;
+    min-height: 28px;
   }
 
   .catalog-hero {

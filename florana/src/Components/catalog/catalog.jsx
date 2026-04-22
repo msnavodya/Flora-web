@@ -13,6 +13,62 @@ import "./catalog.css";
 
 const exchangeRates = { LKR: 1, USD: 0.0033, EUR: 0.003 };
 const currencySymbols = { LKR: "Rs.", USD: "$", EUR: "EUR" };
+const catalogCopy = {
+  en: {
+    shop: "Florana Shop",
+    title: "Season Catalog",
+    subtitle: "Browse plants, switch currency instantly, and manage what you want to buy or sell.",
+    listed: "{count} plants listed",
+    buy: "Buy Plants",
+    sell: "Sell Plants",
+    allPlants: "All Plants",
+    available: "Available Plants",
+    addToCart: "Add to Cart",
+    noPlants: "No plants found for that search.",
+    listForSale: "List a Plant for Sale",
+    plantName: "Plant Name",
+    price: "Price",
+    listPlant: "List Plant",
+    yourListed: "Your Listed Plants",
+    remove: "Delete",
+  },
+  si: {
+    shop: "ෆ්ලෝරානා වෙළඳසැල",
+    title: "සමය අනුව පැල එකතුව",
+    subtitle: "පැල බලන්න, මුදල් ඒකකය වහාම මාරු කරන්න, සහ ඔබ මිලදී ගැනීමට හෝ විකිණීමට කැමති දේ කළමනාකරණය කරන්න.",
+    listed: "පැල {count}ක් ලැයිස්තුගතයි",
+    buy: "පැල මිලදී ගන්න",
+    sell: "පැල විකුණන්න",
+    allPlants: "සියලු පැල",
+    available: "පවතින පැල",
+    addToCart: "කරත්තයට දමන්න",
+    noPlants: "එම සෙවුම සඳහා පැල හමු නොවීය.",
+    listForSale: "විකිණීමට පැලයක් ලැයිස්තුගත කරන්න",
+    plantName: "පැල නාමය",
+    price: "මිල",
+    listPlant: "පැලය ලැයිස්තුගත කරන්න",
+    yourListed: "ඔබ ලැයිස්තුගත කළ පැල",
+    remove: "මකන්න",
+  },
+  ta: {
+    shop: "ஃப்ளோரானா கடை",
+    title: "பருவ கால செடி தொகுப்பு",
+    subtitle: "செடிகளை பாருங்கள், நாணயத்தை உடனே மாற்றுங்கள், நீங்கள் வாங்கவோ விற்கவோ விரும்பும்வற்றை நிர்வகிக்குங்கள்.",
+    listed: "{count} செடிகள் பட்டியலிடப்பட்டுள்ளன",
+    buy: "செடிகள் வாங்க",
+    sell: "செடிகள் விற்க",
+    allPlants: "அனைத்து செடிகள்",
+    available: "கிடைக்கும் செடிகள்",
+    addToCart: "வண்டியில் சேர்",
+    noPlants: "அந்த தேடலுக்கு செடிகள் கிடைக்கவில்லை.",
+    listForSale: "விற்பனைக்கு ஒரு செடியை பட்டியலிடுங்கள்",
+    plantName: "செடி பெயர்",
+    price: "விலை",
+    listPlant: "செடியை பட்டியலிடு",
+    yourListed: "நீங்கள் பட்டியலிட்ட செடிகள்",
+    remove: "நீக்கு",
+  },
+};
 
 const seasons = [
   { title: "Spring", image: springImg },
@@ -23,7 +79,8 @@ const seasons = [
 
 export default function Catalog() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, languageCode } = useTranslation();
+  const copy = catalogCopy[languageCode] || catalogCopy.en;
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("buy");
   const [products, setProducts] = useState([]);
@@ -165,15 +222,13 @@ export default function Catalog() {
 
           <div className="catalog-hero">
             <div>
-              <p className="catalog-eyebrow">Florana Shop</p>
-              <h2 className="catalog-title">Season Catalog</h2>
-              <p className="catalog-subtitle">
-                Browse plants, switch currency instantly, and manage what you want to buy or sell.
-              </p>
+              <p className="catalog-eyebrow">{copy.shop}</p>
+              <h2 className="catalog-title">{copy.title}</h2>
+              <p className="catalog-subtitle">{copy.subtitle}</p>
             </div>
 
             <div className="catalog-meta-card">
-              <div className="meta-stat">{products.length} plants listed</div>
+              <div className="meta-stat">{copy.listed.replace("{count}", products.length)}</div>
             </div>
           </div>
 
@@ -191,10 +246,10 @@ export default function Catalog() {
 
           <div className="toggle-bar">
             <button className={activeTab === "buy" ? "active" : ""} onClick={() => setActiveTab("buy")}>
-              Buy Plants
+              {copy.buy}
             </button>
             <button className={activeTab === "sell" ? "active" : ""} onClick={() => setActiveTab("sell")}>
-              Sell Plants
+              {copy.sell}
             </button>
           </div>
 
@@ -209,11 +264,11 @@ export default function Catalog() {
                 ))}
 
                 <div className="season-card all-card" onClick={() => navigate("/season/all")}>
-                  <div className="season-name">All Plants</div>
+                  <div className="season-name">{copy.allPlants}</div>
                 </div>
               </div>
 
-              <h3 className="section-title">Available Plants</h3>
+              <h3 className="section-title">{copy.available}</h3>
 
               <div className="product-grid">
                 {filteredProducts.length > 0 ? (
@@ -223,27 +278,27 @@ export default function Catalog() {
                       <h4>{product.name}</h4>
                       <p>{product.season}</p>
                       <p className="price currency-text">{formatPrice(product.price)}</p>
-                      <button onClick={() => addToCart(product)}>Add to Cart</button>
+                      <button onClick={() => addToCart(product)}>{copy.addToCart}</button>
                     </div>
                   ))
                 ) : (
-                  <p className="no-data">No plants found for that search.</p>
+                  <p className="no-data">{copy.noPlants}</p>
                 )}
               </div>
             </>
           ) : (
             <div className="sell-form">
-              <h3>List a Plant for Sale</h3>
+              <h3>{copy.listForSale}</h3>
 
               <input
                 type="text"
-                placeholder="Plant Name"
+                placeholder={copy.plantName}
                 value={newPlant.name}
                 onChange={(event) => setNewPlant({ ...newPlant, name: event.target.value })}
               />
               <input
                 type="number"
-                placeholder="Price"
+                placeholder={copy.price}
                 value={newPlant.price}
                 onChange={(event) => setNewPlant({ ...newPlant, price: event.target.value })}
               />
@@ -264,9 +319,9 @@ export default function Catalog() {
                 onChange={(event) => setNewPlant({ ...newPlant, image: event.target.files?.[0] || null })}
               />
 
-              <button onClick={handleSell}>List Plant</button>
+              <button onClick={handleSell}>{copy.listPlant}</button>
 
-              <h4>Your Listed Plants</h4>
+              <h4>{copy.yourListed}</h4>
 
               <div className="product-grid">
                 {products.map((product) => (
@@ -284,7 +339,7 @@ export default function Catalog() {
                         }
                       }}
                     >
-                      Delete
+                      {copy.remove}
                     </button>
                   </div>
                 ))}

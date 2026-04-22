@@ -2,16 +2,48 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Menu, ShoppingCart, WalletCards } from "lucide-react";
 import { buildApiUrl, getProducts } from "../../api";
+import { useTranslation } from "../language/LanguageContext";
 import LanguageSelector from "../language/LanguageSelector";
 import MenuPanel from "../menu/menu";
 import "./catalog.css";
 
 const exchangeRates = { LKR: 1, USD: 0.0033, EUR: 0.003 };
 const currencySymbols = { LKR: "Rs.", USD: "$", EUR: "EUR" };
+const seasonCopy = {
+  en: {
+    finder: "Plant Finder",
+    allPlants: "All Plants",
+    plantsSuffix: "Plants",
+    subtitle: "Shop by season, switch the currency instantly, and keep your cart synced while you browse.",
+    results: "{count} results",
+    noPlants: "No plants available for this season.",
+    addToCart: "Add to Cart",
+  },
+  si: {
+    finder: "පැල සොයන්නා",
+    allPlants: "සියලු පැල",
+    plantsSuffix: "පැල",
+    subtitle: "සමය අනුව සාප්පු යන්න, මුදල් ඒකකය වහාම මාරු කරන්න, සහ බ්‍රවුස් කරන අතරතුර ඔබගේ කරත්තය සම්බන්ධ කර තබන්න.",
+    results: "ප්‍රතිඵල {count}",
+    noPlants: "මෙම සමයට පැල නොමැත.",
+    addToCart: "කරත්තයට දමන්න",
+  },
+  ta: {
+    finder: "செடி கண்டுபிடிப்பான்",
+    allPlants: "அனைத்து செடிகள்",
+    plantsSuffix: "செடிகள்",
+    subtitle: "பருவத்தின்படி வாங்குங்கள், நாணயத்தை உடனே மாற்றுங்கள், உலாவும் போது உங்கள் வண்டியை இணைத்துப் பேணுங்கள்.",
+    results: "{count} முடிவுகள்",
+    noPlants: "இந்த பருவத்திற்கு செடிகள் இல்லை.",
+    addToCart: "வண்டியில் சேர்",
+  },
+};
 
 export default function SeasonPage() {
   const { season } = useParams();
   const navigate = useNavigate();
+  const { t, languageCode } = useTranslation();
+  const copy = seasonCopy[languageCode] || seasonCopy.en;
   const [menuOpen, setMenuOpen] = useState(false);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
@@ -111,15 +143,15 @@ export default function SeasonPage() {
 
           <div className="catalog-hero season-hero">
             <div>
-              <p className="catalog-eyebrow">Plant Finder</p>
-              <h2 className="catalog-title">{season === "all" ? "All Plants" : `${season?.toUpperCase()} Plants`}</h2>
-              <p className="catalog-subtitle">
-                Shop by season, switch the currency instantly, and keep your cart synced while you browse.
-              </p>
+              <p className="catalog-eyebrow">{copy.finder}</p>
+              <h2 className="catalog-title">
+                {season === "all" ? copy.allPlants : `${season?.toUpperCase()} ${copy.plantsSuffix}`}
+              </h2>
+              <p className="catalog-subtitle">{copy.subtitle}</p>
             </div>
 
             <div className="catalog-meta-card">
-              <div className="meta-stat">{filteredProducts.length} results</div>
+              <div className="meta-stat">{copy.results.replace("{count}", filteredProducts.length)}</div>
             </div>
           </div>
 
@@ -140,7 +172,7 @@ export default function SeasonPage() {
           <div className="catalog-header season-header">
             <input
               type="text"
-              placeholder="Search plants..."
+              placeholder={t("search_plants")}
               className="search-input"
               value={search}
               onChange={(event) => setSearch(event.target.value)}
@@ -155,11 +187,11 @@ export default function SeasonPage() {
                   <h4>{product.name}</h4>
                   <p>{product.season}</p>
                   <p className="price currency-text">{formatPrice(product.price)}</p>
-                  <button onClick={() => addToCart(product)}>Add to Cart</button>
+                  <button onClick={() => addToCart(product)}>{copy.addToCart}</button>
                 </div>
               ))
             ) : (
-              <p className="no-data">No plants available for this season.</p>
+              <p className="no-data">{copy.noPlants}</p>
             )}
           </div>
         </div>
