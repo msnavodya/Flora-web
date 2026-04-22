@@ -1,8 +1,9 @@
 import axios from "axios";
 
 
-const fallbackHost = window?.location?.hostname || "127.0.0.1";
-export const API_URL = (process.env.REACT_APP_API_URL || `http://${fallbackHost}:8000`).replace(/\/+$/, "");
+const rawApiUrl = process.env.REACT_APP_API_URL?.trim();
+export const API_URL = (rawApiUrl || "/api").replace(/\/+$/, "");
+export const ASSET_URL = API_URL.endsWith("/api") ? API_URL.slice(0, -4) : API_URL;
 
 const API = axios.create({
   baseURL: API_URL,
@@ -32,6 +33,11 @@ export const buildApiUrl = (path = "") => {
   }
 
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (normalizedPath.startsWith("/uploads/")) {
+    return `${ASSET_URL}${normalizedPath}`;
+  }
+
   return `${API_URL}${normalizedPath}`;
 };
 

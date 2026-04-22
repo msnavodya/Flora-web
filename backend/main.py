@@ -3,6 +3,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+import uvicorn
 
 import os
 import io
@@ -69,6 +70,7 @@ logging.basicConfig(level=logging.INFO)
 load_paypal_environment()
 
 app = FastAPI(title="Florana Backend")
+API_PREFIX = "/api"
 
 # Static files for uploaded images
 UPLOAD_DIR = "uploads"
@@ -89,12 +91,16 @@ app.add_middleware(
 @app.on_event("startup")
 def startup_event():
     """Print startup information."""
+    port = os.getenv("PORT", "8000")
+    base_url = os.getenv("PUBLIC_BASE_URL", f"http://0.0.0.0:{port}")
+    api_url = f"{base_url.rstrip('/')}{API_PREFIX}"
     print("\n" + "=" * 60)
     print("FLORANA BACKEND STARTUP")
     print("=" * 60)
-    print("Server: http://127.0.0.1:8000")
-    print("Docs: http://127.0.0.1:8000/docs")
-    print("Health: http://127.0.0.1:8000/health")
+    print(f"Server: {base_url}")
+    print(f"API: {api_url}")
+    print(f"Docs: {base_url.rstrip('/')}/docs")
+    print(f"Health: {api_url}/health")
     print(f"Database: {database.connection_status}")
     paypal_status = log_paypal_status()
 
@@ -119,15 +125,15 @@ def startup_event():
 
 
 # Routers
-app.include_router(auth_router)
-app.include_router(plant_router)
-app.include_router(growth_router)
-app.include_router(shop_router)
-app.include_router(payment_router)
+app.include_router(auth_router, prefix=API_PREFIX)
+app.include_router(plant_router, prefix=API_PREFIX)
+app.include_router(growth_router, prefix=API_PREFIX)
+app.include_router(shop_router, prefix=API_PREFIX)
+app.include_router(payment_router, prefix=API_PREFIX)
 
 
 # ================= HEALTH CHECK ENDPOINT =================
-@app.get("/health")
+@app.get(f"{API_PREFIX}/health")
 def health_check():
     """Check backend and database health status."""
     db_status = database.check_db_connection()
@@ -148,8 +154,19 @@ def read_root():
         "message": "Welcome to Florana Backend",
         "version": "1.0.0",
         "docs": "/docs",
-        "health": "/health",
+        "health": f"{API_PREFIX}/health",
+        "api": API_PREFIX,
         "database_status": database.connection_status,
+    }
+
+
+@app.get(API_PREFIX)
+def read_api_root():
+    """API root endpoint."""
+    return {
+        "message": "Florana API is running",
+        "health": f"{API_PREFIX}/health",
+        "docs": "/docs",
     }
 
 
@@ -226,7 +243,7 @@ def predict_image(file_bytes: bytes):
 
 
 # ----------------- AI ROUTES -----------------
-@app.post("/predict")
+@app.post(f"{API_PREFIX}/predict")
 async def predict(file: UploadFile = File(...)):
     if not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
         raise HTTPException(status_code=400, detail="Invalid image format")
@@ -248,7 +265,7 @@ async def predict(file: UploadFile = File(...)):
 
 
 # ----------------- HISTORY -----------------
-@app.get("/history")
+@app.get(f"{API_PREFIX}/history")
 def get_history():
     prediction_collection = database.get_prediction_collection()
     if prediction_collection is None:
@@ -259,7 +276,7 @@ def get_history():
 
 
 # ----------------- PLANTS -----------------
-@app.get("/plants")
+@app.get(f"{API_PREFIX}/plants")
 def get_all_plants():
     plants_collection = database.get_plants_collection()
     records = (
@@ -283,7 +300,7 @@ def get_all_plants():
     return plants
 
 
-@app.delete("/plants/{plant_id}")
+@app.delete(f"{API_PREFIX}/plants/{{plant_id}}")
 def delete_plant(plant_id: str):
     try:
         plants_collection = database.get_plants_collection()
@@ -341,7 +358,7 @@ def schedule_care(reminder: dict):
     )
 
 
-@app.post("/care-reminder")
+@app.post(f"{API_PREFIX}/care-reminder")
 async def set_care_reminder(data: dict):
     time = data.get("time")
     token = data.get("token")
@@ -352,3 +369,7 @@ async def set_care_reminder(data: dict):
     care_reminders.append(reminder)
     schedule_care(reminder)
     return {"message": "Care reminder set successfully"}
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=int(os.getenv("PORT", "8000")))

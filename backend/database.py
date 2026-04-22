@@ -18,8 +18,9 @@ except ImportError:
 if load_dotenv is not None:
     load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=False)
 
-# Use environment variable if available, fallback to localhost
-MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
+# Use environment variable when available. If it is missing, the app falls back
+# to local JSON storage instead of assuming a local MongoDB server exists.
+MONGO_URL = os.getenv("MONGO_URL", "").strip()
 
 client = None
 db = None
@@ -66,6 +67,14 @@ def _set_collections(current_db):
 def connect_to_mongo():
     """Attempt to connect to MongoDB and refresh shared collection handles."""
     global client, db, connection_status
+
+    if not MONGO_URL:
+        client = None
+        db = None
+        _set_collections(None)
+        connection_status = "disconnected"
+        print("MongoDB connection skipped: MONGO_URL is not configured")
+        return False
 
     try:
         client = MongoClient(

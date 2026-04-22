@@ -9,6 +9,7 @@ import json
 import numpy as np
 from PIL import Image
 from datetime import datetime
+from dotenv import load_dotenv
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
@@ -19,16 +20,17 @@ from pymongo import MongoClient
 # =============================================
 # MONGODB CONNECTION
 # =============================================
-client = MongoClient("mongodb://localhost:27017/")
-db = client["florana_db"]
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(os.path.dirname(BASE_DIR), ".env"))
+mongo_url = os.getenv("MONGO_URL", "").strip()
+client = MongoClient(mongo_url) if mongo_url else None
+db = client["florana_db"] if client is not None else None
 
-prediction_collection = db["prediction_history"]
+prediction_collection = db["prediction_history"] if db is not None else None
 
 # =============================================
 # PATHS
 # =============================================
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 MODEL_PATH = os.path.join(BASE_DIR, "plant_disease_model.keras")
 CLASS_PATH = os.path.join(BASE_DIR, "class_names.json")
 
@@ -83,6 +85,10 @@ def save_prediction(filename, disease, confidence):
         "confidence": confidence,
         "date": datetime.utcnow()
     }
+
+    if prediction_collection is None:
+        print("Prediction save skipped: MONGO_URL is not configured")
+        return
 
     prediction_collection.insert_one(data)
     print("✅ Prediction saved to MongoDB")
