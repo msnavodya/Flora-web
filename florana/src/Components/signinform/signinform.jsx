@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { loginUser } from "../../api";
+import { getApiErrorMessage, loginUser } from "../../api";
 import logo from "../Assets/florana.jpg";
 import googleLogo from "../Assets/google.jpg";
 import "./signinform.css";
@@ -59,14 +59,11 @@ export default function SignInForm() {
       setErrorMessage(Array.isArray(detail) ? detail.map((err) => err.msg || JSON.stringify(err)).join(", ") : detail);
     } catch (error) {
       console.error("Login Error:", error);
-      const errData = error.response?.data;
-      const fallbackMessage =
-        error.response?.status === 401
-          ? "Invalid email or password. If this is a new account, sign up first."
-          : "Unable to connect to the backend. Please ensure the API server is running.";
-      setErrorMessage(
-        errData?.detail || errData?.message || fallbackMessage
-      );
+      if (error.response?.status === 401) {
+        setErrorMessage("Invalid email or password. If this is a new account, sign up first.");
+      } else {
+        setErrorMessage(getApiErrorMessage(error));
+      }
     } finally {
       setLoading(false);
     }

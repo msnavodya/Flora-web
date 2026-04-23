@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { signupUser } from "../../api";
+import { getApiErrorMessage, signupUser } from "../../api";
 import logo from "../Assets/florana.jpg";
 import googleLogo from "../Assets/google.jpg";
 import "./signupform.css";
@@ -60,12 +60,7 @@ export default function SignUpForm() {
       navigate("/home", { replace: true });
     } catch (error) {
       console.error("Signup Error:", error);
-      const detail = error.response?.data?.detail;
-      setErrorMessage(
-        Array.isArray(detail)
-          ? detail.map((err) => err.msg || JSON.stringify(err)).join(", ")
-          : detail || "Cannot connect to backend server!"
-      );
+      setErrorMessage(getApiErrorMessage(error));
     } finally {
       setLoading(false);
     }

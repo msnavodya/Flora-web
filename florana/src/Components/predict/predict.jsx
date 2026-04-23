@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Menu as MenuIcon } from "lucide-react";
-import { predictImage } from "../../api";
+import { getApiErrorMessage, predictImage } from "../../api";
 import LanguageSelector from "../language/LanguageSelector";
 import Menu from "../menu/menu";
 import "./predict.css";
@@ -43,7 +43,7 @@ export default function Predict() {
       setMessage(`${status} (${prediction}) - Confidence: ${percent}%`);
     } catch (error) {
       console.error(error);
-      setMessage(`Error: ${error.response?.data?.detail || "Backend not reachable"}`);
+      setMessage(`Error: ${getApiErrorMessage(error)}`);
     } finally {
       setLoading(false);
     }

@@ -2,8 +2,10 @@ from jose import jwt, JWTError
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-SECRET_KEY = "supersecretkey"  # Same as security.py
-ALGORITHM = "HS256"
+try:
+    from .security import SECRET_KEY, ALGORITHM
+except ImportError:
+    from security import SECRET_KEY, ALGORITHM
 
 security = HTTPBearer()
 

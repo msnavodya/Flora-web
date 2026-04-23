@@ -3,7 +3,6 @@ import logging
 from random import randint
 from typing import List, Optional
 
-from bson import ObjectId
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
 from pymongo.errors import AutoReconnect, ServerSelectionTimeoutError
@@ -230,40 +229,24 @@ def _parse_payer_email(paypal_order: dict):
     return payer.get("email_address")
 
 
-def _get_product_record(product_id: str):
-    products_collection = database.get_products_collection()
-
-    if products_collection is None:
-        return local_store.find_item(local_store.PRODUCTS_FILE, lambda item: item.get("_id") == product_id)
-
-    product = products_collection.find_one({"_id": product_id})
-    if product is not None:
-        return product
-
-    if ObjectId.is_valid(product_id):
-        return products_collection.find_one({"_id": ObjectId(product_id)})
-
-    return None
-
-
-def _resolve_catalog_items(items: List[CheckoutItem]):
-    resolved_items = []
+def _normalize_paypal_items(items: List[CheckoutItem]):
+    normalized_items = []
 
     for item in items:
-        product = _get_product_record(item.id)
-        if product is None:
-            raise HTTPException(status_code=400, detail=f"Product {item.id} was not found.")
+        name = (item.name or "").strip()
+        if not name:
+            raise HTTPException(status_code=400, detail="Each PayPal item needs a name.")
 
-        resolved_items.append(
+        normalized_items.append(
             {
                 "id": item.id,
-                "name": product.get("name", item.name),
-                "price": float(product.get("price", item.price)),
-                "quantity": item.quantity,
+                "name": name,
+                "price": round(float(item.price), 2),
+                "quantity": int(item.quantity),
             }
         )
 
-    return resolved_items
+    return normalized_items
 
 
 def _build_paypal_purchase_units(items: List[dict], currency: str):
@@ -335,7 +318,7 @@ def create_paypal_order(payload: PayPalCreateOrderRequest):
             raise HTTPException(status_code=400, detail="Add at least one item before checkout.")
 
         currency = _sanitize_currency(payload.currency)
-        resolved_items = _resolve_catalog_items(payload.items)
+        resolved_items = _normalize_paypal_items(payload.items)
         paypal_order = create_order(
             {
                 "intent": "CAPTURE",
@@ -345,6 +328,7 @@ def create_paypal_order(payload: PayPalCreateOrderRequest):
         return {
             "id": paypal_order["id"],
             "status": paypal_order.get("status", "CREATED"),
+            "currency": currency,
         }
     except HTTPException:
         raise

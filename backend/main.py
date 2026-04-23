@@ -71,6 +71,30 @@ load_paypal_environment()
 
 app = FastAPI(title="Florana Backend")
 API_PREFIX = "/api"
+CORS_ALLOW_ALL = os.getenv("CORS_ALLOW_ALL", "true").strip().lower() not in {"0", "false", "no"}
+
+
+def _parse_allowed_origins():
+    configured_origins = os.getenv("FRONTEND_ORIGINS", "")
+    origins = {
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://florana.netlify.app",
+        "https://69e884dae2541f0c8e292cb2--florana.netlify.app",
+    }
+
+    for origin in configured_origins.split(","):
+        normalized_origin = origin.strip().rstrip("/")
+        if normalized_origin:
+            origins.add(normalized_origin)
+
+    return sorted(origins)
+
+
+ALLOWED_ORIGINS = _parse_allowed_origins()
+ALLOWED_ORIGIN_REGEX = r"^https:\/\/[A-Za-z0-9.-]+\.(?:vercel\.app|netlify\.app)$"
 
 # Static files for uploaded images
 UPLOAD_DIR = "uploads"
@@ -80,8 +104,9 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 # CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
+    allow_origins=["*"] if CORS_ALLOW_ALL else ALLOWED_ORIGINS,
+    allow_origin_regex=None if CORS_ALLOW_ALL else ALLOWED_ORIGIN_REGEX,
+    allow_credentials=False if CORS_ALLOW_ALL else True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -102,6 +127,11 @@ def startup_event():
     print(f"Docs: {base_url.rstrip('/')}/docs")
     print(f"Health: {api_url}/health")
     print(f"Database: {database.connection_status}")
+    if CORS_ALLOW_ALL:
+        print("Allowed origins: *")
+    else:
+        print(f"Allowed origins: {', '.join(ALLOWED_ORIGINS)}")
+        print(f"Allowed origin regex: {ALLOWED_ORIGIN_REGEX}")
     paypal_status = log_paypal_status()
 
     if not paypal_status["configured"]:

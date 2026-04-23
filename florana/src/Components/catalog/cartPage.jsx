@@ -9,6 +9,7 @@ import PayPalButton from "../PayPalButton/PayPalButton";
 import {
   confirmPaymentOrder,
   createPaymentOrder,
+  getApiErrorMessage,
   getPaymentOrder,
   sendPaymentOtp,
   verifyPaymentOtp,
@@ -255,7 +256,7 @@ export default function CartPage() {
         syncOrderState(response.data?.order);
       } catch (error) {
         window.clearInterval(pollingRef.current);
-        showStatus(error.response?.data?.detail || "Unable to refresh payment status.");
+        showStatus(getApiErrorMessage(error));
       }
     }, 1500);
   };
@@ -324,7 +325,7 @@ export default function CartPage() {
       setStep(1);
       showStatus("Payment method selected. Verify your phone to continue.");
     } catch (error) {
-      showStatus(error.response?.data?.detail || "Unable to prepare payment.");
+      showStatus(getApiErrorMessage(error));
     } finally {
       setBusy(false);
     }
@@ -343,7 +344,7 @@ export default function CartPage() {
       syncOrderState(response.data?.order);
       showStatus(`OTP sent. Demo code: ${response.data?.demo_otp || "check backend"}`);
     } catch (error) {
-      showStatus(error.response?.data?.detail || "Unable to send OTP.");
+      showStatus(getApiErrorMessage(error));
     } finally {
       setBusy(false);
     }
@@ -361,7 +362,7 @@ export default function CartPage() {
       syncOrderState(response.data?.order);
       showStatus("Phone verified.");
     } catch (error) {
-      showStatus(error.response?.data?.detail || "Unable to verify OTP.");
+      showStatus(getApiErrorMessage(error));
     } finally {
       setBusy(false);
     }
@@ -387,7 +388,7 @@ export default function CartPage() {
         showStatus("Order confirmed.");
       }
     } catch (error) {
-      showStatus(error.response?.data?.detail || "Unable to confirm payment.");
+      showStatus(getApiErrorMessage(error));
     } finally {
       setBusy(false);
     }

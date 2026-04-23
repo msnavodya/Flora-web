@@ -1,11 +1,12 @@
 # utils/security.py
+import os
 from passlib.context import CryptContext
 from passlib.exc import UnknownHashError
 from datetime import datetime, timedelta
 from jose import jwt
 
-SECRET_KEY = "your_secret_key_here"
-ALGORITHM = "HS256"
+SECRET_KEY = os.getenv("JWT_SECRET_KEY", "florana-dev-secret-key")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 
 # Use pbkdf2_sha256 as the default hasher to avoid bcrypt backend issues on this setup.
 # Keep bcrypt in the list so previously-created bcrypt hashes can still be verified.

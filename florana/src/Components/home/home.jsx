@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Menu as MenuIcon } from "lucide-react";
-import { predictImage } from "../../api";
+import { getApiErrorMessage, predictImage } from "../../api";
 import { useTranslation } from "../language/LanguageContext";
 import logo from "../Assets/floranalogo.jpg";
 import LanguageSelector from "../language/LanguageSelector";
@@ -107,7 +107,7 @@ export default function Home() {
       const status = isHealthy ? "Healthy Plant" : "Unhealthy Plant - Disease Detected";
       setDiagnosis(`${status} (${prediction}) - Confidence: ${percent}%`);
     } catch (error) {
-      setDiagnosis(`Error: ${error.response?.data?.detail || "Backend not reachable"}`);
+      setDiagnosis(`Error: ${getApiErrorMessage(error)}`);
     } finally {
       setLoading(false);
       event.target.value = "";

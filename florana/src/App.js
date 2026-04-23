@@ -26,6 +26,7 @@ import Predict from "./Components/predict/predict";
 
 import Menu from "./Components/menu/menu";
 import TopBar from "./Components/topbar/topbar";
+import { warmUpBackend } from "./api";
 import "./mobileButtons.css";
 
 const NotFound = () => (
@@ -48,6 +49,12 @@ const AppLayout = () => {
     } else {
       applyFont("Medium");
     }
+  }, []);
+
+  useEffect(() => {
+    warmUpBackend().catch((error) => {
+      console.warn("[Florana API] Warm-up request failed:", error.message);
+    });
   }, []);
 
   const applyFont = (size) => {

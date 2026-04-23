@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Menu, ShoppingCart, WalletCards } from "lucide-react";
-import { buildApiUrl, createProduct, deleteProduct, getProducts } from "../../api";
+import { buildApiUrl, createProduct, deleteProduct, getApiErrorMessage, getProducts } from "../../api";
 import { useTranslation } from "../language/LanguageContext";
 import autumnImg from "../Assets/autumnflower.jpg";
 import springImg from "../Assets/springflower.jpg";
@@ -129,6 +129,7 @@ export default function Catalog() {
     } catch (error) {
       console.error("Fetch error:", error);
       setProducts([]);
+      showStatus(getApiErrorMessage(error));
     }
   };
 
@@ -171,7 +172,7 @@ export default function Catalog() {
       showStatus("Plant listed successfully.");
     } catch (error) {
       console.error(error);
-      showStatus(error.response?.data?.detail || "Upload failed.");
+      showStatus(getApiErrorMessage(error));
     }
   };
 

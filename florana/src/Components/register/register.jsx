@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Menu as MenuIcon } from "lucide-react";
 import Menu from "../menu/menu";
 import LanguageSelector from "../language/LanguageSelector";
-import { createPlant } from "../../api";
+import { createPlant, getApiErrorMessage } from "../../api";
 import "./register.css";
 
 export default function Register() {
@@ -89,7 +89,7 @@ export default function Register() {
       navigate(`/flower/${encodeURIComponent(plantName)}`);
     } catch (error) {
       console.error("FULL ERROR:", error.response?.data || error.message);
-      alert(error.response?.data?.detail || "Failed to register plant");
+      alert(getApiErrorMessage(error));
     }
   };
 

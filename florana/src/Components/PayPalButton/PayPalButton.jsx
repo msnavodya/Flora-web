@@ -6,12 +6,10 @@ export default function PayPalButton({ items, currency = "USD", onSuccess, onErr
   const [clientId, setClientId] = useState("");
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
-  const [debugMessage, setDebugMessage] = useState("");
 
   const loadConfig = async (mountedRef) => {
     setLoading(true);
     setErrorMessage("");
-    setDebugMessage("");
     try {
       const response = await getPayPalConfig();
       if (!mountedRef.current) {
@@ -22,9 +20,6 @@ export default function PayPalButton({ items, currency = "USD", onSuccess, onErr
       if (!mountedRef.current) {
         return;
       }
-      const detail = error.response?.data?.detail;
-      const debugDetail = typeof detail === "string" ? detail : JSON.stringify(detail || {});
-      setDebugMessage(debugDetail);
       setErrorMessage("PayPal is temporarily unavailable. Check backend Sandbox credentials and try again.");
       onError?.("PayPal configuration could not be loaded.");
     } finally {
@@ -50,10 +45,10 @@ export default function PayPalButton({ items, currency = "USD", onSuccess, onErr
     () =>
       items.map((item) => ({
         id: String(item.id || item._id || item.name),
-        name: item.name,
+        name: item.name || "Plant",
         price: Number(item.price || 0),
         quantity: Number(item.quantity || 1),
-      })),
+      })).filter((item) => item.price >= 0 && item.quantity > 0),
     [items]
   );
 
@@ -65,16 +60,15 @@ export default function PayPalButton({ items, currency = "USD", onSuccess, onErr
     return (
       <div>
         <p className="drawer-copy">{errorMessage || "PayPal is not configured."}</p>
-        <button
-          type="button"
-          className="pay-btn"
-          onClick={() => loadConfig({ current: true })}
-        >
+        <button type="button" className="pay-btn" onClick={() => loadConfig({ current: true })}>
           Retry PayPal
         </button>
-        {debugMessage ? <p className="drawer-copy">Debug: {debugMessage}</p> : null}
       </div>
     );
+  }
+
+  if (normalizedItems.length === 0) {
+    return <p className="drawer-copy">Add at least one item before using PayPal.</p>;
   }
 
   return (
@@ -89,14 +83,21 @@ export default function PayPalButton({ items, currency = "USD", onSuccess, onErr
       <PayPalButtons
         style={{ layout: "vertical", label: "paypal", shape: "pill" }}
         createOrder={async () => {
-          const response = await createPayPalOrder({
-            items: normalizedItems,
-            currency,
-          });
-          return response.data.id;
+          try {
+            setErrorMessage("");
+            const response = await createPayPalOrder({ items: normalizedItems, currency });
+            return response.data.id;
+          } catch (error) {
+            const detail = error.response?.data?.detail;
+            const message = typeof detail === "string" ? detail : "Unable to create PayPal order.";
+            setErrorMessage(message);
+            onError?.(message);
+            throw error;
+          }
         }}
         onApprove={async (data) => {
           try {
+            setErrorMessage("");
             const response = await capturePayPalOrder(data.orderID);
             onSuccess?.(response.data);
           } catch (error) {
