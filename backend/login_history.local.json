@@ -40,5 +40,65 @@
     "user_id": "b24bb147-75a5-42ea-ae25-86473981289f",
     "login_time": "2026-04-22T06:52:20.263425",
     "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "codex-test-login@example.com",
+    "user_id": "001af20f-f532-47a4-adb6-36ce39a88b29",
+    "login_time": "2026-04-23T03:24:43.768899",
+    "ip_address": "testclient"
+  },
+  {
+    "user_email": "debug-login-check@example.com",
+    "user_id": "f338ede5-dfef-46e2-9328-97da4b537b86",
+    "login_time": "2026-04-23T03:41:52.930393",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "debug-login-check@example.com",
+    "user_id": "f338ede5-dfef-46e2-9328-97da4b537b86",
+    "login_time": "2026-04-23T03:45:25.722982",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "codex-test-login@example.com",
+    "user_id": "001af20f-f532-47a4-adb6-36ce39a88b29",
+    "login_time": "2026-04-23T03:45:27.760410",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "saz@gmail.com",
+    "user_id": "55527d95-cf4a-4fb4-9ea6-52d8bb6ce86f",
+    "login_time": "2026-04-23T03:47:36.202132",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "saz@gmail.com",
+    "user_id": "55527d95-cf4a-4fb4-9ea6-52d8bb6ce86f",
+    "login_time": "2026-04-23T03:49:46.759271",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "saz@gmail.com",
+    "user_id": "55527d95-cf4a-4fb4-9ea6-52d8bb6ce86f",
+    "login_time": "2026-04-23T03:50:30.130942",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "saz@gmail.com",
+    "user_id": "55527d95-cf4a-4fb4-9ea6-52d8bb6ce86f",
+    "login_time": "2026-04-23T03:50:39.362616",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "chathu@gmail.com",
+    "user_id": "b24bb147-75a5-42ea-ae25-86473981289f",
+    "login_time": "2026-04-23T03:50:50.580308",
+    "ip_address": "127.0.0.1"
+  },
+  {
+    "user_email": "chathu@gmail.com",
+    "user_id": "b24bb147-75a5-42ea-ae25-86473981289f",
+    "login_time": "2026-04-23T03:53:11.222617",
+    "ip_address": "127.0.0.1"
   }
 ]

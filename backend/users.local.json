@@ -3,7 +3,7 @@
     "_id": "55527d95-cf4a-4fb4-9ea6-52d8bb6ce86f",
     "full_name": "saz",
     "email": "saz@gmail.com",
-    "hashed_password": "$pbkdf2-sha256$29000$lhJirJVyjtG613qPkdI6Bw$XZK0NC1vO1AsnSRn5anINXgpChKhqXdmpUKSwa3uHZk",
+    "hashed_password": "$pbkdf2-sha256$29000$U8o5h7A2RghBiFHKeW/tfQ$g6g1adjsDwGfQnEOaBCnQvwdTWuouIbHTGES1XXxowg",
     "contact": "0773560080",
     "location": "Matara",
     "created_at": "2026-04-15T00:45:56.876033",
@@ -17,6 +17,26 @@
     "contact": "0773560080",
     "location": "Negombo",
     "created_at": "2026-04-22T03:35:12.470759",
+    "is_active": true
+  },
+  {
+    "_id": "001af20f-f532-47a4-adb6-36ce39a88b29",
+    "full_name": "Codex Test",
+    "email": "codex-test-login@example.com",
+    "hashed_password": "$pbkdf2-sha256$29000$GgOAMAZgTCkF4Byj9L63Ng$vOf.qjsFMYt7cCL6qJmJKbJpcpH0FuO7tZ.Nn8.aC.8",
+    "contact": "0771234567",
+    "location": "Colombo",
+    "created_at": "2026-04-23T03:24:43.724412",
+    "is_active": true
+  },
+  {
+    "_id": "f338ede5-dfef-46e2-9328-97da4b537b86",
+    "full_name": "Debug Login",
+    "email": "debug-login-check@example.com",
+    "hashed_password": "$pbkdf2-sha256$29000$dg6hVAohpLSWkpJy7j0HYA$RTsHpNRBBfJgzrs4tpVGPMlE3KfkEJIvmd1m7TcUZHU",
+    "contact": "0770000000",
+    "location": "Colombo",
+    "created_at": "2026-04-23T03:41:50.814263",
     "is_active": true
   }
 ]
