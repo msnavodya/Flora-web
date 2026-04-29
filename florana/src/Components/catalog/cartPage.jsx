@@ -417,50 +417,53 @@ export default function CartPage() {
       <div className="cart-page mobile-frame">
         <div className="cart-scroll mobile-panel">
           <div className="nav">
-            <button className="back-btn" aria-label="Go back" onClick={handleBack}>
-              <ArrowLeft size={18} />
-            </button>
+            <div className="cart-top-row">
+              <button className="back-btn" aria-label="Go back" onClick={handleBack}>
+                <ArrowLeft size={18} />
+              </button>
+
+              <div className="cart-toolbar">
+                <LanguageSelector />
+
+                <button className="cart-icon-btn compact-cart-btn" aria-label="Cart overview">
+                  <ShoppingBag size={16} />
+                  {cartItems.length > 0 ? <span className="catalog-cart-badge">{cartItems.length}</span> : null}
+                </button>
+
+                <label className="cart-currency-pill" aria-label="Currency converter">
+                  <span className="currency-icon" aria-hidden="true">
+                    <WalletCards size={14} />
+                  </span>
+                  <select
+                    className="currency-mini"
+                    value={currency}
+                    onChange={(event) => setCurrency(event.target.value)}
+                  >
+                    <option value="LKR">Rs.</option>
+                    <option value="USD">$</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </label>
+
+                <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+                  <Menu size={18} />
+                </button>
+              </div>
+            </div>
 
             <div className="cart-title-wrap">
               <p className="cart-eyebrow">{copy.checkout}</p>
               <h3 className="cart-heading">{copy.myCart}</h3>
-            </div>
-
-            <div className="cart-toolbar">
-              <LanguageSelector />
-
-              <button className="cart-icon-btn compact-cart-btn" aria-label="Cart overview">
-                <ShoppingBag size={16} />
-                {cartItems.length > 0 ? <span className="catalog-cart-badge">{cartItems.length}</span> : null}
-              </button>
-
-              <label className="cart-currency-pill" aria-label="Currency converter">
-                <span className="currency-icon" aria-hidden="true">
-                  <WalletCards size={14} />
-                </span>
-                <select
-                  className="currency-mini"
-                  value={currency}
-                  onChange={(event) => setCurrency(event.target.value)}
-                >
-                  <option value="LKR">Rs.</option>
-                  <option value="USD">$</option>
-                  <option value="EUR">EUR</option>
-                </select>
-              </label>
-
-              <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
-                <Menu size={18} />
-              </button>
+              <p className="cart-subtitle">Review your flowers, confirm totals, and finish checkout with confidence.</p>
             </div>
           </div>
 
           <div className="cart-summary-card">
-            <div>
+            <div className="summary-block">
               <p>{copy.itemsInCart}</p>
               <strong>{cartItems.length}</strong>
             </div>
-            <div>
+            <div className="summary-block summary-total">
               <p>{copy.total}</p>
               <strong className="currency-text">{formatPrice(total)}</strong>
             </div>
@@ -475,7 +478,8 @@ export default function CartPage() {
 
                 return (
                   <div key={itemKey} className="item">
-                    <div>
+                    <div className="item-copy">
+                      <span className="item-tag">Plant item</span>
                       <h4>{item.name}</h4>
                       <p className="currency-text">{formatPrice(item.price)}</p>
                     </div>
@@ -498,7 +502,7 @@ export default function CartPage() {
           </div>
 
           {cartItems.length > 0 ? (
-            <button className="checkout-btn" onClick={beginCheckout} disabled={busy}>
+            <button className="checkout-btn cart-primary-btn" onClick={beginCheckout} disabled={busy}>
               {busy ? copy.preparing : copy.proceed}
             </button>
           ) : null}

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   AlarmClock,
   CircleHelp,
@@ -33,30 +33,23 @@ const menuItems = [
 
 export default function Menu({ isOpen, onClose }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const goTo = (path) => {
     navigate(path);
-    onClose();
+    onClose?.();
   };
 
   const handleLogout = () => {
     logoutUser();
     navigate("/");
-    onClose();
+    onClose?.();
   };
 
   return (
-    <div
-      className={`menu-overlay ${isOpen ? "show" : ""}`}
-      onClick={onClose}
-      aria-hidden={!isOpen}
-    >
-      <aside
-        className={`menu-container ${isOpen ? "open" : ""}`}
-        onClick={(event) => event.stopPropagation()}
-        aria-label="Main navigation"
-      >
-        <button className="menu-close-btn" aria-label="Close menu" onClick={onClose}>
+    <div className={`menu-overlay ${isOpen ? "show" : ""}`} onClick={onClose} aria-hidden={!isOpen}>
+      <aside className={`menu-container ${isOpen ? "open" : ""}`} onClick={(event) => event.stopPropagation()}>
+        <button type="button" className="menu-close-btn" aria-label="Close menu" onClick={onClose}>
           <X size={18} />
         </button>
 
@@ -71,9 +64,15 @@ export default function Menu({ isOpen, onClose }) {
         <div className="menu-items">
           {menuItems.map((item) => {
             const Icon = item.icon;
+            const isActive = location.pathname === item.path;
 
             return (
-              <button key={item.path} className="menu-item" onClick={() => goTo(item.path)}>
+              <button
+                type="button"
+                key={item.path}
+                className={`menu-item ${isActive ? "active" : ""}`}
+                onClick={() => goTo(item.path)}
+              >
                 <span className="icon-shell">
                   <Icon size={18} strokeWidth={2.2} />
                 </span>
@@ -82,7 +81,7 @@ export default function Menu({ isOpen, onClose }) {
             );
           })}
 
-          <button onClick={handleLogout} className="menu-item logout">
+          <button type="button" onClick={handleLogout} className="menu-item logout">
             <span className="icon-shell">
               <LogOut size={18} strokeWidth={2.2} />
             </span>

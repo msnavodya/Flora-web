@@ -12,5 +12,180 @@
     "prediction": "Botrytis",
     "confidence": 0.9999991655349731,
     "date": "2026-04-22T05:36:06.361883"
+  },
+  {
+    "_id": "98c424b7-5d16-43a3-a5a5-02004eb528c2",
+    "image_name": "20260423100128_20210603_072804_jpg.rf.3dad16f2e5ce2d4ac9c7c044a1ab3765-v7w7os.jpg",
+    "prediction": "Botrytis",
+    "confidence": 0.9998217225074768,
+    "date": "2026-04-23T04:31:28.561034"
+  },
+  {
+    "_id": "0aa18a67-dd06-435d-a174-c38764f516a7",
+    "image_name": "20260423100232_a.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:32:32.037991"
+  },
+  {
+    "_id": "09b4e947-2089-4a28-99fc-ef04c4b12e7e",
+    "image_name": "20260423100645_a.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:36:45.565168"
+  },
+  {
+    "_id": "1d4adca1-f57a-4686-bb31-ea8ffe0fbf0c",
+    "image_name": "20260423100712_Fresh leaf(2).jpg",
+    "prediction": "Leaf Spot",
+    "confidence": 0.8347637057304382,
+    "date": "2026-04-23T04:37:12.522697"
+  },
+  {
+    "_id": "e7970f3f-7167-44bc-b7ae-fa1742b42ba7",
+    "image_name": "20260423100728_Black Spot (1).jpg",
+    "prediction": "Healthy Plant",
+    "confidence": 0.9397485256195068,
+    "date": "2026-04-23T04:37:28.102712"
+  },
+  {
+    "_id": "ee98ee18-6a15-4c01-b3f4-613810d2f18e",
+    "image_name": "20260423100745_Black Spot (8).jpg",
+    "prediction": "Healthy Plant",
+    "confidence": 0.5245190262794495,
+    "date": "2026-04-23T04:37:45.853379"
+  },
+  {
+    "_id": "d7212c67-9f79-4dca-98fa-d42347177779",
+    "image_name": "20260423101020_Black Spot (1).jpg",
+    "prediction": "Healthy Plant",
+    "confidence": 0.9397485256195068,
+    "date": "2026-04-23T04:40:20.249991"
+  },
+  {
+    "_id": "740de6ea-c4a7-4559-823a-eb6ed88d8e6b",
+    "image_name": "20260423101209_Black Spot (10).jpg",
+    "prediction": "Leaf Spot",
+    "confidence": 0.6037740111351013,
+    "date": "2026-04-23T04:42:09.676797"
+  },
+  {
+    "_id": "7909082c-9ecf-434d-a210-38ae9ea02f8f",
+    "image_name": "20260423101219_a.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:42:19.367257"
+  },
+  {
+    "_id": "0d812be3-dc2b-44d7-8144-ede91d7e73cf",
+    "image_name": "20260423101235_Fresh leaf(10).jpg",
+    "prediction": "Healthy Plant",
+    "confidence": 0.8564950823783875,
+    "date": "2026-04-23T04:42:35.145915"
+  },
+  {
+    "_id": "fe3b7d72-2ccd-4bf2-8798-4e881d004efd",
+    "image_name": "20260423101252_brightened_IMG_20230703_213438.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:42:52.147533"
+  },
+  {
+    "_id": "6a8434dd-986f-4426-acd6-2edb416d1509",
+    "image_name": "20260423101302_Downy Mildew  (1).jpg",
+    "prediction": "Powdery Mildew",
+    "confidence": 0.999830961227417,
+    "date": "2026-04-23T04:43:02.228278"
+  },
+  {
+    "_id": "71f9af9e-2d7e-4f89-b403-7ed97db92cf2",
+    "image_name": "20260423101313_brightened_IMG_20230703_212530.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:43:13.321101"
+  },
+  {
+    "_id": "8229954b-36ac-498c-9d87-f9f8b202ee7c",
+    "image_name": "20260423101323_flipped_horizontal_IMG_20230703_212924.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:43:23.144493"
+  },
+  {
+    "_id": "8ff35718-cc6c-4788-9e46-9d2c7c017dc9",
+    "image_name": "20260423101612_brightened_IMG_20230703_212924.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:46:12.943248"
+  },
+  {
+    "_id": "46b5ffe6-3261-42c1-9eba-010f91ac9836",
+    "image_name": "20260423101626_gamma_corrected_IMG_20230703_212530.jpg",
+    "prediction": "Rust",
+    "confidence": 0.9999994039535522,
+    "date": "2026-04-23T04:46:26.912461"
+  },
+  {
+    "_id": "256d1a5b-a019-4372-bda2-3015018925a8",
+    "image_name": "20260423102828_brightened_IMG_20230703_212924.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:58:28.439646"
+  },
+  {
+    "_id": "d8ad6cea-abaa-4e65-bae4-0b7192f89d28",
+    "image_name": "20260423103526_flipped_horizontal_IMG_20230703_212716.jpg",
+    "prediction": "Rust",
+    "confidence": 0.9999995231628418,
+    "date": "2026-04-23T05:05:26.241448"
+  },
+  {
+    "_id": "55f5c669-8bdb-4f5c-a92c-7d3a7d706204",
+    "image_name": "20260423105906_flipped_horizontal_IMG_20230703_212716.jpg",
+    "prediction": "Rust",
+    "confidence": 0.9999995231628418,
+    "date": "2026-04-23T05:29:06.608654"
+  },
+  {
+    "_id": "8542bfd4-76d1-4ca0-8af7-007748c4f7e5",
+    "image_name": "20260423105922_brightened_IMG_20230703_212348.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T05:29:22.572295"
+  },
+  {
+    "_id": "f574b8f4-f6f0-4e70-ba94-78b42a219710",
+    "image_name": "20260423105945_Downy Mildew  (6).jpg",
+    "prediction": "Powdery Mildew",
+    "confidence": 0.9995840191841125,
+    "date": "2026-04-23T05:29:45.860556"
+  },
+  {
+    "_id": "7471de20-8d92-4cef-8384-87d0cb3f5602",
+    "image_name": "20260425132114_brightened_IMG_20230703_213438.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-25T07:51:14.821957"
+  },
+  {
+    "_id": "587051d8-4d24-46c7-91a2-c22f6619a1b6",
+    "image_name": "20260427104529_20210603_072804_jpg.rf.3dad16f2e5ce2d4ac9c7c044a1ab3765-v7w7os.jpg",
+    "prediction": "Botrytis",
+    "confidence": 0.9998217225074768,
+    "date": "2026-04-27T05:15:29.712343"
+  },
+  {
+    "_id": "b9ee6f22-5a19-4fb4-aac5-5c1343df75c6",
+    "image_name": "20260427135231_brightened_IMG_20230703_213727_1.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-27T08:22:31.697492"
+  },
+  {
+    "_id": "ec1da2a0-4d18-4880-aa3b-a15cd5b677af",
+    "image_name": "20260427154402_brightened_IMG_20230703_213438.jpg",
+    "prediction": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-27T10:14:02.575751"
   }
 ]

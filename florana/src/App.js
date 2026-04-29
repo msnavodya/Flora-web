@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import { LanguageProvider, useTranslation } from "./Components/language/LanguageContext";
 
 import LoginPage from "./Components/login/login";
@@ -24,10 +24,9 @@ import QuickTip from "./Components/quicktip/quicktip";
 
 import Predict from "./Components/predict/predict";
 
-import Menu from "./Components/menu/menu";
-import TopBar from "./Components/topbar/topbar";
 import { warmUpBackend } from "./api";
 import "./mobileButtons.css";
+import "./Components/mobile/mobilePage.css";
 
 const NotFound = () => (
   <div style={{ textAlign: "center", padding: "50px" }}>
@@ -37,8 +36,6 @@ const NotFound = () => (
 );
 
 const AppLayout = () => {
-  const location = useLocation();
-  const [menuOpen, setMenuOpen] = useState(false);
   const { language } = useTranslation();
 
   useEffect(() => {
@@ -65,14 +62,8 @@ const AppLayout = () => {
     document.documentElement.style.fontSize = value;
   };
 
-  const authRoutes = ["/", "/signin", "/signup"];
-  const showLayout = !authRoutes.includes(location.pathname);
-
   return (
     <div className="app-container" style={{ minHeight: "100vh" }} data-language={language}>
-      {showLayout && <TopBar onMenuClick={() => setMenuOpen(true)} />}
-      {showLayout && <Menu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />}
-
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/signin" element={<SignInForm />} />

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Home, Menu, Settings as SettingsIcon } from "lucide-react";
+import { Home, Menu, Settings as SettingsIcon } from "lucide-react";
 import { logoutUser } from "../../api";
-import LanguageSelector from "../language/LanguageSelector";
 import MenuPanel from "../menu/menu";
 import { useTranslation } from "../language/LanguageContext";
+import { MobileActionButton, MobilePage, MobileSection } from "../mobile/MobilePage";
 import "./settings.css";
 
 const defaultSettings = {
@@ -167,39 +167,34 @@ export default function Settings() {
   };
 
   return (
-    <div className="settings-page mobile-screen">
+    <>
       <MenuPanel isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-
-      <div className="settings-shell mobile-frame">
-        <div className="settings-scroll mobile-panel">
-          <LanguageSelector />
-
-          <div className="settings-topbar">
-            <button className="back-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-              <ArrowLeft size={18} />
+      <MobilePage
+        pageClassName="settings-page"
+        surfaceClassName="settings-shell"
+        title={t("settings")}
+        subtitle="Adjust your app experience, reminders, and saved device data."
+        onBack={() => navigate(-1)}
+        rightActions={
+          <>
+            <button className="settings-home-btn" onClick={() => navigate("/home")}>
+              <Home size={16} />
+              <span>Home</span>
             </button>
-
-            <div className="settings-topbar-actions">
-              <button className="settings-home-btn" onClick={() => navigate("/home")}>
-                <Home size={16} />
-                <span>Home</span>
-              </button>
-
-              <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
-                <Menu size={18} />
-              </button>
-            </div>
-          </div>
-
+            <button className="menu-btn app-icon-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+              <Menu size={18} />
+            </button>
+          </>
+        }
+      >
+        <div className="settings-scroll-view">
           <div className="settings-hero">
             <div className="settings-hero-icon">
               <SettingsIcon size={22} />
             </div>
             <p className="settings-eyebrow">Florana Workspace</p>
-            <h1 className="settings-title">{t("settings")}</h1>
-            <p className="settings-subtitle">
-              Adjust your app experience, keep reminders organized, and manage your device data in one place.
-            </p>
+            <h2 className="settings-title">{t("settings")}</h2>
+            <p className="settings-subtitle">Keep your app organized and comfortable on this device.</p>
 
             <div className="settings-profile-card">
               <div>
@@ -208,16 +203,16 @@ export default function Settings() {
                 <p>{user?.email || "No account email found on this device."}</p>
               </div>
 
-              <button className="settings-ghost-btn" onClick={() => navigate("/profile")}>
+              <MobileActionButton className="settings-ghost-btn secondary" onClick={() => navigate("/profile")}>
                 View Profile
-              </button>
+              </MobileActionButton>
             </div>
           </div>
 
           {status ? <div className="settings-status">{status}</div> : null}
 
           <div className="settings-grid">
-            <section className="settings-panel">
+            <MobileSection className="settings-panel">
               <div className="panel-heading">
                 <p className="panel-eyebrow">{t("display")}</p>
                 <h3>Look and language</h3>
@@ -244,9 +239,9 @@ export default function Settings() {
                   ))}
                 </select>
               </label>
-            </section>
+            </MobileSection>
 
-            <section className="settings-panel">
+            <MobileSection className="settings-panel">
               <div className="panel-heading">
                 <p className="panel-eyebrow">{t("notifications")}</p>
                 <h3>Reminder controls</h3>
@@ -281,9 +276,9 @@ export default function Settings() {
                   {settings.weeklySummary ? "On" : "Off"}
                 </span>
               </button>
-            </section>
+            </MobileSection>
 
-            <section className="settings-panel">
+            <MobileSection className="settings-panel">
               <div className="panel-heading">
                 <p className="panel-eyebrow">Shortcuts</p>
                 <h3>Open real app screens</h3>
@@ -311,9 +306,9 @@ export default function Settings() {
                   Contact support
                 </button>
               </div>
-            </section>
+            </MobileSection>
 
-            <section className="settings-panel">
+            <MobileSection className="settings-panel">
               <div className="panel-heading">
                 <p className="panel-eyebrow">{t("privacy_security")}</p>
                 <h3>Stored data</h3>
@@ -333,9 +328,9 @@ export default function Settings() {
                   {t("clear_search_history")}
                 </button>
               </div>
-            </section>
+            </MobileSection>
 
-            <section className="settings-panel settings-panel-danger">
+            <MobileSection className="settings-panel settings-panel-danger">
               <div className="panel-heading">
                 <p className="panel-eyebrow">Account</p>
                 <h3>Reset or sign out</h3>
@@ -349,10 +344,10 @@ export default function Settings() {
                   Sign out
                 </button>
               </div>
-            </section>
+            </MobileSection>
           </div>
         </div>
-      </div>
-    </div>
+      </MobilePage>
+    </>
   );
 }

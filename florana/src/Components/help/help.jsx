@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Menu as MenuIcon } from "lucide-react";
+import { Mail, Menu as MenuIcon, MessageSquareText, Sparkles } from "lucide-react";
 import { useTranslation } from "../language/LanguageContext";
-import LanguageSelector from "../language/LanguageSelector";
 import Menu from "../menu/menu";
 import logo from "../Assets/floranalogo.jpg";
+import { MobileActionButton, MobilePage, MobileSection } from "../mobile/MobilePage";
 import "./help.css";
 
 export default function Help() {
@@ -13,39 +13,58 @@ export default function Help() {
   const { t } = useTranslation();
 
   return (
-    <div className="help-wrapper">
+    <>
       <Menu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-      <LanguageSelector />
-      <div className="help-container">
-        <div className="help-topbar">
-          <button className="back-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-            <ArrowLeft size={18} />
-          </button>
-
-          <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+      <MobilePage
+        pageClassName="help-wrapper"
+        surfaceClassName="help-container"
+        title={t("help_support")}
+        subtitle="Support, quick fixes, and direct contact in one place."
+        rightActions={
+          <button className="menu-btn app-icon-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
             <MenuIcon size={18} />
           </button>
+        }
+      >
+        <div className="help-scroll-view">
+          <img src={logo} alt="Florana Logo" className="help-logo" />
+
+          <MobileSection className="help-card">
+            <div className="help-card-heading">
+              <Sparkles size={18} />
+              <h3>{t("app_not_working")}</h3>
+            </div>
+            <p>{t("app_restart_hint")}</p>
+            <MobileActionButton onClick={() => navigate("/quicktip")}>Open Quick Tip</MobileActionButton>
+          </MobileSection>
+
+          <MobileSection className="help-card">
+            <div className="help-card-heading">
+              <Mail size={18} />
+              <h3>{t("contact_support_card")}</h3>
+            </div>
+            <p>Email: support@florana.com</p>
+            <MobileActionButton
+              onClick={() => {
+                window.location.href = "mailto:support@florana.com?subject=Florana%20Support";
+              }}
+            >
+              Contact Support
+            </MobileActionButton>
+          </MobileSection>
+
+          <MobileSection className="help-card">
+            <div className="help-card-heading">
+              <MessageSquareText size={18} />
+              <h3>{t("faq_center")}</h3>
+            </div>
+            <p>{t("share_your_thoughts")}</p>
+            <MobileActionButton className="secondary" onClick={() => navigate("/feedback")}>
+              Send Feedback
+            </MobileActionButton>
+          </MobileSection>
         </div>
-
-        <img src={logo} alt="Florana Logo" className="help-logo" />
-
-        <h2 className="help-title">{t("help_support")}</h2>
-
-        <div className="card help-card">
-          <h3>🔧 {t("app_not_working")}</h3>
-          <p>{t("app_restart_hint")}</p>
-        </div>
-
-        <div className="card help-card">
-          <h3>📩 {t("contact_support_card")}</h3>
-          <p>Email: support@florana.com</p>
-        </div>
-
-        <div className="card help-card">
-          <h3>📘 {t("faq_center")}</h3>
-          <p>{t("share_your_thoughts")}</p>
-        </div>
-      </div>
-    </div>
+      </MobilePage>
+    </>
   );
 }

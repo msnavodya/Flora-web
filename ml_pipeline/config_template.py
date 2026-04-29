@@ -24,7 +24,9 @@ DATASET_CONFIG = {
 MODEL_CONFIG = {
     "epochs": 15,
     "learning_rate": 0.001,
-    "model_save_path": "./model.h5",
+    "model_save_path": "../backend/ai/plant_disease_model.keras",
+    "best_model_path": "./best_model.keras",
+    "class_names_save_path": "../backend/ai/class_names.json",
     "log_dir": "./logs"
 }
 

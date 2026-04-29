@@ -72,6 +72,17 @@ load_paypal_environment()
 app = FastAPI(title="Florana Backend")
 API_PREFIX = "/api"
 CORS_ALLOW_ALL = os.getenv("CORS_ALLOW_ALL", "true").strip().lower() not in {"0", "false", "no"}
+HEALTHY_CLASSES = {"fresh leaf", "healthy", "healthy plant", "healthy leaf rose", "apple healthy"}
+DISPLAY_LABELS = {
+    "Fresh Leaf": "Healthy Plant",
+    "Healthy_Leaf_Rose": "Healthy Plant",
+    "Leaf_Spot": "Leaf Spot",
+    "Powdery_Mildew": "Powdery Mildew",
+    "Rose_Rust": "Rose Rust",
+    "Rose_sawfly_Rose_slug": "Rose Sawfly Rose Slug",
+    "Apple_healthy": "Healthy Plant",
+    "Apple_disease": "Apple Disease",
+}
 
 
 def _parse_allowed_origins():
@@ -173,6 +184,12 @@ def health_check():
         "server": "Florana Backend",
         "database": db_status,
         "paypal": get_paypal_status(),
+        "ai_model": {
+            "loaded": model is not None,
+            "status": "ready" if model is not None else "unavailable",
+            "path": MODEL_PATH,
+            "classes": len(class_names),
+        },
         "timestamp": datetime.now().isoformat(),
     }
 
@@ -266,10 +283,32 @@ def predict_image(file_bytes: bytes):
     img = img.resize((224, 224))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0) / 255.0
-    prediction = model.predict(img_array)
-    class_index = int(np.argmax(prediction))
-    confidence = float(np.max(prediction))
-    return class_names.get(class_index, "Unknown"), confidence
+    prediction_scores = model.predict(img_array, verbose=0)[0]
+    class_index = int(np.argmax(prediction_scores))
+    raw_label = class_names.get(class_index, "Unknown")
+    display_label = DISPLAY_LABELS.get(raw_label, raw_label.replace("_", " "))
+    confidence = float(np.max(prediction_scores))
+    confidence_percent = round(confidence * 100, 2)
+    is_healthy = raw_label.strip().lower() in HEALTHY_CLASSES
+    top_indexes = np.argsort(prediction_scores)[::-1][:3]
+    top_predictions = [
+        {
+            "label": DISPLAY_LABELS.get(class_names.get(int(index), "Unknown"), class_names.get(int(index), "Unknown").replace("_", " ")),
+            "raw_label": class_names.get(int(index), "Unknown"),
+            "confidence": round(float(prediction_scores[int(index)]), 4),
+            "confidence_percent": round(float(prediction_scores[int(index)]) * 100, 2),
+        }
+        for index in top_indexes
+    ]
+
+    return {
+        "prediction": display_label,
+        "raw_prediction": raw_label,
+        "is_healthy": is_healthy,
+        "confidence": confidence,
+        "confidence_percent": confidence_percent,
+        "top_predictions": top_predictions,
+    }
 
 
 # ----------------- AI ROUTES -----------------
@@ -278,18 +317,17 @@ async def predict(file: UploadFile = File(...)):
     if not file.filename.lower().endswith((".jpg", ".jpeg", ".png")):
         raise HTTPException(status_code=400, detail="Invalid image format")
     file_bytes = await file.read()
-    prediction, confidence = predict_image(file_bytes)
+    result = predict_image(file_bytes)
     timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
     filename = f"{timestamp}_{file.filename}"
     file_path = os.path.join(UPLOAD_DIR, filename)
     with open(file_path, "wb") as f:
         f.write(file_bytes)
-    save_prediction(filename, prediction, confidence)
-    save_plant(filename, prediction, confidence)
+    save_prediction(filename, result["prediction"], result["confidence"])
+    save_plant(filename, result["prediction"], result["confidence"])
     return {
         "status": "success",
-        "prediction": prediction,
-        "confidence": confidence,
+        **result,
         "image_url": f"/uploads/{filename}",
     }
 

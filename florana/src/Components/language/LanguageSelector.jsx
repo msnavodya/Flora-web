@@ -21,7 +21,7 @@ const languages = [
   { code: "ta", short: "\u0ba4\u0bae\u0bbf\u0bb4\u0bcd", label: "Tamil" },
 ];
 
-export default function LanguageSelector() {
+export default function LanguageSelector({ className = "" }) {
   const { language, setLanguage } = useTranslation();
   const selectedLanguage = labelToCode[language] || "en";
 
@@ -30,7 +30,10 @@ export default function LanguageSelector() {
   };
 
   return (
-    <div className="language-selector" aria-label="Language selector">
+    <div
+      className={`language-selector ${className}`.trim()}
+      aria-label="Language selector"
+    >
       <label className="language-field">
         <span className="language-icon" aria-hidden="true">
           <Languages size={12} strokeWidth={2.3} />

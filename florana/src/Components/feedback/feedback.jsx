@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Menu as MenuIcon } from "lucide-react";
+import { CircleHelp, Mail, Menu as MenuIcon } from "lucide-react";
 import { useTranslation } from "../language/LanguageContext";
-import LanguageSelector from "../language/LanguageSelector";
 import Menu from "../menu/menu";
 import logo from "../Assets/floranalogo.jpg";
+import { MobileActionButton, MobilePage, MobileSection } from "../mobile/MobilePage";
 import "./feedback.css";
 
 export default function Feedback() {
@@ -13,80 +13,113 @@ export default function Feedback() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [feedback, setFeedback] = useState("");
+  const [status, setStatus] = useState("");
+
+  const showStatus = (message) => {
+    setStatus(message);
+    window.clearTimeout(window.floranaFeedbackStatusTimer);
+    window.floranaFeedbackStatusTimer = window.setTimeout(() => setStatus(""), 2400);
+  };
 
   const handleSubmit = () => {
-    if (!feedback.trim()) return;
+    if (!feedback.trim()) {
+      showStatus("Write your feedback first.");
+      return;
+    }
 
     const newEntry = {
       id: Date.now(),
       rating,
       message: feedback.trim(),
       createdAt: new Date().toISOString(),
+      timestamp: new Date().toLocaleString(),
     };
 
     const saved = JSON.parse(localStorage.getItem("feedbacks") || "[]");
     saved.unshift(newEntry);
     localStorage.setItem("feedbacks", JSON.stringify(saved));
+    window.dispatchEvent(new Event("florana-feedback-updated"));
 
-    alert(`${t("submit_feedback")} 👍`);
+    showStatus("Feedback saved.");
     setFeedback("");
     setRating(0);
   };
 
   return (
-    <div className="feedback-wrapper">
+    <>
       <Menu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-      <LanguageSelector />
-      <div className="feedback-container">
-        <div className="page-topbar">
-          <button className="back-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-            <ArrowLeft size={18} />
-          </button>
-          <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+      <MobilePage
+        pageClassName="feedback-wrapper"
+        surfaceClassName="feedback-container"
+        title={t("feedback_card")}
+        subtitle="Send a rating, save your notes, or jump to support."
+        rightActions={
+          <button className="menu-btn app-icon-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
             <MenuIcon size={18} />
           </button>
-        </div>
+        }
+      >
+        <div className="feedback-scroll-view">
+          <img src={logo} alt="App Logo" className="feedback-logo" />
 
-        <img src={logo} alt="App Logo" className="feedback-logo" />
-        <h2 className="feedback-title">{t("feedback_card")}</h2>
+          {status ? <div className="feedback-status">{status}</div> : null}
 
-        <div className="card support-card">
-          <h3>{t("contact_support_card")}</h3>
-          <div className="support-item"><span>📧</span> {t("email_support")}</div>
-          <div className="support-item"><span>❓</span> {t("faq_center")}</div>
-          <div className="support-item"><span>📞</span> {t("call_us")}</div>
-        </div>
-
-        <div className="card thoughts-card">
-          <h3>{t("share_your_thoughts")}</h3>
-          <p>{t("rate_app")}</p>
-
-          <div className="stars">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                className={star <= rating ? "star filled" : "star"}
-                onClick={() => setRating(star)}
+          <MobileSection className="card support-card">
+            <h3>{t("contact_support_card")}</h3>
+            <div className="support-list">
+              <button
+                className="support-item support-button"
+                onClick={() => {
+                  window.location.href = "mailto:support@florana.com?subject=Florana%20Support";
+                }}
               >
-                ★
-              </span>
-            ))}
-          </div>
+                <Mail size={16} />
+                <span>{t("email_support")}</span>
+              </button>
+              <button className="support-item support-button" onClick={() => navigate("/help")}>
+                <CircleHelp size={16} />
+                <span>{t("faq_center")}</span>
+              </button>
+              <button className="support-item support-button" onClick={() => navigate("/settings")}>
+                <span className="support-item-badge">+</span>
+                <span>{t("call_us")}</span>
+              </button>
+            </div>
+          </MobileSection>
 
-          <button className="review-btn">Leave an App Store Review</button>
+          <MobileSection className="card thoughts-card">
+            <h3>{t("share_your_thoughts")}</h3>
+            <p>{t("rate_app")}</p>
 
-          <textarea
-            className="feedback-input"
-            placeholder={t("type_feedback")}
-            value={feedback}
-            onChange={(e) => setFeedback(e.target.value)}
-          />
+            <div className="stars" role="group" aria-label="App rating">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  className={star <= rating ? "star filled" : "star"}
+                  onClick={() => setRating(star)}
+                  aria-label={`Rate ${star} stars`}
+                >
+                  {star}
+                </button>
+              ))}
+            </div>
 
-          <button className="submit-btn" onClick={handleSubmit}>
-            {t("submit_feedback")}
-          </button>
+            <MobileActionButton className="secondary" onClick={() => navigate("/about")}>
+              Open About Florana
+            </MobileActionButton>
+
+            <textarea
+              className="feedback-input"
+              placeholder={t("type_feedback")}
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            />
+
+            <MobileActionButton onClick={handleSubmit}>{t("submit_feedback")}</MobileActionButton>
+          </MobileSection>
         </div>
-      </div>
-    </div>
+      </MobilePage>
+    </>
   );
 }

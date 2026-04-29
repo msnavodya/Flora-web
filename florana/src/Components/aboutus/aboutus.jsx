@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Menu as MenuIcon } from "lucide-react";
+import { CircleHelp, Info, Menu as MenuIcon, MessageSquareText } from "lucide-react";
 import floranaLogo from "../Assets/floranalogo.jpg";
 import { useTranslation } from "../language/LanguageContext";
-import LanguageSelector from "../language/LanguageSelector";
 import Menu from "../menu/menu";
+import { MobileActionButton, MobilePage, MobileSection } from "../mobile/MobilePage";
 import "./aboutus.css";
 
 const aboutCopy = {
@@ -20,26 +20,26 @@ const aboutCopy = {
     version: "Version 1.0.0",
   },
   si: {
-    title: "අප ගැන",
+    title: "à¶…à¶´ à¶œà·à¶±",
     description:
-      "Florana යනු ඔබගේ පැල පහසුවෙන් නිරීක්ෂණය කිරීමට, පවත්වා ගැනීමට සහ වර්ධනය කිරීමට උපකාරී වන ඔබගේ පුද්ගලික ඩිජිටල් පැල මිතුරායි. අපගේ මෙහෙවර වන්නේ ආරම්භකයෙකු හෝ පළපුරුදු පැල ආදරවන්තයෙකු වුවද පැල සුරැකීම සඳහා සරල, ලස්සන සහ බුද්ධිමත් විසඳුමක් නිර්මාණය කිරීමයි.",
-    visionTitle: "අපගේ දැක්ම",
+      "Florana à¶ºà¶±à·” à¶”à¶¶à¶œà·š à¶´à·à¶½ à¶´à·„à·ƒà·”à·€à·™à¶±à·Š à¶±à·’à¶»à·“à¶šà·Šà·‚à¶«à¶º à¶šà·’à¶»à·“à¶¸à¶§, à¶´à·€à¶­à·Šà·€à· à¶œà·à¶±à·“à¶¸à¶§ à·ƒà·„ à·€à¶»à·Šà¶°à¶±à¶º à¶šà·’à¶»à·“à¶¸à¶§ à¶‹à¶´à¶šà·à¶»à·“ à·€à¶± à¶”à¶¶à¶œà·š à¶´à·”à¶¯à·Šà¶œà¶½à·’à¶š à¶©à·’à¶¢à·’à¶§à¶½à·Š à¶´à·à¶½ à¶¸à·’à¶­à·”à¶»à·à¶ºà·’. à¶…à¶´à¶œà·š à¶¸à·™à·„à·™à·€à¶» à·€à¶±à·Šà¶±à·š à¶†à¶»à¶¸à·Šà¶·à¶šà¶ºà·™à¶šà·” à·„à· à¶´à·…à¶´à·”à¶»à·”à¶¯à·” à¶´à·à¶½ à¶†à¶¯à¶»à·€à¶±à·Šà¶­à¶ºà·™à¶šà·” à·€à·”à·€à¶¯ à¶´à·à¶½ à·ƒà·”à¶»à·à¶šà·“à¶¸ à·ƒà¶³à·„à· à·ƒà¶»à¶½, à¶½à·ƒà·Šà·ƒà¶± à·ƒà·„ à¶¶à·”à¶¯à·Šà¶°à·’à¶¸à¶­à·Š à·€à·’à·ƒà¶³à·”à¶¸à¶šà·Š à¶±à·’à¶»à·Šà¶¸à·à¶«à¶º à¶šà·’à¶»à·“à¶¸à¶ºà·’.",
+    visionTitle: "à¶…à¶´à¶œà·š à¶¯à·à¶šà·Šà¶¸",
     visionText:
-      "පැල රැකබලා ගැනීම සෑම කෙනෙකුටම පහසු, රසවත් සහ ප්‍රවේශ විය හැකි දෙයක් බවට පත් කිරීමයි. ඔබගේ පැල වඩා සෞඛ්‍ය සම්පන්නව වර්ධනය වීමට ස්වභාවය හා බුද්ධිමත් තාක්ෂණය එකට ගෙන ඒම අපගේ අරමුණයි.",
-    developedBy: "සංවර්ධනය කළේ",
-    team: "Florana සංවර්ධන කණ්ඩායම",
-    version: "අනුවාදය 1.0.0",
+      "à¶´à·à¶½ à¶»à·à¶šà¶¶à¶½à· à¶œà·à¶±à·“à¶¸ à·ƒà·‘à¶¸ à¶šà·™à¶±à·™à¶šà·”à¶§à¶¸ à¶´à·„à·ƒà·”, à¶»à·ƒà·€à¶­à·Š à·ƒà·„ à¶´à·Šâ€à¶»à·€à·šà· à·€à·’à¶º à·„à·à¶šà·’ à¶¯à·™à¶ºà¶šà·Š à¶¶à·€à¶§ à¶´à¶­à·Š à¶šà·’à¶»à·“à¶¸à¶ºà·’. à¶”à¶¶à¶œà·š à¶´à·à¶½ à·€à¶©à· à·ƒà·žà¶›à·Šâ€à¶º à·ƒà¶¸à·Šà¶´à¶±à·Šà¶±à·€ à·€à¶»à·Šà¶°à¶±à¶º à·€à·“à¶¸à¶§ à·ƒà·Šà·€à¶·à·à·€à¶º à·„à· à¶¶à·”à¶¯à·Šà¶°à·’à¶¸à¶­à·Š à¶­à·à¶šà·Šà·‚à¶«à¶º à¶‘à¶šà¶§ à¶œà·™à¶± à¶’à¶¸ à¶…à¶´à¶œà·š à¶…à¶»à¶¸à·”à¶«à¶ºà·’.",
+    developedBy: "à·ƒà¶‚à·€à¶»à·Šà¶°à¶±à¶º à¶šà·…à·š",
+    team: "Florana à·ƒà¶‚à·€à¶»à·Šà¶°à¶± à¶šà¶«à·Šà¶©à·à¶ºà¶¸",
+    version: "à¶…à¶±à·”à·€à·à¶¯à¶º 1.0.0",
   },
   ta: {
-    title: "எங்களை பற்றி",
+    title: "à®Žà®™à¯à®•à®³à¯ˆ à®ªà®±à¯à®±à®¿",
     description:
-      "Florana என்பது உங்கள் செடிகளை எளிதாக கண்காணிக்க, பராமரிக்க மற்றும் வளர்க்க உதவும் உங்கள் தனிப்பட்ட டிஜிட்டல் செடி துணை. நீங்கள் தொடக்க நிலையிலோ அனுபவமிக்க செடி நேசியோ ஆயினும், செடி பராமரிப்பிற்கு எளிய, அழகான மற்றும் புத்திசாலித்தனமான தீர்வை உருவாக்குவதே எங்கள் பணி.",
-    visionTitle: "எங்கள் நோக்கம்",
+      "Florana à®Žà®©à¯à®ªà®¤à¯ à®‰à®™à¯à®•à®³à¯ à®šà¯†à®Ÿà®¿à®•à®³à¯ˆ à®Žà®³à®¿à®¤à®¾à®• à®•à®£à¯à®•à®¾à®£à®¿à®•à¯à®•, à®ªà®°à®¾à®®à®°à®¿à®•à¯à®• à®®à®±à¯à®±à¯à®®à¯ à®µà®³à®°à¯à®•à¯à®• à®‰à®¤à®µà¯à®®à¯ à®‰à®™à¯à®•à®³à¯ à®¤à®©à®¿à®ªà¯à®ªà®Ÿà¯à®Ÿ à®Ÿà®¿à®œà®¿à®Ÿà¯à®Ÿà®²à¯ à®šà¯†à®Ÿà®¿ à®¤à¯à®£à¯ˆ. à®¨à¯€à®™à¯à®•à®³à¯ à®¤à¯Šà®Ÿà®•à¯à®• à®¨à®¿à®²à¯ˆà®¯à®¿à®²à¯‹ à®…à®©à¯à®ªà®µà®®à®¿à®•à¯à®• à®šà¯†à®Ÿà®¿ à®¨à¯‡à®šà®¿à®¯à¯‹ à®†à®¯à®¿à®©à¯à®®à¯, à®šà¯†à®Ÿà®¿ à®ªà®°à®¾à®®à®°à®¿à®ªà¯à®ªà®¿à®±à¯à®•à¯ à®Žà®³à®¿à®¯, à®…à®´à®•à®¾à®© à®®à®±à¯à®±à¯à®®à¯ à®ªà¯à®¤à¯à®¤à®¿à®šà®¾à®²à®¿à®¤à¯à®¤à®©à®®à®¾à®© à®¤à¯€à®°à¯à®µà¯ˆ à®‰à®°à¯à®µà®¾à®•à¯à®•à¯à®µà®¤à¯‡ à®Žà®™à¯à®•à®³à¯ à®ªà®£à®¿.",
+    visionTitle: "à®Žà®™à¯à®•à®³à¯ à®¨à¯‹à®•à¯à®•à®®à¯",
     visionText:
-      "செடி பராமரிப்பை அனைவருக்கும் எளிதான, மகிழ்ச்சியான மற்றும் அணுகக்கூடியதாக மாற்றுவது. உங்கள் செடிகள் ஆரோக்கியமாக வளர உதவ இயற்கையையும் புத்திசாலித்தனமான தொழில்நுட்பத்தையும் இணைப்பதே எங்கள் குறிக்கோள்.",
-    developedBy: "உருவாக்கியது",
-    team: "Florana அபிவிருத்தி குழு",
-    version: "பதிப்பு 1.0.0",
+      "à®šà¯†à®Ÿà®¿ à®ªà®°à®¾à®®à®°à®¿à®ªà¯à®ªà¯ˆ à®…à®©à¯ˆà®µà®°à¯à®•à¯à®•à¯à®®à¯ à®Žà®³à®¿à®¤à®¾à®©, à®®à®•à®¿à®´à¯à®šà¯à®šà®¿à®¯à®¾à®© à®®à®±à¯à®±à¯à®®à¯ à®…à®£à¯à®•à®•à¯à®•à¯‚à®Ÿà®¿à®¯à®¤à®¾à®• à®®à®¾à®±à¯à®±à¯à®µà®¤à¯. à®‰à®™à¯à®•à®³à¯ à®šà¯†à®Ÿà®¿à®•à®³à¯ à®†à®°à¯‹à®•à¯à®•à®¿à®¯à®®à®¾à®• à®µà®³à®° à®‰à®¤à®µ à®‡à®¯à®±à¯à®•à¯ˆà®¯à¯ˆà®¯à¯à®®à¯ à®ªà¯à®¤à¯à®¤à®¿à®šà®¾à®²à®¿à®¤à¯à®¤à®©à®®à®¾à®© à®¤à¯Šà®´à®¿à®²à¯à®¨à¯à®Ÿà¯à®ªà®¤à¯à®¤à¯ˆà®¯à¯à®®à¯ à®‡à®£à¯ˆà®ªà¯à®ªà®¤à¯‡ à®Žà®™à¯à®•à®³à¯ à®•à¯à®±à®¿à®•à¯à®•à¯‹à®³à¯.",
+    developedBy: "à®‰à®°à¯à®µà®¾à®•à¯à®•à®¿à®¯à®¤à¯",
+    team: "Florana à®…à®ªà®¿à®µà®¿à®°à¯à®¤à¯à®¤à®¿ à®•à¯à®´à¯",
+    version: "à®ªà®¤à®¿à®ªà¯à®ªà¯ 1.0.0",
   },
 };
 
@@ -50,38 +50,50 @@ export default function AboutUs() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <div className="about-wrapper">
+    <>
       <Menu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-      <LanguageSelector />
-      <div className="about-container">
-        <div className="page-topbar">
-          <button className="back-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-            <ArrowLeft size={18} />
-          </button>
-          <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+      <MobilePage
+        pageClassName="about-wrapper"
+        surfaceClassName="about-container"
+        title={copy.title}
+        subtitle={copy.description}
+        rightActions={
+          <button className="menu-btn app-icon-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
             <MenuIcon size={18} />
           </button>
+        }
+      >
+        <div className="about-scroll-view">
+          <div className="about-logo-box">
+            <img src={floranaLogo} alt="Florana Logo" className="about-logo" />
+          </div>
+
+          <MobileSection className="about-info-card">
+            <div className="about-section-heading">
+              <Info size={18} />
+              <h3>{copy.visionTitle}</h3>
+            </div>
+            <p>{copy.visionText}</p>
+          </MobileSection>
+
+          <div className="app-grid-two about-action-row">
+            <MobileActionButton className="secondary" onClick={() => navigate("/help")}>
+              <CircleHelp size={16} />
+              <span>Help</span>
+            </MobileActionButton>
+            <MobileActionButton className="secondary" onClick={() => navigate("/feedback")}>
+              <MessageSquareText size={16} />
+              <span>Feedback</span>
+            </MobileActionButton>
+          </div>
+
+          <MobileSection className="about-footer">
+            <h3>{copy.developedBy}</h3>
+            <p className="team-text">{copy.team}</p>
+            <p className="about-version">{copy.version}</p>
+          </MobileSection>
         </div>
-
-        <h2 className="about-title">{copy.title}</h2>
-
-        <div className="about-logo-box">
-          <img src={floranaLogo} alt="Florana Logo" className="about-logo" />
-        </div>
-
-        <p className="about-description">{copy.description}</p>
-
-        <div className="about-info-card">
-          <h3>{copy.visionTitle}</h3>
-          <p>{copy.visionText}</p>
-        </div>
-
-        <div className="about-footer">
-          <h3>{copy.developedBy}</h3>
-          <p className="team-text">{copy.team}</p>
-          <p className="about-version">{copy.version}</p>
-        </div>
-      </div>
-    </div>
+      </MobilePage>
+    </>
   );
 }

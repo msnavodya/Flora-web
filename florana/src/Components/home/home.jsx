@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Menu as MenuIcon } from "lucide-react";
-import { getApiErrorMessage, predictImage } from "../../api";
+import { Activity, Leaf, Menu as MenuIcon, ShieldAlert, ShieldCheck, X } from "lucide-react";
+import { formatPredictionResult, getApiErrorMessage, getBackendHealth, predictImage } from "../../api";
 import { useTranslation } from "../language/LanguageContext";
 import logo from "../Assets/floranalogo.jpg";
 import LanguageSelector from "../language/LanguageSelector";
@@ -15,6 +15,7 @@ export default function Home() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [diagnosis, setDiagnosis] = useState(null);
+  const [modelState, setModelState] = useState({ loaded: false, status: "checking" });
   const [feedbacks, setFeedbacks] = useState([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentFeedbackIndex, setCurrentFeedbackIndex] = useState(0);
@@ -38,12 +39,54 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    try {
-      const saved = JSON.parse(localStorage.getItem("feedbacks") || "[]");
-      setFeedbacks(saved);
-    } catch {
-      setFeedbacks([]);
-    }
+    const loadFeedbacks = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem("feedbacks") || "[]");
+        setFeedbacks(saved);
+      } catch {
+        setFeedbacks([]);
+      }
+    };
+
+    loadFeedbacks();
+    window.addEventListener("storage", loadFeedbacks);
+    window.addEventListener("florana-feedback-updated", loadFeedbacks);
+
+    return () => {
+      window.removeEventListener("storage", loadFeedbacks);
+      window.removeEventListener("florana-feedback-updated", loadFeedbacks);
+    };
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const syncModelState = async () => {
+      try {
+        const response = await getBackendHealth();
+        const aiModel = response.data?.ai_model || {};
+        if (!active) {
+          return;
+        }
+        setModelState({
+          loaded: Boolean(aiModel.loaded),
+          status: aiModel.status || "ready",
+        });
+      } catch {
+        if (!active) {
+          return;
+        }
+        setModelState({ loaded: false, status: "offline" });
+      }
+    };
+
+    syncModelState();
+    const intervalId = window.setInterval(syncModelState, 30000);
+
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+    };
   }, []);
 
   useEffect(() => {
@@ -101,13 +144,11 @@ export default function Home() {
 
     try {
       const response = await predictImage(file);
-      const { prediction, confidence } = response.data;
-      const percent = typeof confidence === "number" ? (confidence * 100).toFixed(2) : confidence;
-      const isHealthy = prediction === "Healthy Plant";
-      const status = isHealthy ? "Healthy Plant" : "Unhealthy Plant - Disease Detected";
-      setDiagnosis(`${status} (${prediction}) - Confidence: ${percent}%`);
+      setDiagnosis(formatPredictionResult(response.data));
+      setModelState({ loaded: true, status: "ready" });
     } catch (error) {
-      setDiagnosis(`Error: ${getApiErrorMessage(error)}`);
+      setDiagnosis({ error: getApiErrorMessage(error) });
+      setModelState({ loaded: false, status: "offline" });
     } finally {
       setLoading(false);
       event.target.value = "";
@@ -149,8 +190,26 @@ export default function Home() {
 
       {diagnosis ? (
         <div className="diagnosis-alert">
-          <strong>Result: {diagnosis}</strong>
-          <button onClick={() => setDiagnosis(null)}>x</button>
+          <div className="diagnosis-copy">
+            {diagnosis.error ? <ShieldAlert size={18} /> : diagnosis.isHealthy ? <ShieldCheck size={18} /> : <ShieldAlert size={18} />}
+            <div>
+              <strong>
+                {diagnosis.error
+                  ? "Diagnosis unavailable"
+                  : diagnosis.isHealthy
+                    ? "Healthy Plant"
+                    : "Disease Detected"}
+              </strong>
+              <p>
+                {diagnosis.error
+                  ? diagnosis.error
+                  : `${diagnosis.prediction} • ${diagnosis.confidencePercent}% confidence`}
+              </p>
+            </div>
+          </div>
+          <button className="diagnosis-close" onClick={() => setDiagnosis(null)} aria-label="Close diagnosis">
+            <X size={16} />
+          </button>
         </div>
       ) : null}
 
@@ -158,8 +217,17 @@ export default function Home() {
 
       <div className="cards-grid">
         <div className="card yellow" onClick={() => fileInputRef.current?.click()}>
+          <div className="card-icon-row">
+            <span className="card-icon">
+              <Leaf size={18} />
+            </span>
+            <span className={`model-pill ${modelState.loaded ? "ready" : "offline"}`}>
+              <Activity size={14} />
+              {modelState.loaded ? "Model Live" : modelState.status === "checking" ? "Checking..." : "Model Offline"}
+            </span>
+          </div>
           <h4>{t("diagnose")}</h4>
-          <p>{loading ? t("analyzing") : t("tap_to_scan_leaf")}</p>
+          <p>{loading ? "Analyzing in real time..." : t("tap_to_scan_leaf")}</p>
         </div>
 
         <div className="card purple" onClick={() => navigate("/feedback")}>
@@ -216,7 +284,7 @@ export default function Home() {
                         <p className="feedback-msg">{entry.message}</p>
                         {entry.rating ? <div className="feedback-stars">{"*".repeat(entry.rating)}</div> : null}
                       </div>
-                      <small className="feedback-date">{entry.timestamp || "Just now"}</small>
+                      <small className="feedback-date">{entry.timestamp || entry.createdAt || "Just now"}</small>
                     </div>
                   </div>
                 ))}

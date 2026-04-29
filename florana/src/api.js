@@ -64,6 +64,42 @@ export const getApiErrorMessage = (error) => {
   return "Cannot connect to backend server.";
 };
 
+const HEALTHY_PREDICTION_LABELS = ["healthy plant", "healthy", "fresh leaf"];
+
+const prettifyPredictionLabel = (value = "Unknown") =>
+  String(value)
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+export const formatPredictionResult = (payload = {}) => {
+  const rawPrediction = payload.raw_prediction || payload.prediction || payload.disease || "Unknown";
+  const prediction = payload.prediction ? String(payload.prediction) : prettifyPredictionLabel(rawPrediction);
+  const confidence =
+    typeof payload.confidence === "number"
+      ? payload.confidence
+      : typeof payload.confidence_percent === "number"
+        ? payload.confidence_percent / 100
+        : 0;
+  const confidencePercent =
+    typeof payload.confidence_percent === "number"
+      ? payload.confidence_percent
+      : Number((confidence * 100).toFixed(2));
+  const isHealthy =
+    typeof payload.is_healthy === "boolean"
+      ? payload.is_healthy
+      : HEALTHY_PREDICTION_LABELS.includes(String(rawPrediction).toLowerCase()) ||
+        HEALTHY_PREDICTION_LABELS.includes(prediction.toLowerCase());
+
+  return {
+    ...payload,
+    prediction,
+    rawPrediction,
+    confidence,
+    confidencePercent,
+    isHealthy,
+  };
+};
+
 const ensureBackendReady = async ({ force = false } = {}) => {
   if (!force && isBackendReadyFresh()) {
     return backendReadyPromise || Promise.resolve();
@@ -193,6 +229,12 @@ export const buildApiUrl = (path = "") => {
 };
 
 export const warmUpBackend = () => ensureBackendReady();
+export const getBackendHealth = () =>
+  API.get("/health", {
+    metadata: {
+      skipBackendReadyCheck: true,
+    },
+  });
 
 
 export const signupUser = (payload) => API.post("/auth/signup", payload);

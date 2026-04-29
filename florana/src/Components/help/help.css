@@ -1,92 +1,44 @@
-/* ===== PAGE WRAPPER ===== */
-.help-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #1f1f1f;
-  padding: 10px;
-  box-sizing: border-box;
-  overflow: hidden; /* prevent scroll */
+.help-container {
+  background: linear-gradient(180deg, #e8daf2 0%, #dec5ea 100%);
 }
 
-/* ===== PHONE FRAME ===== */
-.help-container {
-  width: 350px;        /* exact mobile frame width */
-  height: 700px;       /* exact mobile frame height */
-  background: #9d7ed0;
-  padding: 15px;       /* reduced padding */
-  border-radius: 25px;
+.help-scroll-view {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;           /* smaller gap */
-  position: relative;
-  box-sizing: border-box;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  gap: 12px;
+  padding-right: 2px;
 }
 
-.help-topbar {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 44px;
-}
-
-.help-topbar .menu-btn {
-  margin-left: auto;
-}
-
-/* ===== LOGO ===== */
 .help-logo {
-  width: 140px;         /* smaller to fit frame */
-  height: 140px;        /* proportional */
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   object-fit: cover;
-  margin-top: 8px;
 }
 
-/* ===== TITLE ===== */
-.help-title {
-  font-size: 20px;      /* smaller for mobile */
-  font-weight: bold;
-  color: white;
-  margin: 10px 0;
-  text-align: center;
-}
-
-/* ===== BACK BUTTON ===== */
-.back-btn {
-  font-size: 18px;      /* smaller */
-  background: none;
-  color: white;
-  border: none;
-  cursor: pointer;
-  padding: 2px 6px;
-  border-radius: 8px;
-}
-
-/* ===== HELP CARDS ===== */
 .help-card {
-  width: 95%;
-  background: #ffffff;
-  padding: 12px;        /* smaller padding */
-  border-radius: 14px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
-  box-sizing: border-box;
+  color: #37284a;
 }
 
-.help-card h3 {
-  margin: 0 0 6px 0;
-  font-size: 16px;      /* smaller */
+.help-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
   color: #7444a8;
 }
 
-.help-card p {
-  font-size: 13px;      /* smaller */
-  color: #444;
+.help-card h3 {
   margin: 0;
+  font-size: 16px;
+}
+
+.help-card p {
+  color: #5d5167;
+  margin: 0 0 12px;
+  line-height: 1.55;
 }

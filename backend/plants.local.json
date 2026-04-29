@@ -33,5 +33,205 @@
     "tracking": true,
     "image_path": "uploads/20260422122325_images.jfif",
     "created_at": "2026-04-22T06:53:25.989348"
+  },
+  {
+    "_id": "f1ae514b-6f89-486a-86fa-bc1276c89924",
+    "plant_name": "20260423100128_20210603_072804_jpg.rf.3dad16f2e5ce2d4ac9c7c044a1ab3765-v7w7os.jpg",
+    "disease": "Botrytis",
+    "confidence": 0.9998217225074768,
+    "date": "2026-04-23T04:31:28.563280",
+    "tracking": true
+  },
+  {
+    "_id": "f495d9b4-9ae3-46a6-89e0-0c8ea2c1dbaa",
+    "plant_name": "20260423100232_a.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:32:32.038990",
+    "tracking": true
+  },
+  {
+    "_id": "f562f131-3472-40dc-9797-d780af41ecce",
+    "plant_name": "20260423100645_a.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:36:45.567212",
+    "tracking": true
+  },
+  {
+    "_id": "4fe3808a-479b-4cfd-9098-15bf35c2c7f0",
+    "plant_name": "20260423100712_Fresh leaf(2).jpg",
+    "disease": "Leaf Spot",
+    "confidence": 0.8347637057304382,
+    "date": "2026-04-23T04:37:12.524700",
+    "tracking": true
+  },
+  {
+    "_id": "30770838-a723-4835-bdbd-2ff51f572e10",
+    "plant_name": "20260423100728_Black Spot (1).jpg",
+    "disease": "Healthy Plant",
+    "confidence": 0.9397485256195068,
+    "date": "2026-04-23T04:37:28.104622",
+    "tracking": true
+  },
+  {
+    "_id": "5940bd8d-dc81-4fc7-a7bb-3156ee0bf13e",
+    "plant_name": "20260423100745_Black Spot (8).jpg",
+    "disease": "Healthy Plant",
+    "confidence": 0.5245190262794495,
+    "date": "2026-04-23T04:37:45.855425",
+    "tracking": true
+  },
+  {
+    "_id": "495fe4c8-49c3-4775-88a4-8c547c9fc04e",
+    "plant_name": "20260423101020_Black Spot (1).jpg",
+    "disease": "Healthy Plant",
+    "confidence": 0.9397485256195068,
+    "date": "2026-04-23T04:40:20.250990",
+    "tracking": true
+  },
+  {
+    "_id": "9399ee26-a6a3-4e48-a880-afd6a8c4ebdc",
+    "plant_name": "20260423101209_Black Spot (10).jpg",
+    "disease": "Leaf Spot",
+    "confidence": 0.6037740111351013,
+    "date": "2026-04-23T04:42:09.679897",
+    "tracking": true
+  },
+  {
+    "_id": "27935d9d-ecf2-420c-8f6a-c7167b045dd9",
+    "plant_name": "20260423101219_a.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:42:19.370267",
+    "tracking": true
+  },
+  {
+    "_id": "3e73b0e4-c8a3-458e-b61b-4a12d732d1a4",
+    "plant_name": "20260423101235_Fresh leaf(10).jpg",
+    "disease": "Healthy Plant",
+    "confidence": 0.8564950823783875,
+    "date": "2026-04-23T04:42:35.147887",
+    "tracking": true
+  },
+  {
+    "_id": "f55a7f86-5de0-40d5-a781-a1b99e027753",
+    "plant_name": "20260423101252_brightened_IMG_20230703_213438.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:42:52.149586",
+    "tracking": true
+  },
+  {
+    "_id": "1e5e960c-b787-413a-a681-2bcdfaf8a67f",
+    "plant_name": "20260423101302_Downy Mildew  (1).jpg",
+    "disease": "Powdery Mildew",
+    "confidence": 0.999830961227417,
+    "date": "2026-04-23T04:43:02.230279",
+    "tracking": true
+  },
+  {
+    "_id": "56794600-7435-4629-b702-0793f2f0c1d9",
+    "plant_name": "20260423101313_brightened_IMG_20230703_212530.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:43:13.322074",
+    "tracking": true
+  },
+  {
+    "_id": "1d3c47fc-9ceb-4dd4-9d29-d4c9b409182d",
+    "plant_name": "20260423101323_flipped_horizontal_IMG_20230703_212924.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:43:23.146499",
+    "tracking": true
+  },
+  {
+    "_id": "0a7f642e-9448-42da-ab73-1702475e853b",
+    "plant_name": "20260423101612_brightened_IMG_20230703_212924.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:46:12.945136",
+    "tracking": true
+  },
+  {
+    "_id": "c56bc7c7-198c-45fb-858b-05cea90796b3",
+    "plant_name": "20260423101626_gamma_corrected_IMG_20230703_212530.jpg",
+    "disease": "Rust",
+    "confidence": 0.9999994039535522,
+    "date": "2026-04-23T04:46:26.913461",
+    "tracking": true
+  },
+  {
+    "_id": "7dc07647-ffed-402f-be6f-4f7dd14f7dae",
+    "plant_name": "20260423102828_brightened_IMG_20230703_212924.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T04:58:28.441644",
+    "tracking": true
+  },
+  {
+    "_id": "e1be7d39-5a9e-4c61-9ace-738712e7b98b",
+    "plant_name": "20260423103526_flipped_horizontal_IMG_20230703_212716.jpg",
+    "disease": "Rust",
+    "confidence": 0.9999995231628418,
+    "date": "2026-04-23T05:05:26.242450",
+    "tracking": true
+  },
+  {
+    "_id": "f71dad81-78ed-49ac-b383-609f59f7ba8f",
+    "plant_name": "20260423105906_flipped_horizontal_IMG_20230703_212716.jpg",
+    "disease": "Rust",
+    "confidence": 0.9999995231628418,
+    "date": "2026-04-23T05:29:06.611571",
+    "tracking": true
+  },
+  {
+    "_id": "98e5f4ba-1d4d-4a2c-9855-ad11c6f0b26e",
+    "plant_name": "20260423105922_brightened_IMG_20230703_212348.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-23T05:29:22.575343",
+    "tracking": true
+  },
+  {
+    "_id": "5e644541-285f-45c3-abd6-623cffa4754a",
+    "plant_name": "20260423105945_Downy Mildew  (6).jpg",
+    "disease": "Powdery Mildew",
+    "confidence": 0.9995840191841125,
+    "date": "2026-04-23T05:29:45.861636",
+    "tracking": true
+  },
+  {
+    "_id": "58bc7e6b-77f1-499f-81ab-e7db42488f38",
+    "plant_name": "20260425132114_brightened_IMG_20230703_213438.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-25T07:51:14.823949",
+    "tracking": true
+  },
+  {
+    "_id": "da2666dd-638a-4bcf-9542-a4c850c1e42f",
+    "plant_name": "20260427104529_20210603_072804_jpg.rf.3dad16f2e5ce2d4ac9c7c044a1ab3765-v7w7os.jpg",
+    "disease": "Botrytis",
+    "confidence": 0.9998217225074768,
+    "date": "2026-04-27T05:15:29.715279",
+    "tracking": true
+  },
+  {
+    "_id": "1dcdf4d1-9bbd-4e2d-b21d-a0f5b6eb63ba",
+    "plant_name": "20260427135231_brightened_IMG_20230703_213727_1.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-27T08:22:31.700799",
+    "tracking": true
+  },
+  {
+    "_id": "5449a786-e9e5-4ed1-9899-b28c8447d1ac",
+    "plant_name": "20260427154402_brightened_IMG_20230703_213438.jpg",
+    "disease": "Rust",
+    "confidence": 1.0,
+    "date": "2026-04-27T10:14:02.579954",
+    "tracking": true
   }
 ]

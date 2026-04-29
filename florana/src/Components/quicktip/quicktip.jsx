@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Menu as MenuIcon } from "lucide-react";
+import { Lightbulb, Menu as MenuIcon } from "lucide-react";
 import { useTranslation } from "../language/LanguageContext";
-import LanguageSelector from "../language/LanguageSelector";
 import Menu from "../menu/menu";
+import { MobileActionButton, MobilePage, MobileSection } from "../mobile/MobilePage";
 import "./quicktip.css";
 
 const tipOptions = [
@@ -26,38 +26,46 @@ export default function QuickTip() {
   const activeTip = tipOptions.find((item) => item.key === activeTipKey) || tipOptions[0];
 
   return (
-    <div className="quick-tip-container">
+    <>
       <Menu isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-      <LanguageSelector />
-      <div className="quick-tip-card">
-        <div className="page-topbar">
-          <button className="back-btn" aria-label="Go back" onClick={() => navigate(-1)}>
-            <ArrowLeft size={18} />
-          </button>
-          <button className="menu-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
+      <MobilePage
+        pageClassName="quick-tip-container"
+        surfaceClassName="quick-tip-shell"
+        title={t("quick_tip")}
+        subtitle="Tap a topic to see a quick, practical care reminder."
+        rightActions={
+          <button className="menu-btn app-icon-btn" aria-label="Open menu" onClick={() => setMenuOpen(true)}>
             <MenuIcon size={18} />
           </button>
-        </div>
+        }
+      >
+        <div className="quick-tip-scroll-view">
+          <div className="tips-list">
+            {tipOptions.map((option) => (
+              <button
+                key={option.key}
+                onClick={() => setActiveTipKey(option.key)}
+                className={`tip-chip ${activeTipKey === option.key ? "active" : ""}`}
+              >
+                {option.title}
+              </button>
+            ))}
+          </div>
 
-        <h2>{t("quick_tip")}</h2>
+          <MobileSection className="tip-detail-box">
+            <div className="tip-detail-header">
+              <Lightbulb size={18} />
+              <h3>{activeTip.title}</h3>
+            </div>
+            <p className="tip-text">{activeTip.tip}</p>
+            <p className="tip-details">{activeTip.detail}</p>
+          </MobileSection>
 
-        <div className="tips-list">
-          {tipOptions.map((option) => (
-            <button
-              key={option.key}
-              onClick={() => setActiveTipKey(option.key)}
-              className={`tip-chip ${activeTipKey === option.key ? "active" : ""}`}
-            >
-              {option.title}
-            </button>
-          ))}
+          <MobileActionButton className="tip-bottom-btn" onClick={() => navigate("/care")}>
+            Open Care Reminder
+          </MobileActionButton>
         </div>
-
-        <div className="tip-detail-box">
-          <p className="tip-text">{activeTip.tip}</p>
-          <p className="tip-details">{activeTip.detail}</p>
-        </div>
-      </div>
-    </div>
+      </MobilePage>
+    </>
   );
 }

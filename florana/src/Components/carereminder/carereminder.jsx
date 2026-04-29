@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AlarmClock, ArrowLeft, BellRing, Menu, Plus, Trash2 } from "lucide-react";
 import MenuPanel from "../menu/menu";
 import { useTranslation } from "../language/LanguageContext";
-import LanguageSelector from "../language/LanguageSelector";
+import { MobileActionButton } from "../mobile/MobilePage";
 import "./carereminder.css";
 
 const initialOptions = {
@@ -242,6 +242,7 @@ export default function CareReminder() {
   };
 
   const activeTasks = defaultOptions.filter((option) => options[option.key]).length + customNotes.length;
+  const nextReminderLabel = options.watering ? wateringTime : "Paused";
 
   return (
     <div className="care-page mobile-screen">
@@ -249,8 +250,6 @@ export default function CareReminder() {
 
       <div className="care-shell mobile-frame">
         <div className="care-scroll mobile-panel">
-          <LanguageSelector />
-
           <div className="care-topbar">
             <button className="back-btn" aria-label="Go back" onClick={() => navigate("/home")}>
               <ArrowLeft size={18} />
@@ -272,6 +271,7 @@ export default function CareReminder() {
             <div className="summary-row">
               <span>{copy.activeTasks}: {activeTasks}</span>
               <span>{copy.mode}: {summaryMode}</span>
+              <span>Next: {nextReminderLabel}</span>
             </div>
           </div>
 
@@ -373,10 +373,10 @@ export default function CareReminder() {
               </button>
             </div>
 
-            <button className="test-btn" onClick={sendNotification}>
+            <MobileActionButton className="test-btn" onClick={sendNotification}>
               <BellRing size={16} />
               <span>{copy.testNotification}</span>
-            </button>
+            </MobileActionButton>
           </div>
 
           {inAppMessages.length > 0 ? (

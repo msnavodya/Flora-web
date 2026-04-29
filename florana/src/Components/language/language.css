@@ -1,8 +1,7 @@
 .language-selector {
-  position: absolute;
-  top: 14px;
-  right: 72px;
-  z-index: 20;
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
 }
 
 .language-field {
@@ -82,11 +81,6 @@
 }
 
 @media (max-width: 480px) {
-  .language-selector {
-    top: 12px;
-    right: 62px;
-  }
-
   .language-field {
     width: 28px;
     min-width: 28px;

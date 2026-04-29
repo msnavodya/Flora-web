@@ -1,58 +1,40 @@
-.settings-page {
-  padding: 16px;
-}
-
 .settings-shell {
   background:
     radial-gradient(circle at top right, rgba(255, 255, 255, 0.24), transparent 24%),
-    linear-gradient(180deg, #f6effc 0%, #ebe4ff 34%, #dcebe1 100%);
-}
-
-.settings-scroll {
-  position: relative;
-  height: 100%;
-  padding: 16px;
-  color: #271d3d;
-}
-
-.settings-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 18px;
-  width: 100%;
-}
-
-.settings-topbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-}
-
-.settings-topbar-actions .menu-btn {
-  margin-left: auto;
+    linear-gradient(180deg, #f6effc 0%, #efe7fb 38%, #e3f0e6 100%);
 }
 
 .settings-home-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   min-height: 44px;
   padding: 0 14px;
   border: 1px solid rgba(113, 93, 145, 0.14);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.92);
   color: #2f2247;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   font-weight: 700;
   box-shadow: 0 10px 22px rgba(31, 22, 51, 0.12);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.settings-scroll-view {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-right: 2px;
 }
 
 .settings-hero {
-  padding: 22px;
+  padding: 18px;
   border-radius: 28px;
-  background: linear-gradient(140deg, #346b50, #6a52cb 54%, #9d6ae0);
+  background: linear-gradient(140deg, #924ea1 0%, #7a4290 58%, #4e875f 100%);
   color: #ffffff;
   box-shadow: 0 20px 38px rgba(64, 46, 109, 0.18);
 }
@@ -80,8 +62,8 @@
 
 .settings-title {
   margin: 10px 0 8px;
-  font-size: 2rem;
-  line-height: 1.02;
+  font-size: 1.35rem;
+  line-height: 1.1;
 }
 
 .settings-subtitle {
@@ -113,17 +95,12 @@
 }
 
 .settings-ghost-btn {
-  width: 100%;
-  min-height: 46px;
-  border: none;
-  border-radius: 16px;
   background: rgba(255, 255, 255, 0.96);
   color: #4a2d7a;
   font-weight: 800;
 }
 
 .settings-status {
-  margin: 14px 0 0;
   padding: 12px 14px;
   border-radius: 16px;
   background: rgba(255, 255, 255, 0.92);
@@ -133,13 +110,10 @@
 
 .settings-grid {
   display: grid;
-  gap: 14px;
-  margin-top: 14px;
+  gap: 12px;
 }
 
 .settings-panel {
-  padding: 18px;
-  border-radius: 22px;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(127, 95, 165, 0.1);
   box-shadow: 0 18px 34px rgba(108, 76, 142, 0.08);
@@ -256,14 +230,6 @@
 }
 
 @media (max-width: 480px) {
-  .settings-page {
-    padding: 16px;
-  }
-
-  .settings-scroll {
-    padding: 12px;
-  }
-
   .settings-home-btn span {
     display: none;
   }
