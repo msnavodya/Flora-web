@@ -103,7 +103,7 @@ export default function Predict() {
       <div className="predict-card">
         <div className="predict-hero">
           <div>
-            <span className="predict-eyebrow">Florana AI</span>
+            <span className="predict-eyebrow">Flora Web AI</span>
             <h2>Plant Disease Prediction</h2>
             <p className="predict-subcopy">Upload one leaf image and get a live diagnosis from the trained model.</p>
           </div>

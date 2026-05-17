@@ -11,12 +11,12 @@ const aboutCopy = {
   en: {
     title: "About Us",
     description:
-      "Florana is your personal digital plant companion designed to help you monitor, maintain, and grow your plants with ease. Our mission is to create a simple, beautiful, and smart solution for plant care whether you're a beginner or an experienced plant lover.",
+      "Flora Web is your personal digital plant companion designed to help you monitor, maintain, and grow your plants with ease. Our mission is to create a simple, beautiful, and smart solution for plant care whether you're a beginner or an experienced plant lover.",
     visionTitle: "Our Vision",
     visionText:
       "To make plant care effortless, enjoyable, and accessible to everyone. We aim to blend smart technology with nature to help your plants grow healthier.",
     developedBy: "Developed By",
-    team: "Florana Development Team",
+    team: "Flora Web Development Team",
     version: "Version 1.0.0",
   },
   si: {
@@ -65,7 +65,7 @@ export default function AboutUs() {
       >
         <div className="about-scroll-view">
           <div className="about-logo-box">
-            <img src={floranaLogo} alt="Florana Logo" className="about-logo" />
+            <img src={floranaLogo} alt="Flora Web Logo" className="about-logo" />
           </div>
 
           <MobileSection className="about-info-card">

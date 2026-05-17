@@ -1,6 +1,6 @@
-# Florana Frontend
+# Flora Web Frontend
 
-This folder contains the React frontend for Florana.
+This folder contains the React frontend for Flora Web.
 
 For the full project overview, setup steps, backend notes, ML pipeline notes, and deployment guidance, see the root [README.md](../README.md).
 

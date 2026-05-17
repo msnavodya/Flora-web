@@ -54,9 +54,9 @@ export default function Menu({ isOpen, onClose }) {
         </button>
 
         <div className="menu-header">
-          <img src={logo} alt="Florana Logo" className="menu-logo" />
+          <img src={logo} alt="Flora Web Logo" className="menu-logo" />
           <div className="menu-heading-text">
-            <p>Florana</p>
+            <p>Flora Web</p>
             <h2 className="menu-title">Navigation</h2>
           </div>
         </div>

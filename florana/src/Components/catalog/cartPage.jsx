@@ -21,7 +21,7 @@ const exchangeRates = { LKR: 1, USD: 0.0033, EUR: 0.003 };
 const currencySymbols = { LKR: "Rs.", USD: "$", EUR: "EUR" };
 const cartCopy = {
   en: {
-    checkout: "Florana Checkout",
+    checkout: "Flora Web Checkout",
     myCart: "My Cart",
     itemsInCart: "Items in cart",
     total: "Total",

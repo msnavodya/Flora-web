@@ -1,6 +1,6 @@
-# Florana
+# Flora Web
 
-Florana is a full-stack plant care and flower marketplace application. It combines a React mobile-first frontend, a FastAPI backend, local/MongoDB data storage, and a TensorFlow plant disease model for leaf image diagnosis.
+Flora Web is a full-stack plant care and flower marketplace application. It combines a React mobile-first frontend, a FastAPI backend, local/MongoDB data storage, and a TensorFlow plant disease model for leaf image diagnosis.
 
 ## Features
 
@@ -42,7 +42,7 @@ Florana is a full-stack plant care and flower marketplace application. It combin
 ## Project Structure
 
 ```text
-Florana/
+flora-web/
   backend/        FastAPI API, auth, shop, payments, plant tracking, AI prediction
   florana/        React frontend application
   ml_pipeline/    Model training and dataset helper scripts

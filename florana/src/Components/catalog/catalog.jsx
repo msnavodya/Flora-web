@@ -15,7 +15,7 @@ const exchangeRates = { LKR: 1, USD: 0.0033, EUR: 0.003 };
 const currencySymbols = { LKR: "Rs.", USD: "$", EUR: "EUR" };
 const catalogCopy = {
   en: {
-    shop: "Florana Shop",
+    shop: "Flora Web Shop",
     title: "Season Catalog",
     subtitle: "Browse plants, switch currency instantly, and manage what you want to buy or sell.",
     listed: "{count} plants listed",

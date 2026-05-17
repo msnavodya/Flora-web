@@ -60,7 +60,7 @@ export default function Feedback() {
         }
       >
         <div className="feedback-scroll-view">
-          <img src={logo} alt="App Logo" className="feedback-logo" />
+          <img src={logo} alt="Flora Web Logo" className="feedback-logo" />
 
           {status ? <div className="feedback-status">{status}</div> : null}
 
@@ -70,7 +70,7 @@ export default function Feedback() {
               <button
                 className="support-item support-button"
                 onClick={() => {
-                  window.location.href = "mailto:support@florana.com?subject=Florana%20Support";
+                  window.location.href = "mailto:support@florana.com?subject=Flora%20Web%20Support";
                 }}
               >
                 <Mail size={16} />
@@ -106,7 +106,7 @@ export default function Feedback() {
             </div>
 
             <MobileActionButton className="secondary" onClick={() => navigate("/about")}>
-              Open About Florana
+              Open About Flora Web
             </MobileActionButton>
 
             <textarea

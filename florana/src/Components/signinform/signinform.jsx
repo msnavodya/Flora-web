@@ -77,7 +77,7 @@ export default function SignInForm() {
         </button>
 
         <div className="auth-header">
-          <img src={logo} alt="Florana Logo" className="signin-logo" />
+          <img src={logo} alt="Flora Web Logo" className="signin-logo" />
           <p className="auth-kicker">Welcome Back</p>
           <h1>Sign in to your garden.</h1>
           <p className="auth-subtitle">Access real-time plant tracking, diagnoses, reminders, and shop updates.</p>
@@ -122,7 +122,7 @@ export default function SignInForm() {
         </button>
 
         <p className="signup-text">
-          New to Florana?{" "}
+          New to Flora Web?{" "}
           <span className="signup-link" onClick={() => navigate("/signup")}>
             SIGN-UP
           </span>

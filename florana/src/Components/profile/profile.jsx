@@ -71,7 +71,7 @@ export default function Profile() {
           <section className="profile-hero">
             <div className="profile-avatar">{initials}</div>
             <div className="profile-hero-copy">
-              <p className="profile-eyebrow">Florana Account</p>
+              <p className="profile-eyebrow">Flora Web Account</p>
               <h2>{displayName}</h2>
               <span>{user.email || "guest@florana.app"}</span>
             </div>
@@ -120,7 +120,7 @@ export default function Profile() {
               <h3>Live app status</h3>
             </div>
             <p className="profile-live-text">
-              Your local Florana session is active. Reminder settings and profile details are loading from saved app
+              Your local Flora Web session is active. Reminder settings and profile details are loading from saved app
               data in real time.
             </p>
             <div className="profile-live-footer">

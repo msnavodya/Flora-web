@@ -161,7 +161,7 @@ export default function Home() {
 
       <div className="top-header">
         <div className="header-left">
-          <img src={logo} alt="Florana Logo" className="header-logo" />
+          <img src={logo} alt="Flora Web Logo" className="header-logo" />
           <h3 className="header-title">
             {user ? t("hello_user", { name: user.full_name }) : t("hello_guest")}
           </h3>

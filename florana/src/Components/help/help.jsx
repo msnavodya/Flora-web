@@ -27,7 +27,7 @@ export default function Help() {
         }
       >
         <div className="help-scroll-view">
-          <img src={logo} alt="Florana Logo" className="help-logo" />
+          <img src={logo} alt="Flora Web Logo" className="help-logo" />
 
           <MobileSection className="help-card">
             <div className="help-card-heading">
@@ -46,7 +46,7 @@ export default function Help() {
             <p>Email: support@florana.com</p>
             <MobileActionButton
               onClick={() => {
-                window.location.href = "mailto:support@florana.com?subject=Florana%20Support";
+                window.location.href = "mailto:support@florana.com?subject=Flora%20Web%20Support";
               }}
             >
               Contact Support

@@ -145,7 +145,7 @@ export default function Settings() {
   };
 
   const handleResetPreferences = () => {
-    if (!window.confirm("Reset settings back to the Florana defaults?")) {
+    if (!window.confirm("Reset settings back to the Flora Web defaults?")) {
       return;
     }
 
@@ -158,7 +158,7 @@ export default function Settings() {
   };
 
   const handleLogout = () => {
-    if (!window.confirm("Sign out from Florana on this device?")) {
+    if (!window.confirm("Sign out from Flora Web on this device?")) {
       return;
     }
 
@@ -192,7 +192,7 @@ export default function Settings() {
             <div className="settings-hero-icon">
               <SettingsIcon size={22} />
             </div>
-            <p className="settings-eyebrow">Florana Workspace</p>
+            <p className="settings-eyebrow">Flora Web Workspace</p>
             <h2 className="settings-title">{t("settings")}</h2>
             <p className="settings-subtitle">Keep your app organized and comfortable on this device.</p>
 
@@ -300,7 +300,7 @@ export default function Settings() {
                 <button
                   className="action-btn"
                   onClick={() => {
-                    window.location.href = "mailto:support@florana.com?subject=Florana%20Support";
+                    window.location.href = "mailto:support@florana.com?subject=Flora%20Web%20Support";
                   }}
                 >
                   Contact support

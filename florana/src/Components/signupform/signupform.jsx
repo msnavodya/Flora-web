@@ -75,7 +75,7 @@ export default function SignUpForm() {
           </button>
 
           <div className="auth-header">
-            <img src={logo} alt="Florana Logo" className="signup-logo" />
+            <img src={logo} alt="Flora Web Logo" className="signup-logo" />
             <p className="auth-kicker">Create Account</p>
           </div>
 
@@ -151,7 +151,7 @@ export default function SignUpForm() {
           </button>
 
           <p className="login-text">
-            Already with Florana?{" "}
+            Already with Flora Web?{" "}
             <span className="login-link" onClick={() => navigate("/signin")}>
               SIGN IN
             </span>

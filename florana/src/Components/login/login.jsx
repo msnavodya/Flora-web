@@ -12,10 +12,10 @@ export default function Welcome() {
     <div className="welcome-wrapper">
       <div className="welcome-card">
         <div className="welcome-top">
-          <img src={floranaLogo} alt="Florana Logo" className="logo-img" />
+          <img src={floranaLogo} alt="Flora Web Logo" className="logo-img" />
           <div className="welcome-copy">
            
-            <h1>Grow smarter with Florana.</h1>
+            <h1>Grow smarter with Flora Web.</h1>
           
           </div>
         </div>
