@@ -44,7 +44,7 @@ Flora Web is a full-stack plant care and flower marketplace application. It comb
 ```text
 flora-web/
   backend/        FastAPI API, auth, shop, payments, plant tracking, AI prediction
-  florana/        React frontend application
+  flora-web/      React frontend application
   ml_pipeline/    Model training and dataset helper scripts
   uploads/        Local uploaded files, ignored by git
 ```
@@ -80,7 +80,7 @@ Useful backend URLs:
 ### Frontend Setup
 
 ```powershell
-cd florana
+cd flora-web
 npm install
 Copy-Item .env.example .env
 npm start
@@ -101,7 +101,7 @@ Backend variables are documented in `backend/.env.example`:
 - `JWT_ALGORITHM`
 - `CORS_ALLOW_ALL`
 
-Frontend variables are documented in `florana/.env.example`:
+Frontend variables are documented in `flora-web/.env.example`:
 
 - `REACT_APP_API_URL`
 
@@ -138,7 +138,7 @@ backend/ai/class_names.json
 Frontend:
 
 ```powershell
-cd florana
+cd flora-web
 npm start
 npm test
 npm run build
