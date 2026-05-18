@@ -1,50 +1,87 @@
-# 🌤️ CloudinaryML Pipeline - Complete Image Classification Workflow
+# 🌤️ Florana ML Pipeline - Complete Image Classification Workflow
 
-A complete Python pipeline for downloading images from Cloudinary and training a TensorFlow CNN model for image classification.
+A complete Python pipeline for training a TensorFlow CNN model for plant disease classification, integrated with the Florana backend for AI-powered disease prediction.
 
 ## 📋 Project Overview
 
-This pipeline provides an end-to-end solution for:
+This ML pipeline is part of the **Florana** project - a smart plant-care and flower marketplace platform. The trained model is used by the Florana backend to predict plant diseases from user-uploaded leaf images.
+
+**Pipeline Features:**
 - ✅ **Download**: Fetch images from Cloudinary with pagination support (handles 500+ images)
 - ✅ **Organize**: Automatically structure dataset for the ML model
 - ✅ **Train**: Build and train a CNN model using TensorFlow
 - ✅ **Evaluate**: Monitor accuracy and loss with visualizations
-- ✅ **Save**: Export trained model as `model.h5` for production use
+- ✅ **Save**: Export trained model for backend deployment
+- ✅ **Integrate**: Model output used by FastAPI backend for disease predictions
 
 ## 📁 File Structure
 
 ```
 ml_pipeline/
-├── requirements.txt          # Python dependencies
-├── config_template.py        # Configuration template (rename to config.py)
-├── config.py                 # ⚠️ Your actual credentials (create from template)
-├── download_dataset.py       # Step 1: Download images from Cloudinary
-├── train_model.py            # Step 2: Train the CNN model
-├── dataset/                  # Created after download (do not commit)
-│   ├── class1/              # Organize images by class
-│   ├── class2/
-│   └── class3/
-├── model.h5                  # Final trained model (created after training)
-├── best_model.h5            # Best checkpoint during training
-└── training_history.png     # Training accuracy/loss plot
+├── requirements.txt              # Python dependencies (separate from backend)
+├── config_template.py            # Configuration template (rename to config.py)
+├── config.py                     # ⚠️ Your actual credentials (create from template)
+├── download_dataset.py           # Step 1: Download images from Cloudinary
+├── train_model.py                # Step 2: Train the CNN model
+├── verify_setup.py               # Verify ML environment setup
+├── dataset/                      # Created after download (do not commit)
+│   ├── Botrytis/                # Plant disease class
+│   ├── Fresh Leaf/              # Healthy leaf class
+│   ├── Leaf_Spot/               # Plant disease class
+│   ├── Powdery_Mildew/          # Plant disease class
+│   └── Rust/                    # Plant disease class
+├── model.h5                      # Final trained model (created after training)
+├── best_model.h5                # Best checkpoint during training
+├── training_history.png          # Training accuracy/loss plot
+└── README.md                     # This file
 ```
+
+## 🎯 Florana Integration
+
+### Model Classes
+
+The Florana backend expects these 5 disease classification classes:
+
+| Class | Description |
+|-------|-------------|
+| **Botrytis** | Gray mold disease |
+| **Fresh Leaf** | Healthy plant leaf (reference class) |
+| **Leaf_Spot** | Fungal leaf spot disease |
+| **Powdery_Mildew** | Powdery white fungal coating |
+| **Rust** | Orange/brown rust fungal disease |
+
+### Backend Model Location
+
+After training, the model is used by the Florana backend:
+
+```text
+../backend/ai/plant_disease_model.keras    ← Model artifact
+../backend/ai/class_names.json              ← Class labels
+```
+
+The backend `/api/predict` endpoint uses this model to:
+1. Accept uploaded leaf images from the mobile/web app
+2. Preprocess images to 224x224 RGB format
+3. Run TensorFlow inference
+4. Return disease predictions with confidence scores
 
 ## 🔧 Prerequisites
 
-- **Python**: 3.8+ (recommended: 3.10+)
-- **Cloudinary Account**: With API credentials (cloud_name, api_key, api_secret)
+- **Python**: 3.10+ recommended
+- **Cloudinary Account**: With API credentials for image download (optional)
 - **Disk Space**: At least 2GB for downloading images
-- **Internet**: For Cloudinary API calls
+- **Internet**: For Cloudinary API calls and package downloads
+- **Florana Project**: Clone from [msnavodya/flora-web](https://github.com/msnavodya/flora-web)
 
 ## 📦 Installation Steps
 
-### Step 1: Create Virtual Environment (Recommended)
+### Step 1: Create Isolated Virtual Environment
 
 ```powershell
 # Navigate to ml_pipeline folder
 cd c:\Users\SADINI\Desktop\Florana\ml_pipeline
 
-# Create virtual environment
+# Create virtual environment (separate from backend)
 python -m venv venv
 
 # Activate virtual environment
@@ -63,7 +100,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Installation Details:**
+**ML Pipeline Dependencies:**
 - `cloudinary==1.35.0` - Cloudinary API client
 - `python-dotenv==1.0.0` - Environment variable management
 - `tensorflow==2.14.0` - Deep learning framework
@@ -73,11 +110,13 @@ pip install -r requirements.txt
 - `matplotlib==3.7.2` - Data visualization
 - `requests==2.31.0` - HTTP library
 
-This will take 5-10 minutes depending on your internet speed. Go grab a coffee! ☕
+> ⚠️ **Important**: ML pipeline has different TensorFlow version (2.14.0) than the backend (2.20.0). Use separate virtual environments.
+
+Installation time: 5-10 minutes depending on internet speed. ☕
 
 ## ⚙️ Configuration Setup
 
-### Step 1: Get Cloudinary Credentials
+### Step 1: Get Cloudinary Credentials (Optional)
 
 1. Sign up at [cloudinary.com](https://cloudinary.com)
 2. Go to Dashboard → Settings → API Keys
@@ -106,32 +145,46 @@ CLOUDINARY_CONFIG = {
 
 DATASET_CONFIG = {
     "folder_path": "your/cloudinary/folder",     # e.g., "florana/plants"
-    "local_dataset_dir": "./dataset",            # Where to save images
+    "local_dataset_dir": "./dataset",            # Where to save images locally
     "training_split": 0.8,                       # 80% train, 20% validation
-    "image_size": (224, 224),                    # Model input size
+    "image_size": (224, 224),                    # Model input size (standard)
     "batch_size": 32                             # Images per batch
 }
 
 MODEL_CONFIG = {
-    "epochs": 15,                                # Number of training epochs
+    "epochs": 15,                                # Training epochs
     "learning_rate": 0.001,                      # Optimizer learning rate
-    "model_save_path": "./model.h5",             # Save location
+    "model_save_path": "./model.h5",             # Save location (local)
     "log_dir": "./logs"
+}
+
+# Florana backend model export paths (after training)
+BACKEND_MODEL_PATHS = {
+    "model_file": "../backend/ai/plant_disease_model.keras",
+    "classes_file": "../backend/ai/class_names.json"
 }
 ```
 
 ⚠️ **IMPORTANT**: Do NOT commit `config.py` to Git! Add it to `.gitignore`:
 
-```
+```powershell
 echo config.py >> .gitignore
 ```
 
 ## 🚀 Execution Guide
 
-### Step 1: Download Images from Cloudinary
+### Step 0: Verify Setup (Recommended)
 
 ```powershell
 # Make sure virtual environment is activated
+python verify_setup.py
+```
+
+This checks Python version, dependencies, and TensorFlow installation.
+
+### Step 1: Download Images from Cloudinary
+
+```powershell
 python download_dataset.py
 ```
 
@@ -139,7 +192,7 @@ python download_dataset.py
 1. ✅ Validates Cloudinary credentials
 2. 🔍 Searches for all images in your folder
 3. 📥 Downloads images with progress tracking
-4. 📁 Creates placeholder class folders (class1, class2, class3)
+4. 📁 Creates class folders (Botrytis, Fresh Leaf, Leaf_Spot, Powdery_Mildew, Rust)
 5. ⏭️ Skips duplicate downloads automatically
 
 **Expected Output:**
@@ -178,27 +231,35 @@ python download_dataset.py
 
 ### Step 2: Organize Images by Class (Manual)
 
-After downloading, organize images into class folders:
+After downloading, manually organize images into the 5 disease classes:
 
 ```
 dataset/
-├── class1/          # e.g., "Healthy Plants"
+├── Botrytis/           # Gray mold disease images
 │   ├── image1.jpg
-│   ├── image2.png
+│   ├── image2.jpg
 │   └── ...
-├── class2/          # e.g., "Diseased Plants"
+├── Fresh Leaf/         # Healthy leaf images (reference)
 │   ├── image1.jpg
 │   └── ...
-└── class3/          # e.g., "Wilted Plants"
-    └── image1.jpg
+├── Leaf_Spot/          # Leaf spot disease images
+│   ├── image1.jpg
+│   └── ...
+├── Powdery_Mildew/     # Powdery mildew disease images
+│   ├── image1.jpg
+│   └── ...
+└── Rust/               # Rust disease images
+    ├── image1.jpg
+    └── ...
 ```
 
 💡 **Tips:**
 - Use image browsers to quickly sort and move files
-- Minimum 50 images per class for good results
-- More data = better model accuracy
+- Minimum 50 images per class for acceptable results
+- Aim for 100+ images per class for better accuracy
+- More balanced datasets improve model performance
+- Use consistent naming conventions
 
-### Step 3: Train the Model
 
 ```powershell
 python train_model.py
