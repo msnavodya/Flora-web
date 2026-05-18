@@ -1,54 +1,129 @@
 # Florana
 
-Florana is a plant care and flower marketplace platform built around a FastAPI backend, a React legacy web client, and a machine learning pipeline for plant disease diagnosis.
+Smart plant care, disease detection, growth tracking, and flower shopping in one repository.
+
+Florana combines a FastAPI backend, a React web client, and a TensorFlow training pipeline for identifying plant diseases from images, managing plant care, and supporting a flower marketplace flow.
 
 ## Project Overview
 
-Florana helps users manage plant care, identify diseases from leaf images, browse and purchase plants, and track growth over time. The current local repository includes:
+Florana is a full-stack plant-care platform built for users who want to:
 
-- `backend/` — FastAPI backend with authentication, plant tracking, shop and payment APIs, image uploads, and TensorFlow disease prediction.
-- `flora-web/` — React legacy web client for browsing plants, managing profiles, and interacting with the backend.
-- `ml_pipeline/` — Dataset preparation and model training helpers for the disease prediction workflow.
-- `uploads/` — Local development storage for uploaded images.
+- register and manage plants
+- predict plant diseases from uploaded images
+- track growth history
+- manage care reminders
+- browse seasonal flowers and place orders
+- use a multilingual browser-based interface
+
+This repository currently contains three main modules:
+
+- `backend/` - FastAPI API, authentication, plant data, growth tracking, shop, payments, uploads, and disease prediction runtime
+- `flora-web/` - React web client with login, dashboard, diagnosis, my plants, catalog, cart, settings, and feedback flows
+- `ml_pipeline/` - dataset download, verification, and TensorFlow model training utilities
+
+## Repository Status
+
+- Primary branch: `main`
+- Frontend folder: `flora-web/`
+- Backend default URL: `http://localhost:8000`
+- Frontend default URL: `http://localhost:3000`
+- API prefix: `/api`
+- Storage mode: MongoDB when configured, with local JSON fallback behavior in development
 
 ## Key Features
 
-- User registration, login, and JWT-based authentication.
-- Plant disease prediction from leaf images using a Keras model.
-- Plant registration, growth tracking, and care reminders.
-- Seasonal shop and checkout flows with PayPal support.
-- Feedback collection and admin-aware APIs.
-- Local JSON fallback storage when MongoDB is unavailable.
-- ML pipeline support for dataset download, verification, and model training.
+### Core Features
+
+- User signup and login
+- JWT-secured backend authentication
+- Plant disease prediction from uploaded leaf images
+- Plant registration with image upload and care details
+- Plant profile lookup by name
+- Growth record creation and history viewing
+- Care reminder support
+- Seasonal flower catalog and shopping cart
+- PayPal-based order flow and payment capture endpoints
+- Feedback, profile, help, settings, and multilingual UI support
+
+### Web Client Areas
+
+The React app in `flora-web/src/Components/` currently includes:
+
+- login and signup
+- home dashboard
+- disease prediction
+- my plants
+- flower profile
+- plant registration
+- catalog
+- seasonal catalog pages
+- cart and checkout-related UI
+- care reminder
+- quick tips
+- profile
+- settings
+- help
+- about
+- feedback
 
 ## Tech Stack
 
-- Backend: FastAPI, Uvicorn, PyMongo, TensorFlow / Keras, Pillow, NumPy
-- Frontend: React, React Router, Axios, Chart.js, PayPal React SDK
-- ML Pipeline: Python scripts for dataset setup, model training, and export
+### Frontend
 
-## Repository Structure
+- React 19
+- React Router DOM
+- Axios
+- Chart.js
+- Framer Motion
+- PayPal React SDK
+- Stripe JS client library
+
+### Backend
+
+- FastAPI
+- Uvicorn
+- PyMongo
+- Pydantic
+- python-jose
+- Passlib
+- TensorFlow / Keras
+- Pillow
+- NumPy
+
+### ML Pipeline
+
+- Python
+- TensorFlow
+- OpenCV
+- Pillow
+- Requests
+- Cloudinary SDK
+
+## Project Structure
 
 ```text
-.
-├── backend/        FastAPI API, auth, plant and shop routes, AI model runtime
-├── flora-web/      React legacy web client
-├── ml_pipeline/    Dataset and training workflow for disease detection
-├── uploads/        Local file upload storage
-├── package.json    Root node dependencies
-└── README.md       Project overview and setup instructions
+Florana/
+|-- backend/              FastAPI backend, AI runtime, uploads, auth, routes, local JSON fallback files
+|-- flora-web/            React web client
+|-- ml_pipeline/          Dataset download and training workflow
+|-- uploads/              Root-level uploaded assets used in local development
+|-- package.json          Minimal root package manifest
+|-- .gitignore
+`-- README.md
 ```
 
-## Getting Started
+## Quick Start
 
-### Prerequisites
+Use separate terminals for the backend and frontend.
 
-- Node.js and npm
-- Python 3.10+
-- MongoDB (optional; backend has local JSON fallback)
-- PayPal sandbox credentials (optional for checkout)
+### 1. Clone the repository
 
-### Backend Setup
+```powershell
+git clone https://github.com/msnavodya/flora-web.git Florana
+cd Florana
+```
+
+### 2. Start the backend
 
 ```powershell
 cd backend
@@ -59,9 +134,15 @@ Copy-Item .env.example .env
 python main.py
 ```
 
-The backend defaults to `http://localhost:8000`.
+Backend URLs:
 
-### Frontend Setup
+- API root: `http://localhost:8000/api`
+- docs: `http://localhost:8000/docs`
+- health: `http://localhost:8000/api/health`
+
+### 3. Start the web client
+
+Open a new terminal:
 
 ```powershell
 cd flora-web
@@ -70,89 +151,207 @@ Copy-Item .env.example .env
 npm start
 ```
 
-The legacy React app runs at `http://localhost:3000` and communicates with the backend at `http://localhost:8000/api` during local development.
+Frontend URL:
 
-### ML Pipeline Setup
+- web app: `http://localhost:3000`
+
+### 4. Optional ML pipeline setup
 
 ```powershell
 cd ml_pipeline
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
 python verify_setup.py
-```
-
-The backend uses the trained model and class map from:
-
-```text
-backend/ai/plant_disease_model.keras
-backend/ai/class_names.json
 ```
 
 ## Environment Variables
 
 ### Backend
 
-Copy `backend/.env.example` to `backend/.env` and configure:
+Copy `backend/.env.example` to `backend/.env` and configure as needed:
 
-- `MONGO_URL`
-- `JWT_SECRET_KEY`
-- `JWT_ALGORITHM`
-- `PAYPAL_CLIENT_ID`
-- `PAYPAL_SECRET`
-- `PAYPAL_BASE_URL`
-- `FRONTEND_ORIGINS`
-- `CORS_ALLOW_ALL`
+```text
+PAYPAL_CLIENT_ID=your_paypal_sandbox_client_id
+PAYPAL_SECRET=your_paypal_sandbox_secret
+PAYPAL_BASE_URL=https://api-m.sandbox.paypal.com
+MONGO_URL=mongodb+srv://username:password@cluster.mongodb.net/florana_db
+FRONTEND_ORIGINS=https://your-app.vercel.app,https://your-app.netlify.app
+JWT_SECRET_KEY=replace_with_a_long_random_secret
+JWT_ALGORITHM=HS256
+CORS_ALLOW_ALL=true
+```
+
+Notes:
+
+- if `MONGO_URL` is missing or unreachable, the backend falls back to local JSON-backed storage for development flows
+- `CORS_ALLOW_ALL=true` is convenient locally, but you should tighten it for shared or production environments
 
 ### Frontend
 
-Copy `flora-web/.env.example` to `flora-web/.env` and configure:
+Copy `flora-web/.env.example` to `flora-web/.env`:
 
-- `REACT_APP_API_URL`
+```text
+REACT_APP_API_URL=http://localhost:8000
+```
 
-> Do not commit `.env` files or any secret credentials.
+The frontend also uses the `proxy` field in `flora-web/package.json` during local development.
 
 ## Running the Project
 
-### Start backend
+### Backend
+
+From `backend/`:
 
 ```powershell
-cd backend
 .\.venv\Scripts\Activate.ps1
 python main.py
 ```
 
-### Start legacy web client
+### Frontend
+
+From `flora-web/`:
 
 ```powershell
-cd flora-web
 npm start
 ```
 
-## Useful Backend Endpoints
+### Production-style frontend build
 
-- `GET /api/health` — Health check
-- `POST /api/auth/signup` — Register user
-- `POST /api/auth/login` — Login user
-- `POST /api/predict` — Predict disease from uploaded image
-- `GET /api/plants` — List registered plants
-- `POST /api/shop/products` — Add product
-- `POST /api/payments/confirm` — Confirm payment
-- `GET /api/feedback` — Fetch feedback
+```powershell
+cd flora-web
+npm run build
+```
 
-## ML Pipeline
+### Frontend tests
 
-The `ml_pipeline/` folder contains documentation and scripts for dataset download, model training, and export.
+```powershell
+cd flora-web
+npm test
+```
+
+## API Overview
+
+Important active endpoints exposed by the current backend include:
+
+### Health and Root
+
+- `GET /`
+- `GET /api`
+- `GET /api/health`
+
+### Authentication
+
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+
+### Prediction and History
+
+- `POST /api/predict`
+- `GET /api/history`
+
+### Plants
+
+- `GET /api/plants`
+- `GET /api/plants/`
+- `POST /api/plants/`
+- `DELETE /api/plants/{plant_id}`
+- `GET /api/plants/by-name/{name}`
+
+### Growth Tracking
+
+- `POST /api/growth/`
+- `GET /api/growth/{plant_id}`
+
+### Shop
+
+- `GET /api/shop/products`
+- `POST /api/shop/products`
+- `DELETE /api/shop/products/{product_id}`
+
+### Payments
+
+- `GET /api/paypal/config`
+- `GET /api/paypal/debug`
+- `GET /api/paypal/status`
+- `POST /api/create-order`
+- `POST /api/capture-order/{order_id}`
+- `POST /api/webhooks/paypal`
+- `POST /api/payments/orders`
+- `POST /api/payments/orders/otp`
+- `POST /api/payments/orders/verify`
+- `POST /api/payments/orders/confirm`
+- `GET /api/payments/orders/{order_id}`
+
+### Care Reminder
+
+- `POST /api/care-reminder`
+
+## AI Model and ML Pipeline
+
+The backend disease prediction flow loads model artifacts from:
+
+```text
+backend/ai/plant_disease_model.keras
+backend/ai/class_names.json
+```
+
+The ML workflow in `ml_pipeline/` supports:
+
+- Cloudinary dataset download
+- dataset validation
+- TensorFlow training
+- saved model export
+- training history output
+
+Typical ML workflow:
 
 ```powershell
 cd ml_pipeline
-python verify_setup.py
+Copy-Item config_template.py config.py
+python download_dataset.py
 python train_model.py
 ```
 
+Related docs:
+
+- `ml_pipeline/README.md`
+- `ml_pipeline/ARCHITECTURE.md`
+- `ml_pipeline/SETUP_SUMMARY.md`
+
+## Local Data and Uploads
+
+When MongoDB is unavailable, the backend can use local JSON files such as:
+
+- `backend/users.local.json`
+- `backend/plants.local.json`
+- `backend/products.local.json`
+- `backend/orders.local.json`
+- `backend/predictions.local.json`
+
+Uploaded files are served during development from:
+
+```text
+/uploads/<filename>
+```
+
+## Documentation Map
+
+- `README.md` - repository overview and setup
+- `flora-web/README.md` - frontend-specific notes and commands
+- `ml_pipeline/README.md` - end-to-end ML pipeline guide
+
+## Contributor
+
+- GitHub: `msnavodya`
+
+## Contact
+
+- Repository: `https://github.com/msnavodya/flora-web`
+- Email: `sadininavodya@gmail.com`
+- LinkedIn: `https://www.linkedin.com/in/sadini-navodya-0305362ab`
+
 ## Notes
 
-- This repository uses local file storage in `uploads/` for development.
-- MongoDB is optional on first run; the backend can use local JSON fallback.
-- The legacy web client in `flora-web/` is the current frontend available locally.
-
-## License
-
-No open-source license file is currently included.
+- Keep secrets out of Git. Do not commit `.env`, `config.py`, local upload data, or generated datasets.
+- If you want the cleanest GitHub branch view, keep `main` as the only long-lived branch and remove duplicate published branches after merging.
