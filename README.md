@@ -1,6 +1,16 @@
 # Florana
 
-Smart plant care, disease detection, growth tracking, and flower shopping in one repository.
+Smart plant-care experience, AI-assisted disease prediction, growth tracking, reminders, shopping, and admin management in one connected platform.
+
+[![Expo](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.81.5-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![TensorFlow / Keras](https://img.shields.io/badge/TensorFlow%20%2F%20Keras-AI%20Model-FF6F00?style=flat&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
+[![Admin Dashboard](https://img.shields.io/badge/Admin-Dashboard-2563EB?style=flat&logoColor=white)](#)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Status](https://img.shields.io/badge/Status-Academic%20Complete-65A30D?style=flat)](#)
+
+## Project Showcase
 
 Florana combines a FastAPI backend, a React web client, and a TensorFlow training pipeline for identifying plant diseases from images, managing plant care, and supporting a flower marketplace flow.
 
