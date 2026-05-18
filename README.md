@@ -6,7 +6,6 @@ Smart plant-care experience, AI-assisted disease prediction, growth tracking, re
 [![React Router](https://img.shields.io/badge/React%20Router-DOM-CA4245?style=flat&logo=react-router&logoColor=white)](https://reactrouter.com/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![TensorFlow / Keras](https://img.shields.io/badge/TensorFlow%20%2F%20Keras-AI%20Model-FF6F00?style=flat&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
-[![Admin Dashboard](https://img.shields.io/badge/Admin-Dashboard-2563EB?style=flat&logoColor=white)](#)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Status](https://img.shields.io/badge/Status-Academic%20Complete-65A30D?style=flat)](#)
 
