@@ -2,8 +2,8 @@
 
 Smart plant-care experience, AI-assisted disease prediction, growth tracking, reminders, shopping, and admin management in one connected platform.
 
-[![Expo](https://img.shields.io/badge/Expo-SDK%2054-000020?style=flat&logo=expo&logoColor=white)](https://expo.dev/)
-[![React Native](https://img.shields.io/badge/React%20Native-0.81.5-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactnative.dev/)
+[![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat&logo=react&logoColor=white)](https://react.dev/)
+[![React Router](https://img.shields.io/badge/React%20Router-DOM-CA4245?style=flat&logo=react-router&logoColor=white)](https://reactrouter.com/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![TensorFlow / Keras](https://img.shields.io/badge/TensorFlow%20%2F%20Keras-AI%20Model-FF6F00?style=flat&logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
 [![Admin Dashboard](https://img.shields.io/badge/Admin-Dashboard-2563EB?style=flat&logoColor=white)](#)
