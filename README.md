@@ -1,6 +1,6 @@
 # Florana
 
-Smart plant-care experience, AI-assisted disease prediction, growth tracking, reminders, shopping, and admin management in one connected platform.
+Smart plant care, AI-assisted disease prediction, growth tracking, reminders, shopping, and admin support in one connected platform.
 
 [![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat&logo=react&logoColor=white)](https://react.dev/)
 [![React Router](https://img.shields.io/badge/React%20Router-DOM-CA4245?style=flat&logo=react-router&logoColor=white)](https://reactrouter.com/)
@@ -9,71 +9,34 @@ Smart plant-care experience, AI-assisted disease prediction, growth tracking, re
 [![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=flat&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Status](https://img.shields.io/badge/Status-Academic%20Complete-65A30D?style=flat)](#)
 
-## Project Showcase
+## Overview
 
-Florana combines a FastAPI backend, a React web client, and a TensorFlow training pipeline for identifying plant diseases from images, managing plant care, and supporting a flower marketplace flow.
+Florana is a full-stack plant-care project built around three connected parts:
 
-## Project Overview
+- `backend/` - FastAPI API for authentication, plant data, growth tracking, shopping, payments, uploads, and AI inference
+- `flora-web/` - React web client for user-facing plant-care and marketplace flows
+- `ml_pipeline/` - TensorFlow dataset download, verification, and training utilities
 
-Florana is a full-stack plant-care platform built for users who want to:
+The platform currently supports:
 
-- register and manage plants
-- predict plant diseases from uploaded images
-- track growth history
-- manage care reminders
-- browse seasonal flowers and place orders
-- use a multilingual browser-based interface
-
-This repository currently contains three main modules:
-
-- `backend/` - FastAPI API, authentication, plant data, growth tracking, shop, payments, uploads, and disease prediction runtime
-- `flora-web/` - React web client with login, dashboard, diagnosis, my plants, catalog, cart, settings, and feedback flows
-- `ml_pipeline/` - dataset download, verification, and TensorFlow model training utilities
+- user signup and login
+- plant registration and profile tracking
+- disease prediction from uploaded leaf images
+- growth history logging
+- care reminder scheduling
+- seasonal flower browsing and shopping cart flows
+- PayPal-backed order handling
+- multilingual UI support
 
 ## Repository Status
 
 - Primary branch: `main`
-- Frontend folder: `flora-web/`
-- Backend default URL: `http://localhost:8000`
-- Frontend default URL: `http://localhost:3000`
+- Frontend app: `flora-web/`
+- Backend app: `backend/`
+- Default frontend URL: `http://localhost:3000`
+- Default backend URL: `http://localhost:8000`
 - API prefix: `/api`
-- Storage mode: MongoDB when configured, with local JSON fallback behavior in development
-
-## Key Features
-
-### Core Features
-
-- User signup and login
-- JWT-secured backend authentication
-- Plant disease prediction from uploaded leaf images
-- Plant registration with image upload and care details
-- Plant profile lookup by name
-- Growth record creation and history viewing
-- Care reminder support
-- Seasonal flower catalog and shopping cart
-- PayPal-based order flow and payment capture endpoints
-- Feedback, profile, help, settings, and multilingual UI support
-
-### Web Client Areas
-
-The React app in `flora-web/src/Components/` currently includes:
-
-- login and signup
-- home dashboard
-- disease prediction
-- my plants
-- flower profile
-- plant registration
-- catalog
-- seasonal catalog pages
-- cart and checkout-related UI
-- care reminder
-- quick tips
-- profile
-- settings
-- help
-- about
-- feedback
+- Storage mode: MongoDB when configured, with local JSON fallback in development
 
 ## Tech Stack
 
@@ -84,8 +47,11 @@ The React app in `flora-web/src/Components/` currently includes:
 - Axios
 - Chart.js
 - Framer Motion
+- Lucide React
+- React Icons
+- React Phone Input 2
 - PayPal React SDK
-- Stripe JS client library
+- Stripe JS
 
 ### Backend
 
@@ -98,6 +64,7 @@ The React app in `flora-web/src/Components/` currently includes:
 - TensorFlow / Keras
 - Pillow
 - NumPy
+- APScheduler
 
 ### ML Pipeline
 
@@ -112,14 +79,35 @@ The React app in `flora-web/src/Components/` currently includes:
 
 ```text
 Florana/
-|-- backend/              FastAPI backend, AI runtime, uploads, auth, routes, local JSON fallback files
+|-- backend/              FastAPI backend, AI runtime, auth, routes, uploads, and local JSON fallback files
 |-- flora-web/            React web client
-|-- ml_pipeline/          Dataset download and training workflow
+|-- ml_pipeline/          Dataset download and model training workflow
 |-- uploads/              Root-level uploaded assets used in local development
-|-- package.json          Minimal root package manifest
+|-- package.json          Root utility manifest
 |-- .gitignore
 `-- README.md
 ```
+
+## Frontend Areas
+
+The React app in `flora-web/src/Components/` currently includes:
+
+- `login/`, `signinform/`, `signupform/`
+- `home/`
+- `predict/`
+- `myplants/`
+- `flowerprofile/`
+- `register/`
+- `catalog/` and cart/season pages
+- `carereminder/`
+- `quicktip/`
+- `profile/`
+- `settings/`
+- `help/`
+- `aboutus/`
+- `feedback/`
+- `language/`
+- shared navigation such as `topbar/` and `menu/`
 
 ## Quick Start
 
@@ -194,6 +182,7 @@ CORS_ALLOW_ALL=true
 Notes:
 
 - if `MONGO_URL` is missing or unreachable, the backend falls back to local JSON-backed storage for development flows
+- if you want push reminders, add `backend/firebase-key.json` separately because it is not committed
 - `CORS_ALLOW_ALL=true` is convenient locally, but you should tighten it for shared or production environments
 
 ### Frontend
@@ -225,7 +214,7 @@ From `flora-web/`:
 npm start
 ```
 
-### Production-style frontend build
+### Production build
 
 ```powershell
 cd flora-web
@@ -241,7 +230,7 @@ npm test
 
 ## API Overview
 
-Important active endpoints exposed by the current backend include:
+Important active endpoints in the current backend include:
 
 ### Health and Root
 
@@ -322,12 +311,6 @@ python download_dataset.py
 python train_model.py
 ```
 
-Related docs:
-
-- `ml_pipeline/README.md`
-- `ml_pipeline/ARCHITECTURE.md`
-- `ml_pipeline/SETUP_SUMMARY.md`
-
 ## Local Data and Uploads
 
 When MongoDB is unavailable, the backend can use local JSON files such as:
@@ -337,6 +320,7 @@ When MongoDB is unavailable, the backend can use local JSON files such as:
 - `backend/products.local.json`
 - `backend/orders.local.json`
 - `backend/predictions.local.json`
+- `backend/growth.local.json`
 
 Uploaded files are served during development from:
 
@@ -347,20 +331,18 @@ Uploaded files are served during development from:
 ## Documentation Map
 
 - `README.md` - repository overview and setup
+- `backend/README.md` - backend-specific notes
 - `flora-web/README.md` - frontend-specific notes and commands
 - `ml_pipeline/README.md` - end-to-end ML pipeline guide
-
-## Contributor
-
-- GitHub: `msnavodya`
 
 ## Contact
 
 - Repository: `https://github.com/msnavodya/flora-web`
+- GitHub: `msnavodya`
 - Email: `sadininavodya@gmail.com`
 - LinkedIn: `https://www.linkedin.com/in/sadini-navodya-0305362ab`
 
 ## Notes
 
-- Keep secrets out of Git. Do not commit `.env`, `config.py`, local upload data, or generated datasets.
-- If you want the cleanest GitHub branch view, keep `main` as the only long-lived branch and remove duplicate published branches after merging.
+- Keep secrets out of Git. Do not commit `.env`, `firebase-key.json`, `config.py`, generated datasets, or uploaded local files.
+- The root `package.json` is not the main application entry point; day-to-day frontend work happens inside `flora-web/`.
